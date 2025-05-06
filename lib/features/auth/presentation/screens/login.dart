@@ -45,80 +45,75 @@ class _LoginState extends State<Login> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 20,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 42),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Welcome',
-                            style: AppTextStyles.title,
-                          ),
-                          Text(
-                            'Sign up to continue',
-                            style: AppTextStyles.subTitle,
-                          )
-                        ]),
-                  ),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 42),
-                      child: Column(
-                        spacing: 20,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 0,
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                                hintStyle: AppTextStyles.hint,
-                                hintText: 'Username or Email'),
-                          ),
-                          TextField(
-                            obscureText: isPassHidden,
-                            decoration: InputDecoration(
-                                hintStyle: AppTextStyles.hint,
-                                hintText: 'Password',
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.only(right: 5.0),
-                                  child: IconButton(
-                                    icon: AppIcon(
-                                      isPassHidden
-                                          ? AppIcons.show_bulk
-                                          : AppIcons.hide_bulk,
-                                      size: 30,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        isPassHidden = !isPassHidden;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                suffixIconConstraints: BoxConstraints(
-                                    minHeight: 45, minWidth: 45)),
-                          ),
-                        ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 42),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hello',
+                        style: AppTextStyles.title,
                       ),
-                    ),
+                      Text(
+                        'Login to continue',
+                        style: AppTextStyles.subTitle,
+                      )
+                    ]),
+              ),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 42),
+                  child: Column(
+                    spacing: 20,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 0,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintStyle: AppTextStyles.hint,
+                            hintText: 'Username or Email'),
+                      ),
+                      TextField(
+                        obscureText: isPassHidden,
+                        decoration: InputDecoration(
+                            hintStyle: AppTextStyles.hint,
+                            hintText: 'Password',
+                            suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 5.0),
+                              child: IconButton(
+                                icon: AppIcon(
+                                  isPassHidden
+                                      ? AppIcons.show_bulk
+                                      : AppIcons.hide_bulk,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    isPassHidden = !isPassHidden;
+                                  });
+                                },
+                              ),
+                            ),
+                            suffixIconConstraints:
+                                BoxConstraints(minHeight: 45, minWidth: 45)),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 42.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(),
-                        FilledButton(onPressed: () {}, child: Text('Login')),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 42.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(),
+                    FilledButton(onPressed: () {}, child: Text('Login')),
+                  ],
+                ),
               ),
             ],
           ),
@@ -140,7 +135,7 @@ class _LoginState extends State<Login> {
                         });
                       },
                       child: Text(
-                        'Signup',
+                        'Sign up',
                         style: AppTextStyles.secondaryTextButton
                             .copyWith(color: AppColors.teal),
                       ))
