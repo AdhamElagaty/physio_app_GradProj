@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
@@ -24,20 +25,20 @@ class _SignupState extends State<Signup> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 20,
+        spacing: 20.h,
         children: [
           Flexible(
             flex: 300,
             child: Container(
               width: screenWidth,
-              height: 248,
+              height: 248.h,
               child: Stack(
                 alignment: Alignment.center,
                 clipBehavior: Clip.hardEdge,
                 children: [
                   Positioned(
-                      bottom: 0,
-                      right: -87,
+                      bottom: 0.h,
+                      right: -87.w,
                       child:
                           SvgPicture.asset('assets/images/Rounded_Pattern.svg'))
                 ],
@@ -46,10 +47,10 @@ class _SignupState extends State<Signup> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 20,
+            spacing: 20.h,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42),
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -65,27 +66,27 @@ class _SignupState extends State<Signup> {
               ),
               SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 42),
+                  padding: EdgeInsets.symmetric(horizontal: 40.w),
                   child: Column(
-                    spacing: 20,
+                    spacing: 20.h,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 0,
+                        height: 0.h,
                       ),
                       Row(
-                        spacing: 10,
+                        spacing: 10.w,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
-                            child: TextField(
+                            child: TextFormField(
                               decoration: InputDecoration(
                                   hintStyle: AppTextStyles.hint,
                                   hintText: 'First name'),
                             ),
                           ),
                           Flexible(
-                            child: TextField(
+                            child: TextFormField(
                               decoration: InputDecoration(
                                   hintStyle: AppTextStyles.hint,
                                   hintText: 'Last name'),
@@ -93,18 +94,17 @@ class _SignupState extends State<Signup> {
                           ),
                         ],
                       ),
-                      TextField(
+                      TextFormField(
                         decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint,
-                            hintText: 'Username'),
+                            hintStyle: AppTextStyles.hint, hintText: 'Email'),
                       ),
-                      TextField(
+                      TextFormField(
                         obscureText: isPassHidden,
                         decoration: InputDecoration(
                             hintStyle: AppTextStyles.hint,
                             hintText: 'Password',
                             suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
+                              padding: EdgeInsets.only(right: 5.0.w),
                               child: IconButton(
                                 icon: AppIcon(
                                   isPassHidden
@@ -119,16 +119,16 @@ class _SignupState extends State<Signup> {
                                 },
                               ),
                             ),
-                            suffixIconConstraints:
-                                BoxConstraints(minHeight: 45, minWidth: 45)),
+                            suffixIconConstraints: BoxConstraints(
+                                minHeight: 45.h, minWidth: 45.w)),
                       ),
-                      TextField(
+                      TextFormField(
                         obscureText: isPassHidden,
                         decoration: InputDecoration(
                             hintStyle: AppTextStyles.hint,
                             hintText: 'Confirm password',
                             suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
+                              padding: EdgeInsets.only(right: 5.0.w),
                               child: IconButton(
                                 icon: AppIcon(
                                   isConfirmHidden
@@ -143,20 +143,20 @@ class _SignupState extends State<Signup> {
                                 },
                               ),
                             ),
-                            suffixIconConstraints:
-                                BoxConstraints(minHeight: 45, minWidth: 45)),
+                            suffixIconConstraints: BoxConstraints(
+                                minHeight: 45.h, minWidth: 45.w)),
                       )
                     ],
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42.0),
+                padding: EdgeInsets.symmetric(horizontal: 40.0.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(),
-                    FilledButton(onPressed: () {}, child: Text('Sign up')),
+                    FilledButton(onPressed: () {}, child: Text('Next')),
                   ],
                 ),
               ),
@@ -180,14 +180,14 @@ class _SignupState extends State<Signup> {
                         });
                       },
                       child: Text(
-                        'Login',
+                        'Log in',
                         style: AppTextStyles.secondaryTextButton
                             .copyWith(color: AppColors.teal),
                       ))
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 5.h,
               )
             ],
           ),

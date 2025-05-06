@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppIcons {
   static const String arrow_right_square =
@@ -40,8 +41,8 @@ class AppIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SvgPicture.asset(
       icon,
-      width: size,
-      height: size,
+      width: size.w,
+      height: size.h,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
   }

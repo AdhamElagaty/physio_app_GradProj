@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../colors.dart';
 import '../font.dart';
 
@@ -8,21 +9,21 @@ class AppInputDecorationThemes {
     filled: true,
     labelStyle: AppTextStyles.hint,
     hintStyle: AppTextStyles.hint,
-    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+    contentPadding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 14.w),
     enabledBorder: inputBorder.copyWith(
-        borderSide: BorderSide.none, borderRadius: BorderRadius.circular(18)),
+        borderSide: BorderSide.none, borderRadius: BorderRadius.circular(20.r)),
     focusedBorder: inputBorder.copyWith(
         borderSide: borderSide.copyWith(color: AppColors.teal),
-        borderRadius: BorderRadius.circular(18)),
+        borderRadius: BorderRadius.circular(20.r)),
     errorBorder: inputBorder.copyWith(
         borderSide: borderSide.copyWith(color: AppColors.red),
-        borderRadius: BorderRadius.circular(18)),
+        borderRadius: BorderRadius.circular(20.r)),
     focusedErrorBorder: inputBorder.copyWith(
         borderSide: borderSide.copyWith(color: AppColors.teal),
-        borderRadius: BorderRadius.circular(18)),
+        borderRadius: BorderRadius.circular(20.r)),
     errorStyle: AppTextStyles.text.copyWith(
       color: AppColors.black,
-      fontSize: 15,
+      fontSize: 18.sp,
     ),
     // floatingLabelBehavior: FloatingLabelBehavior.auto,
     // floatingLabelStyle: AppTextStyles.text.copyWith(fontSize: 20),
@@ -32,9 +33,12 @@ class AppInputDecorationThemes {
     filled: true,
     labelStyle: AppTextStyles_darkMode.hint.copyWith(color: AppColors.black),
     hintStyle: AppTextStyles_darkMode.hint.copyWith(color: AppColors.black50),
-    contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-    enabledBorder: inputBorder.copyWith(borderSide: BorderSide.none),
-    //focusedBorder: inputBorder.copyWith(borderSide:borderSide.copyWith(color: appScheme.surface)),
+    contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 15.w),
+    enabledBorder: inputBorder.copyWith(
+        borderSide: BorderSide.none, borderRadius: BorderRadius.circular(20.r)),
+    focusedBorder: inputBorder.copyWith(
+        borderSide: borderSide.copyWith(color: AppColors.teal),
+        borderRadius: BorderRadius.circular(20.r)),
     errorBorder: inputBorder.copyWith(
       borderSide: borderSide.copyWith(color: appScheme.error),
     ),
@@ -43,7 +47,7 @@ class AppInputDecorationThemes {
     ),
     errorStyle: AppTextStyles_darkMode.text.copyWith(
       color: AppColors.black,
-      fontSize: 15,
+      fontSize: 15.sp,
     ),
     // floatingLabelBehavior: FloatingLabelBehavior.auto,
     // floatingLabelStyle: AppTextStyles.text.copyWith(fontSize: 20),
@@ -51,16 +55,16 @@ class AppInputDecorationThemes {
 
   static BorderSide borderSide = BorderSide(
     color: AppColors.white,
-    width: 3,
+    width: 3.w,
     strokeAlign: BorderSide.strokeAlignOutside,
   );
 
   static OutlineInputBorder inputBorder = OutlineInputBorder(
     borderSide: BorderSide(
       color: AppColors.white,
-      width: 3,
+      width: 3.w,
       strokeAlign: BorderSide.strokeAlignOutside,
     ),
-    borderRadius: BorderRadius.circular(13),
+    borderRadius: BorderRadius.circular(13.r),
   );
 }

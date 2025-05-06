@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
@@ -23,20 +24,20 @@ class _LoginState extends State<Login> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 20,
+        spacing: 20.h,
         children: [
           Flexible(
             flex: 300,
             child: Container(
               width: screenWidth,
-              height: 248,
+              height: 248.h,
               child: Stack(
                 alignment: Alignment.center,
                 clipBehavior: Clip.hardEdge,
                 children: [
                   Positioned(
-                      bottom: 0,
-                      right: -87,
+                      bottom: 0.h,
+                      right: -87.w,
                       child:
                           SvgPicture.asset('assets/images/Rounded_Pattern.svg'))
                 ],
@@ -45,10 +46,10 @@ class _LoginState extends State<Login> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 20,
+            spacing: 20.h,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42),
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -57,33 +58,33 @@ class _LoginState extends State<Login> {
                         style: AppTextStyles.title,
                       ),
                       Text(
-                        'Login to continue',
+                        'Log in to continue',
                         style: AppTextStyles.subTitle,
                       )
                     ]),
               ),
               SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 42),
+                  padding: EdgeInsets.symmetric(horizontal: 40.w),
                   child: Column(
-                    spacing: 20,
+                    spacing: 20.h,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 0,
+                        height: 0.h,
                       ),
-                      TextField(
+                      TextFormField(
                         decoration: InputDecoration(
                             hintStyle: AppTextStyles.hint,
                             hintText: 'Username or Email'),
                       ),
-                      TextField(
+                      TextFormField(
                         obscureText: isPassHidden,
                         decoration: InputDecoration(
                             hintStyle: AppTextStyles.hint,
                             hintText: 'Password',
                             suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
+                              padding: EdgeInsets.only(right: 5.0.w),
                               child: IconButton(
                                 icon: AppIcon(
                                   isPassHidden
@@ -98,20 +99,20 @@ class _LoginState extends State<Login> {
                                 },
                               ),
                             ),
-                            suffixIconConstraints:
-                                BoxConstraints(minHeight: 45, minWidth: 45)),
+                            suffixIconConstraints: BoxConstraints(
+                                minHeight: 45.h, minWidth: 45.w)),
                       ),
                     ],
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42.0),
+                padding: EdgeInsets.symmetric(horizontal: 40.0.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(),
-                    FilledButton(onPressed: () {}, child: Text('Login')),
+                    FilledButton(onPressed: () {}, child: Text('Log in')),
                   ],
                 ),
               ),
@@ -142,7 +143,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 5.h,
               )
             ],
           ),

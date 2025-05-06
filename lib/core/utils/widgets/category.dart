@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import '../styles/font.dart';
 import '../styles/icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Category extends StatefulWidget {
   Category({
@@ -29,12 +30,12 @@ class _CategoryState extends State<Category> {
         widget.backgroundColor,
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
+        borderRadius: BorderRadius.all(Radius.circular(25.r)),
       ),
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         splashColor: widget.color,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
+        borderRadius: BorderRadius.all(Radius.circular(25.r)),
         onTap: () {
           widget.onTap;
           setState(() {});
@@ -44,7 +45,7 @@ class _CategoryState extends State<Category> {
           height: 161,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
+              borderRadius: BorderRadius.all(Radius.circular(25.r)),
             ),
             image: DecorationImage(
               fit: BoxFit.fill,
@@ -52,7 +53,7 @@ class _CategoryState extends State<Category> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(17.0),
+            padding: EdgeInsets.all(17.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +63,7 @@ class _CategoryState extends State<Category> {
                   children: [
                     Column(
                       children: [
-                        SizedBox(height: 15),
+                        SizedBox(height: 15.h),
                         Text(
                           'Favorites',
                           style: AppTextStyles.header.copyWith(
@@ -71,13 +72,13 @@ class _CategoryState extends State<Category> {
                         ),
                       ],
                     ),
-                    AppIcon(widget.icon, color: widget.color, size: 46.66),
+                    AppIcon(widget.icon, color: widget.color, size: 46.66.w),
                   ],
                 ),
                 Text('All your favorite exercises', style: AppTextStyles.body),
                 SizedBox(height: 5),
                 AppIcon(AppIcons.arrow_right_square,
-                    color: widget.color, size: 35),
+                    color: widget.color, size: 35.w),
               ],
             ),
           ),

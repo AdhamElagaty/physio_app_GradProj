@@ -4,6 +4,7 @@ import '../styles/widget_themes/buttons.dart';
 import '../styles/widget_themes/input_decoration.dart';
 import '../styles/colors.dart';
 import '../styles/font.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static ThemeData lightMode = ThemeData(
@@ -12,12 +13,16 @@ class AppTheme {
     appBarTheme: AppBarTheme(
         foregroundColor: AppColors.black,
         centerTitle: false,
-        toolbarHeight: 150,
+        toolbarHeight: 150.h,
         systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-            systemNavigationBarColor: AppColors.grey,
-            statusBarColor: AppColors.grey)),
+          systemNavigationBarColor: AppColors.grey,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light,
+        )),
     textTheme: TextTheme(
-      bodyLarge: AppTextStyles.text,
+      bodyLarge: AppTextStyles.hint.copyWith(color: AppColors.black),
     ),
     bottomSheetTheme: ThemeData.light().bottomSheetTheme.copyWith(
           backgroundColor: AppColors.white,
@@ -53,7 +58,6 @@ class AppTheme {
     textButtonTheme: AppButtonThemes_dark.textButton,
     listTileTheme: listTile,
   );
-
 
   static ListTileThemeData listTile = ListTileThemeData(
     dense: true,

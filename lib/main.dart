@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
@@ -13,10 +16,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: AppTheme.lightMode,
-      home: const Signup(),
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        systemNavigationBarColor: AppColors.grey,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        statusBarBrightness: Brightness.light,
+      ),
+    );
+    return ScreenUtilInit(
+      designSize: Size(402, 874),
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: AppTheme.lightMode,
+          home: const Signup(),
+        );
+      },
     );
   }
 }

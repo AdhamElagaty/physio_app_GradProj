@@ -1,59 +1,60 @@
 import 'package:flutter/material.dart';
 import '../styles/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextStyles {
   static TextStyle title = TextStyle(
     color: AppColors.black,
-    fontSize: 45,
+    fontSize: 45.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
 
   static TextStyle subTitle = TextStyle(
     color: AppColors.black50,
-    fontSize: 25,
+    fontSize: 25.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle header = TextStyle(
     color: AppColors.black,
-    fontSize: 25,
+    fontSize: 25.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
 
-  static const TextStyle body = TextStyle(
+  static TextStyle body = TextStyle(
     color: AppColors.black,
-    fontSize: 20,
+    fontSize: 20.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
-  static const TextStyle text = TextStyle(
+  static TextStyle text = TextStyle(
     color: AppColors.black,
-    fontSize: 20,
+    fontSize: 20.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
   );
 
   static TextStyle hint = TextStyle(
-    color: AppColors.black50,
+    color: AppColors.black30,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
-    fontSize: 20,
+    fontSize: 18.sp,
   );
 
-  static const TextStyle bottomText = TextStyle(
+  static TextStyle bottomText = TextStyle(
     color: AppColors.black,
-    fontSize: 18,
+    fontSize: 18.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
-  static const TextStyle secondaryTextButton = TextStyle(
+  static TextStyle secondaryTextButton = TextStyle(
     color: AppColors.black,
-    fontSize: 18,
+    fontSize: 18.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
@@ -62,42 +63,42 @@ class AppTextStyles {
     color: AppColors.grey,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
-    fontSize: 25,
+    fontSize: 25.sp,
   );
 }
 
 class AppTextStyles_darkMode {
   static TextStyle title = TextStyle(
     color: AppColors.grey,
-    fontSize: 45,
+    fontSize: 45.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
 
   static TextStyle subTitle = TextStyle(
     color: AppColors.grey50,
-    fontSize: 25,
+    fontSize: 25.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle header = TextStyle(
     color: AppColors.grey,
-    fontSize: 25,
+    fontSize: 25.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
 
-  static const TextStyle body = TextStyle(
+  static TextStyle body = TextStyle(
     color: AppColors.grey,
-    fontSize: 20,
+    fontSize: 20.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
-  static const TextStyle text = TextStyle(
+  static TextStyle text = TextStyle(
     color: AppColors.grey,
-    fontSize: 20,
+    fontSize: 20.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
   );
@@ -106,19 +107,19 @@ class AppTextStyles_darkMode {
     color: AppColors.grey50,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
-    fontSize: 20,
+    fontSize: 18.sp,
   );
 
-  static const TextStyle bottomText = TextStyle(
+  static TextStyle bottomText = TextStyle(
     color: AppColors.grey,
-    fontSize: 18,
+    fontSize: 18.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
-  static const TextStyle secondaryTextButton = TextStyle(
+  static TextStyle secondaryTextButton = TextStyle(
     color: AppColors.grey,
-    fontSize: 18,
+    fontSize: 18.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
@@ -127,6 +128,6 @@ class AppTextStyles_darkMode {
     color: AppColors.black,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
-    fontSize: 25,
+    fontSize: 25.sp,
   );
 }
