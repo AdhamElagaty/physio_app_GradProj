@@ -48,8 +48,19 @@ class AppButtonThemes {
   );
   static TextButtonThemeData textButton = TextButtonThemeData(
     style: TextButton.styleFrom(
+      textStyle: AppTextStyles.secondaryTextButton,
+      foregroundColor: AppColors.black,
       backgroundColor: AppColors.grey,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+  );
+  static TextButtonThemeData altTextButton = TextButtonThemeData(
+    style: TextButton.styleFrom(
+      padding: EdgeInsets.fromLTRB(4, 4, 4, 4),
+      textStyle: AppTextStyles.secondaryTextButton,
+      foregroundColor: AppColors.teal,
+      backgroundColor: AppColors.grey,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ),
   );
 }

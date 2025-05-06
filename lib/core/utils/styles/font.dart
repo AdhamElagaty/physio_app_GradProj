@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../styles/colors.dart';
 
-class AppTextStyles{
+class AppTextStyles {
   static TextStyle title = TextStyle(
     color: AppColors.black,
     fontSize: 45,
@@ -31,11 +31,11 @@ class AppTextStyles{
   );
 
   static const TextStyle text = TextStyle(
-      color: AppColors.black,
-      fontSize: 20,
-      fontFamily: 'Urbanist',
-      fontVariations: [FontVariation('wght', 600)],
-      );
+    color: AppColors.black,
+    fontSize: 20,
+    fontFamily: 'Urbanist',
+    fontVariations: [FontVariation('wght', 600)],
+  );
 
   static TextStyle hint = TextStyle(
     color: AppColors.black50,
@@ -66,7 +66,7 @@ class AppTextStyles{
   );
 }
 
-class AppTextStyles_darkMode{
+class AppTextStyles_darkMode {
   static TextStyle title = TextStyle(
     color: AppColors.grey,
     fontSize: 45,
@@ -96,11 +96,11 @@ class AppTextStyles_darkMode{
   );
 
   static const TextStyle text = TextStyle(
-      color: AppColors.grey,
-      fontSize: 20,
-      fontFamily: 'Urbanist',
-      fontVariations: [FontVariation('wght', 600)],
-      );
+    color: AppColors.grey,
+    fontSize: 20,
+    fontFamily: 'Urbanist',
+    fontVariations: [FontVariation('wght', 600)],
+  );
 
   static TextStyle hint = TextStyle(
     color: AppColors.grey50,

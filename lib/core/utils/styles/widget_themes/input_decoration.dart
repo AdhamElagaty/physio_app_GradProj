@@ -8,15 +8,18 @@ class AppInputDecorationThemes {
     filled: true,
     labelStyle: AppTextStyles.hint,
     hintStyle: AppTextStyles.hint,
-    contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-    enabledBorder: inputBorder.copyWith(borderSide: BorderSide.none),
-    //focusedBorder: inputBorder.copyWith(borderSide:borderSide.copyWith(color: appScheme.surface)),
+    contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+    enabledBorder: inputBorder.copyWith(
+        borderSide: BorderSide.none, borderRadius: BorderRadius.circular(18)),
+    focusedBorder: inputBorder.copyWith(
+        borderSide: borderSide.copyWith(color: AppColors.teal),
+        borderRadius: BorderRadius.circular(18)),
     errorBorder: inputBorder.copyWith(
-      borderSide: borderSide.copyWith(color: appScheme.error),
-    ),
+        borderSide: borderSide.copyWith(color: AppColors.red),
+        borderRadius: BorderRadius.circular(18)),
     focusedErrorBorder: inputBorder.copyWith(
-      borderSide: borderSide.copyWith(color: appScheme.onSurface),
-    ),
+        borderSide: borderSide.copyWith(color: AppColors.teal),
+        borderRadius: BorderRadius.circular(18)),
     errorStyle: AppTextStyles.text.copyWith(
       color: AppColors.black,
       fontSize: 15,

@@ -25,6 +25,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/Pattern.svg
+    - assets/images/Rounded_Pattern.svg
     - assets/images/Iconly/Bold/Arrow - Right Square.svg
     - assets/images/Iconly/Bold/Category.svg
     - assets/images/Iconly/Bold/Chat.svg
