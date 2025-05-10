@@ -91,6 +91,7 @@ class _LoginState extends State<Login> {
                                       ? AppIcons.show_bulk
                                       : AppIcons.hide_bulk,
                                   size: 30,
+                                  color: AppColors.black50,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -111,7 +112,8 @@ class _LoginState extends State<Login> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(),
+                    TextButton(
+                        onPressed: () {}, child: Text('forgot\npassword')),
                     FilledButton(onPressed: () {}, child: Text('Log in')),
                   ],
                 ),
@@ -138,12 +140,12 @@ class _LoginState extends State<Login> {
                       child: Text(
                         'Sign up',
                         style: AppTextStyles.secondaryTextButton
-                            .copyWith(color: AppColors.teal),
+                            .copyWith(color: AppColors.teal, fontSize: 15.sp),
                       ))
                 ],
               ),
               SizedBox(
-                height: 5.h,
+                height: 10.h,
               )
             ],
           ),

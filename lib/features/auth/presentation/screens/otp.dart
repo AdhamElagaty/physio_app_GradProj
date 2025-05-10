@@ -5,18 +5,17 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
-import 'package:gradproject/features/auth/presentation/screens/login.dart';
+import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<Signup> createState() => _SignupState();
+  State<Login> createState() => _LoginState();
 }
 
-class _SignupState extends State<Signup> {
+class _LoginState extends State<Login> {
   bool isPassHidden = true;
-  bool isConfirmHidden = true;
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -55,12 +54,11 @@ class _SignupState extends State<Signup> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome',
+                        'Check your\nmail',
                         style: AppTextStyles.title,
-                        textAlign: TextAlign.start,
                       ),
                       Text(
-                        'Sign up to continue',
+                        'Enter the OTP code',
                         style: AppTextStyles.subTitle,
                       )
                     ]),
@@ -75,29 +73,10 @@ class _SignupState extends State<Signup> {
                       SizedBox(
                         height: 0.h,
                       ),
-                      Row(
-                        spacing: 10.w,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  hintStyle: AppTextStyles.hint,
-                                  hintText: 'First name'),
-                            ),
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  hintStyle: AppTextStyles.hint,
-                                  hintText: 'Last name'),
-                            ),
-                          ),
-                        ],
-                      ),
                       TextFormField(
                         decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint, hintText: 'Email'),
+                            hintStyle: AppTextStyles.hint,
+                            hintText: 'Username or Email'),
                       ),
                       TextFormField(
                         obscureText: isPassHidden,
@@ -124,31 +103,6 @@ class _SignupState extends State<Signup> {
                             suffixIconConstraints: BoxConstraints(
                                 minHeight: 45.h, minWidth: 45.w)),
                       ),
-                      TextFormField(
-                        obscureText: isPassHidden,
-                        decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint,
-                            hintText: 'Confirm password',
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.only(right: 5.0.w),
-                              child: IconButton(
-                                icon: AppIcon(
-                                  isConfirmHidden
-                                      ? AppIcons.show_bulk
-                                      : AppIcons.hide_bulk,
-                                  size: 30,
-                                  color: AppColors.black50,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isConfirmHidden = !isConfirmHidden;
-                                  });
-                                },
-                              ),
-                            ),
-                            suffixIconConstraints: BoxConstraints(
-                                minHeight: 45.h, minWidth: 45.w)),
-                      )
                     ],
                   ),
                 ),
@@ -158,41 +112,16 @@ class _SignupState extends State<Signup> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(),
-                    FilledButton(onPressed: () {}, child: Text('Next')),
+                    TextButton(
+                        onPressed: () {}, child: Text('forgot\npassword')),
+                    FilledButton(onPressed: () {}, child: Text('Log in')),
                   ],
                 ),
               ),
             ],
           ),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account?',
-                    style: AppTextStyles.bottomText,
-                  ),
-                  TextButton(
-                      style: AppButtonThemes.altTextButton.style,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Login()));
-                        });
-                      },
-                      child: Text(
-                        'Log in',
-                        style: AppTextStyles.secondaryTextButton
-                            .copyWith(color: AppColors.teal, fontSize: 15.sp),
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 10.h,
-              )
-            ],
+          SizedBox(
+            height: 25.h,
           ),
         ],
       ),

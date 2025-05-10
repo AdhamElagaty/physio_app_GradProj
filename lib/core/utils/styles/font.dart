@@ -12,14 +12,14 @@ class AppTextStyles {
 
   static TextStyle subTitle = TextStyle(
     color: AppColors.black50,
-    fontSize: 25.sp,
+    fontSize: 23.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle header = TextStyle(
     color: AppColors.black,
-    fontSize: 25.sp,
+    fontSize: 23.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
@@ -42,19 +42,19 @@ class AppTextStyles {
     color: AppColors.black30,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
-    fontSize: 18.sp,
+    fontSize: 16.sp,
   );
 
   static TextStyle bottomText = TextStyle(
     color: AppColors.black,
-    fontSize: 18.sp,
+    fontSize: 16.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle secondaryTextButton = TextStyle(
     color: AppColors.black,
-    fontSize: 18.sp,
+    fontSize: 16.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
@@ -63,7 +63,7 @@ class AppTextStyles {
     color: AppColors.grey,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
-    fontSize: 25.sp,
+    fontSize: 23.sp,
   );
 }
 
