@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:gradproject/core/utils/styles/colors.dart';
@@ -6,16 +7,54 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
+import 'package:gradproject/features/auth/presentation/widgets/otp_text_field.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Otp extends StatefulWidget {
+  const Otp({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Otp> createState() => _OtpState();
 }
 
-class _LoginState extends State<Login> {
-  bool isPassHidden = true;
+class _OtpState extends State<Otp> {
+  List<TextEditingController> controllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController()
+  ];
+  FocusNode focus = FocusNode();
+  void _onChangeAction({required String value, required int index}) {
+    if (value.isNotEmpty) {
+      // controllers[index].text = controllers[index].text[0];
+      // FocusScope.of(context).nextFocus();
+      for (int i = index, j = 0;
+          i < controllers.length && j < value.length;
+          i++, j++) {
+        controllers[i].text = value[j];
+        if (i < controllers.length - 1) {
+          FocusScope.of(context).nextFocus();
+          controllers[i + 1].selection = TextSelection(
+              baseOffset: 0, extentOffset: controllers[i + 1].text.length);
+        }
+      }
+      if (value.length == controllers.length ||
+          index == controllers.length - 1) {
+        FocusScope.of(context).unfocus();
+        _verify();
+      }
+    }
+  }
+
+  void _verify() {
+    if (controllers.every((i) => i.text.isNotEmpty)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(controllers.map((i) => i.text).join())));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -73,35 +112,35 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 0.h,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint,
-                            hintText: 'Username or Email'),
-                      ),
-                      TextFormField(
-                        obscureText: isPassHidden,
-                        decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint,
-                            hintText: 'Password',
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.only(right: 5.0.w),
-                              child: IconButton(
-                                icon: AppIcon(
-                                  isPassHidden
-                                      ? AppIcons.show_bulk
-                                      : AppIcons.hide_bulk,
-                                  size: 30,
-                                  color: AppColors.black50,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isPassHidden = !isPassHidden;
-                                  });
-                                },
-                              ),
-                            ),
-                            suffixIconConstraints: BoxConstraints(
-                                minHeight: 45.h, minWidth: 45.w)),
+                      Row(
+                        spacing: 10.w,
+                        children: [
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 0,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 1,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 2,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 3,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 4,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 5,
+                              isLast: true,
+                              onChanged: _onChangeAction),
+                        ],
                       ),
                     ],
                   ),
@@ -112,9 +151,12 @@ class _LoginState extends State<Login> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(
-                        onPressed: () {}, child: Text('forgot\npassword')),
-                    FilledButton(onPressed: () {}, child: Text('Log in')),
+                    TextButton(onPressed: () {}, child: Text('Resend code')),
+                    FilledButton(
+                        onPressed: () {
+                          _verify();
+                        },
+                        child: Text('Verify')),
                   ],
                 ),
               ),

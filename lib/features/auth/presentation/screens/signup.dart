@@ -6,6 +6,7 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
+import 'package:gradproject/features/auth/presentation/screens/otp.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -159,7 +160,14 @@ class _SignupState extends State<Signup> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(),
-                    FilledButton(onPressed: () {}, child: Text('Next')),
+                    FilledButton(
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => Otp()));
+                          });
+                        },
+                        child: Text('Next')),
                   ],
                 ),
               ),

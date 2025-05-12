@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
+import 'package:gradproject/features/auth/presentation/screens/otp.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 
 void main() {
