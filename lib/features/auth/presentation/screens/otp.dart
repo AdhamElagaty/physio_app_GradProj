@@ -10,8 +10,8 @@ import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 import 'package:gradproject/features/auth/presentation/widgets/otp_text_field.dart';
 
 class Otp extends StatefulWidget {
-  const Otp({super.key});
-
+  const Otp({super.key, required this.isForReset});
+  final bool isForReset;
   @override
   State<Otp> createState() => _OtpState();
 }

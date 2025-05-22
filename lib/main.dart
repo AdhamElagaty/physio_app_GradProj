@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
+import 'package:gradproject/features/auth/presentation/screens/Forgot_password.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
+import 'package:gradproject/features/auth/presentation/screens/new_password.dart';
 import 'package:gradproject/features/auth/presentation/screens/otp.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: AppTheme.lightMode,
-          home: const Signup(),
+          home: const Login(),
         );
       },
     );

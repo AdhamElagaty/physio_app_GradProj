@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import "package:flutter_svg/svg.dart";
+import 'package:flutter_svg/svg.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
 import 'package:gradproject/features/auth/presentation/screens/otp.dart';
+import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class NewPassword extends StatefulWidget {
+  const NewPassword({super.key});
 
   @override
-  State<Signup> createState() => _SignupState();
+  State<NewPassword> createState() => _NewPasswordState();
 }
 
-class _SignupState extends State<Signup> {
+class _NewPasswordState extends State<NewPassword> {
   bool isPassHidden = true;
   bool isConfirmHidden = true;
   @override
@@ -56,12 +57,12 @@ class _SignupState extends State<Signup> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Welcome',
+                        'Reset password',
                         style: AppTextStyles.title,
                         textAlign: TextAlign.start,
                       ),
                       Text(
-                        'Sign up to continue',
+                        'Enter your new password',
                         style: AppTextStyles.subTitle,
                       )
                     ]),
@@ -76,35 +77,11 @@ class _SignupState extends State<Signup> {
                       SizedBox(
                         height: 0.h,
                       ),
-                      Row(
-                        spacing: 10.w,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  hintStyle: AppTextStyles.hint,
-                                  hintText: 'First name'),
-                            ),
-                          ),
-                          Flexible(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  hintStyle: AppTextStyles.hint,
-                                  hintText: 'Last name'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint, hintText: 'Email'),
-                      ),
                       TextFormField(
                         obscureText: isPassHidden,
                         decoration: InputDecoration(
                             hintStyle: AppTextStyles.hint,
-                            hintText: 'Password',
+                            hintText: 'New password',
                             suffixIcon: Padding(
                               padding: EdgeInsets.only(right: 5.0.w),
                               child: IconButton(
@@ -164,45 +141,17 @@ class _SignupState extends State<Signup> {
                         onPressed: () {
                           setState(() {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Otp(
-                                      isForReset: false,
-                                    )));
+                                builder: (context) => Login()));
                           });
                         },
-                        child: Text('Next')),
+                        child: Text('Confirm')),
                   ],
                 ),
               ),
             ],
           ),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account?',
-                    style: AppTextStyles.bottomText,
-                  ),
-                  TextButton(
-                      style: AppButtonThemes.altTextButton.style,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => Login()));
-                        });
-                      },
-                      child: Text(
-                        'Log in',
-                        style: AppTextStyles.secondaryTextButton
-                            .copyWith(color: AppColors.teal, fontSize: 15.sp),
-                      ))
-                ],
-              ),
-              SizedBox(
-                height: 10.h,
-              )
-            ],
+          SizedBox(
+            height: 10.h,
           ),
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
+import 'package:gradproject/features/auth/presentation/screens/Forgot_password.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 
 class Login extends StatefulWidget {
@@ -113,7 +114,13 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                        onPressed: () {}, child: Text('forgot\npassword')),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ForgotPassword()));
+                          });
+                        },
+                        child: Text('forgot\npassword')),
                     FilledButton(onPressed: () {}, child: Text('Log in')),
                   ],
                 ),
