@@ -1,12 +1,19 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/cahce/share_prefs.dart';
+import 'package:gradproject/core/componets/observer.dart';
 import 'package:gradproject/core/utils/config/routes.dart' show Routes;
 import 'package:gradproject/core/utils/config/routes_genartor.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = MyBlocObserver();
+  await CacheHelper.init();
+
   runApp(const MyApp());
 }
 
