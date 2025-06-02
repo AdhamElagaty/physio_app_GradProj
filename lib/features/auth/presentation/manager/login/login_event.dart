@@ -5,3 +5,5 @@ class LoginEvent extends AuthEvent {
   String password;
   LoginEvent(this.email, this.password);
 }
+
+class PasswordVisibilityEvent extends AuthEvent {}
