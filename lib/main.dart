@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/utils/config/routes.dart' show Routes;
 import 'package:gradproject/core/utils/config/routes_genartor.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
@@ -26,12 +27,14 @@ class MyApp extends StatelessWidget {
     );
     return ScreenUtilInit(
       designSize: Size(402, 874),
+      minTextAdapt: true,
+      splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.getRoute,
-          title: 'Flutter Demo',
           theme: AppTheme.lightMode,
-          home: const Login(),
+          initialRoute: Routes.login,
         );
       },
     );

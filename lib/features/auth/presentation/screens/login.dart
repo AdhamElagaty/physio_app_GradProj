@@ -76,33 +76,47 @@ class _LoginState extends State<Login> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint,
-                            hintText: 'Username or Email'),
+                          hintStyle: AppTextStyles.hint,
+                          hintText: 'Username or Email',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email must not be empty';
+                          }
+                          return null;
+                        },
                       ),
                       TextFormField(
                         obscureText: isPassHidden,
                         decoration: InputDecoration(
-                            hintStyle: AppTextStyles.hint,
-                            hintText: 'Password',
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.only(right: 5.0.w),
-                              child: IconButton(
-                                icon: AppIcon(
-                                  isPassHidden
-                                      ? AppIcons.show_bulk
-                                      : AppIcons.hide_bulk,
-                                  size: 30,
-                                  color: AppColors.black50,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isPassHidden = !isPassHidden;
-                                  });
-                                },
+                          hintStyle: AppTextStyles.hint,
+                          hintText: 'Password',
+                          suffixIcon: Padding(
+                            padding: EdgeInsets.only(right: 5.0.w),
+                            child: IconButton(
+                              icon: AppIcon(
+                                isPassHidden
+                                    ? AppIcons.show_bulk
+                                    : AppIcons.hide_bulk,
+                                size: 30,
+                                color: AppColors.black50,
                               ),
+                              onPressed: () {
+                                setState(() {
+                                  isPassHidden = !isPassHidden;
+                                });
+                              },
                             ),
-                            suffixIconConstraints: BoxConstraints(
-                                minHeight: 45.h, minWidth: 45.w)),
+                          ),
+                          suffixIconConstraints:
+                              BoxConstraints(minHeight: 45.h, minWidth: 45.w),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password must not be empty';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
