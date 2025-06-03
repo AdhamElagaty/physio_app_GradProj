@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:gradproject/core/api/api_manger.dart';
+import 'package:gradproject/core/utils/config/routes.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
@@ -16,10 +17,11 @@ import 'package:gradproject/features/auth/presentation/manager/login/login_state
 
 class Login extends StatelessWidget {
   Login({super.key});
-  bool isPassHidden = true;
+  final bool isPassHidden = true;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -28,9 +30,7 @@ class Login extends StatelessWidget {
       create: (context) => AuthBloc(
         LoginUseCase(
           AuthRepoImp(
-            AuthRemoteDsImp(
-              ApiManager(),
-            ),
+            AuthRemoteDsImp(ApiManager()),
           ),
         ),
       ),
@@ -38,12 +38,12 @@ class Login extends StatelessWidget {
         listener: (context, state) {
           if (state.requestState == RequestState.success) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Login sucessssssssssssss!!!!!!'),
+              content: Text('Login success!'),
             ));
-            // Navigator.pushNamed(context, ChatBot.routeName);
+            Navigator.pushNamed(context, Routes.test);
           } else if (state.requestState == RequestState.error) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Login failed${state.errorMessage}'),
+              content: Text('Login failed: Email or password is incorrect'),
             ));
           }
         },
@@ -52,8 +52,8 @@ class Login extends StatelessWidget {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 20.h,
               children: [
+                // Top image container
                 Flexible(
                   flex: 300,
                   child: Container(
@@ -64,43 +64,41 @@ class Login extends StatelessWidget {
                       clipBehavior: Clip.hardEdge,
                       children: [
                         Positioned(
-                            bottom: 0.h,
-                            right: -87.w,
-                            child: SvgPicture.asset(
-                                'assets/images/Rounded_Pattern.svg'))
+                          bottom: 0.h,
+                          right: -87.w,
+                          child: SvgPicture.asset(
+                            'assets/images/Rounded_Pattern.svg',
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
+
+                // Form Section
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 20.h,
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40.w),
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Hello',
-                              style: AppTextStyles.title,
-                            ),
-                            Text(
-                              'Log in to continue',
-                              style: AppTextStyles.subTitle,
-                            )
-                          ]),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Hello', style: AppTextStyles.title),
+                          Text('Log in to continue',
+                              style: AppTextStyles.subTitle),
+                        ],
+                      ),
                     ),
-                    SingleChildScrollView(
+
+                    // FORM STARTS HERE
+                    Form(
+                      key: formKey,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 40.w),
                         child: Column(
-                          spacing: 20.h,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 0.h,
-                            ),
+                            SizedBox(height: 20.h),
                             TextFormField(
                               controller: emailController,
                               decoration: InputDecoration(
@@ -114,8 +112,9 @@ class Login extends StatelessWidget {
                                 return null;
                               },
                             ),
+                            SizedBox(height: 16.h),
                             TextFormField(
-                              obscureText: isPassHidden,
+                              obscureText: !state.isPasswordVisible,
                               controller: passwordController,
                               decoration: InputDecoration(
                                 hintStyle: AppTextStyles.hint,
@@ -124,17 +123,23 @@ class Login extends StatelessWidget {
                                   padding: EdgeInsets.only(right: 5.0.w),
                                   child: IconButton(
                                     icon: AppIcon(
-                                      isPassHidden
+                                      state.isPasswordVisible
                                           ? AppIcons.show_bulk
                                           : AppIcons.hide_bulk,
                                       size: 30,
                                       color: AppColors.black50,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      context
+                                          .read<AuthBloc>()
+                                          .add(PasswordVisibilityEvent());
+                                    },
                                   ),
                                 ),
                                 suffixIconConstraints: BoxConstraints(
-                                    minHeight: 45.h, minWidth: 45.w),
+                                  minHeight: 45.h,
+                                  minWidth: 45.w,
+                                ),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -143,55 +148,63 @@ class Login extends StatelessWidget {
                                 return null;
                               },
                             ),
+                            SizedBox(height: 18.h),
                           ],
                         ),
                       ),
                     ),
+
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0.w),
+                      padding: EdgeInsets.symmetric(horizontal: 40.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextButton(
-                              onPressed: () {},
-                              child: Text('forgot\npassword')),
+                            onPressed: () {},
+                            child: Text('forgot\npassword'),
+                          ),
                           FilledButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  BlocProvider.of<AuthBloc>(context).add(
-                                    LoginEvent(emailController.text,
-                                        passwordController.text),
-                                  );
-                                }
-                              },
-                              child: Text('Log in')),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                BlocProvider.of<AuthBloc>(context).add(
+                                  LoginEvent(
+                                    emailController.text,
+                                    passwordController.text,
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text('Log in'),
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
+
+                // Bottom Section
                 Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'No account?',
-                          style: AppTextStyles.bottomText,
-                        ),
+                        Text('No account?', style: AppTextStyles.bottomText),
                         TextButton(
-                            style: AppButtonThemes.altTextButton.style,
-                            onPressed: () {},
-                            child: Text(
-                              'Sign up',
-                              style: AppTextStyles.secondaryTextButton.copyWith(
-                                  color: AppColors.teal, fontSize: 15.sp),
-                            ))
+                          style: AppButtonThemes.altTextButton.style,
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.signup);
+                          },
+                          child: Text(
+                            'Sign up',
+                            style: AppTextStyles.secondaryTextButton.copyWith(
+                              color: AppColors.teal,
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    )
+                    SizedBox(height: 10.h),
                   ],
                 ),
               ],

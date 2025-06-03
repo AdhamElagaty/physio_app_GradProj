@@ -3,11 +3,6 @@ import 'package:gradproject/features/auth/domain/use_case/login_use_case.dart';
 import 'package:gradproject/features/auth/presentation/manager/login/login_event.dart';
 import 'package:gradproject/features/auth/presentation/manager/login/login_state.dart';
 
-import 'package:bloc/bloc.dart';
-import 'package:gradproject/features/auth/domain/use_case/login_use_case.dart';
-import 'package:gradproject/features/auth/presentation/manager/login/login_event.dart';
-import 'package:gradproject/features/auth/presentation/manager/login/login_state.dart';
-
 class AuthBloc extends Bloc<AuthEvent, AuthLoginState> {
   final LoginUseCase loginUseCase;
 
