@@ -90,12 +90,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     SizedBox(),
                     FilledButton(
                         onPressed: () {
-                          setState(() {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Otp(
-                                      isForReset: true,
-                                    )));
-                          });
+                          // setState(() {
+                          //   Navigator.of(context).push(MaterialPageRoute(
+                          //       builder: (context) => Otp(
+                          //             isForReset: true,
+                          //           )));
+                          // });
                         },
                         child: Text('Next')),
                   ],
