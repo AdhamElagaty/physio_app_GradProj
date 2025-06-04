@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:dio/dio.dart';
 import 'package:gradproject/core/api/end_points.dart';
+import 'package:gradproject/core/utils/config/routes.dart';
 import 'package:gradproject/core/utils/constatnts.dart';
-
+import 'package:gradproject/core/utils/config/routes.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/features/auth/presentation/widgets/otp_text_field.dart';
 
@@ -79,6 +80,8 @@ class _OtpState extends State<Otp> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('OTP verified successfully!')),
         );
+        Navigator.pushNamedAndRemoveUntil(
+            context, Routes.test, (route) => false);
         return true;
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
