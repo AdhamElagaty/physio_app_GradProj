@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import '../styles/font.dart';
-import '../styles/icons.dart';
+import '../../../../core/utils/styles/font.dart';
+import '../../../../core/utils/styles/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Category extends StatefulWidget {
@@ -41,8 +41,8 @@ class _CategoryState extends State<Category> {
           setState(() {});
         },
         child: Container(
-          width: 333,
-          height: 161,
+          width: 333.w,
+          height: 161.h,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.r)),

@@ -1,0 +1,2 @@
+D:/Projects/Flutter/Physio/physio_app/android/app/.cxx/Debug/49475p55/x86_64/CMakeFiles/edit_cache.dir
+D:/Projects/Flutter/Physio/physio_app/android/app/.cxx/Debug/49475p55/x86_64/CMakeFiles/rebuild_cache.dir
