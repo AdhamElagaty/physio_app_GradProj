@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gradproject/core/utils/config/routes.dart';
-import 'package:gradproject/core/utils/widgets/category.dart';
 import 'package:gradproject/features/auth/presentation/screens/forgot_password.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
 import 'package:gradproject/features/auth/presentation/screens/otp.dart';
