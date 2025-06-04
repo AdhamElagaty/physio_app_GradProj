@@ -1,5 +1,14 @@
+import 'package:dartz/dartz.dart';
+import 'package:gradproject/core/exceptions/failures.dart';
+
 abstract class ResetPasswordRepository {
-  Future<void> sendResetCode(String email);
-  Future<void> verifyOtp(String email, String otp);
-  Future<void> resetPassword(String email, String newPassword);
+  Future<Either<FailureExceptions, Unit>> requestResetPassword(String email);
+  Future<Either<FailureExceptions, String>> confirmOtp(
+      {required String email, required String otp});
+  Future<Either<FailureExceptions, Unit>> resetPassword({
+    required String email,
+    required String token,
+    required String password,
+    required String confirmPassword,
+  });
 }
