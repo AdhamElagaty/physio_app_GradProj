@@ -160,7 +160,10 @@ class Login extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, Routes.forgotPassword);
+                            },
                             child: Text('forgot\npassword'),
                           ),
                           FilledButton(

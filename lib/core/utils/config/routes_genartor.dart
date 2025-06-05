@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradproject/core/utils/config/routes.dart';
 import 'package:gradproject/features/auth/presentation/screens/forgot_password.dart';
 import 'package:gradproject/features/auth/presentation/screens/login.dart';
+import 'package:gradproject/features/auth/presentation/screens/new_password.dart';
 import 'package:gradproject/features/auth/presentation/screens/otp.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 import 'package:gradproject/features/auth/presentation/screens/test.dart';
@@ -14,9 +15,11 @@ class RouteGenerator {
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => Signup());
       case Routes.forgotPassword:
-        return MaterialPageRoute(builder: (_) => const ForgotPassword());
+        return MaterialPageRoute(builder: (_) => ForgotPassword());
       case Routes.test:
         return MaterialPageRoute(builder: (_) => TestScreen());
+      // case Routes.newPassword:
+      //   return MaterialPageRoute(builder: (_) =>  NewPassword(email: '',, token: '',));
 
       default:
         return unDefinedRoute();
