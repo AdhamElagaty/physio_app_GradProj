@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../styles/colors.dart';
 
 class NavItem {
@@ -16,17 +17,13 @@ class NavItem {
 
 // ignore: must_be_immutable
 class NavBar extends StatefulWidget {
-  const NavBar({
+  NavBar({
     super.key,
-    required this.screenHeight,
-    required this.screenWidth,
+    this.selectedIndex = 0,
     required this.navItems,
     this.color = AppColors.teal,
   });
-
-  final double screenHeight;
-  final double screenWidth;
-
+  int selectedIndex;
   final Color color;
   final List<NavItem> navItems;
 
@@ -40,24 +37,24 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.grey,
-      height: (widget.screenHeight * .13) + 20,
       child: Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             margin: EdgeInsets.only(
-              top: widget.screenHeight * .0183,
-              bottom: widget.screenHeight * .0183 + 24,
+              top: 20.h,
+              bottom: 42.h,
             ),
             //constraints: BoxConstraints(minWidth:screenWidth*.188 ),
             decoration: BoxDecoration(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(200),
+              borderRadius: BorderRadius.circular(200.r),
             ),
-            padding: EdgeInsets.all(widget.screenHeight * .01373),
+            padding: EdgeInsets.all(12.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              spacing: 10.w,
               children: List.generate(widget.navItems.length, (index) {
                 return Material(
                   color: Colors.transparent,
@@ -70,8 +67,9 @@ class _NavBarState extends State<NavBar> {
                       setState(() {});
                     },
                     child: Container(
-                      width: widget.screenHeight * .0585,
-                      height: widget.screenHeight * .0585,
+                      padding: EdgeInsets.all(10.w),
+                      width: 51.68.w,
+                      height: 51.68.h,
                       decoration: BoxDecoration(
                         color: index == selectedIndex
                             ? widget.color.withAlpha(26)

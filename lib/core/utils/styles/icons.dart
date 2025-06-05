@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppIcons {
   static const String arrow_right_square =
-      'assets/images/Iconly/Bold/Arrow - Right Square.svg';
+      'assets/images/Iconly/Bold/Arrow-Right-Square.svg';
   static const String category = 'assets/images/Iconly/Bold/Category.svg';
   static const String chat = 'assets/images/Iconly/Bold/Chat.svg';
   static const String heart = 'assets/images/Iconly/Bold/Heart.svg';
@@ -12,7 +12,9 @@ class AppIcons {
   static const String profile = 'assets/images/Iconly/Bold/Profile.svg';
   static const String send = 'assets/images/Iconly/Bold/Send.svg';
   static const String setting = 'assets/images/Iconly/Bold/Setting.svg';
-  static const String tick_square = 'assets/images/Iconly/Bold/Tick Square.svg';
+  static const String notification =
+      'assets/images/Iconly/Bold/Notification.svg';
+  static const String tick_square = 'assets/images/Iconly/Bold/Tick-Square.svg';
   static const String category_bulk = 'assets/images/Iconly/Bulk/Category.svg';
   static const String chat_bulk = 'assets/images/Iconly/Bulk/Chat.svg';
   static const String hide_bulk = 'assets/images/Iconly/Bulk/Hide.svg';
@@ -23,7 +25,7 @@ class AppIcons {
   static const String setting_bulk = 'assets/images/Iconly/Bulk/Setting.svg';
   static const String show_bulk = 'assets/images/Iconly/Bulk/Show.svg';
   static const String tick_square_bulk =
-      'assets/images/Iconly/Bulk/Tick Square.svg';
+      'assets/images/Iconly/Bulk/Tick-Square.svg';
 }
 
 class AppIcon extends StatelessWidget {

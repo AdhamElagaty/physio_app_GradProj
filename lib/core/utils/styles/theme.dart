@@ -32,6 +32,7 @@ class AppTheme {
     outlinedButtonTheme: AppButtonThemes.outlinedButton,
     elevatedButtonTheme: AppButtonThemes.elevatedButton,
     textButtonTheme: AppButtonThemes.textButton,
+    iconButtonTheme: AppButtonThemes.iconButton,
     listTileTheme: listTile,
   );
 

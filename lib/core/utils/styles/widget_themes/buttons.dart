@@ -47,6 +47,18 @@ class AppButtonThemes {
       ),
     ),
   );
+  static IconButtonThemeData iconButton = IconButtonThemeData(
+    style: FilledButton.styleFrom(
+      iconSize: 30.72.w,
+      padding: EdgeInsets.symmetric(horizontal: 25.w,vertical: 11.h),
+      fixedSize: Size(80.72,52.72),
+      backgroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(
+        side: BorderSide.none,
+        borderRadius: BorderRadius.circular(80.r),
+      ),
+    ),
+  );
   static TextButtonThemeData textButton = TextButtonThemeData(
     style: TextButton.styleFrom(
       textStyle: AppTextStyles.secondaryTextButton,

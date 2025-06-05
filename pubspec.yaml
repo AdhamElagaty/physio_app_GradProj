@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  flutter_svg: ^2.0.17
+  flutter_svg: ^2.1.0
   flutter_svg_provider: ^1.0.7
   flutter_screenutil: ^5.9.3
   bloc: ^9.0.0
@@ -32,7 +32,7 @@ flutter:
   assets:
     - assets/images/Pattern.svg
     - assets/images/Rounded_Pattern.svg
-    - assets/images/Iconly/Bold/Arrow - Right Square.svg
+    - assets/images/Iconly/Bold/Arrow-Right-Square.svg
     - assets/images/Iconly/Bold/Category.svg
     - assets/images/Iconly/Bold/Chat.svg
     - assets/images/Iconly/Bold/Heart.svg
@@ -40,7 +40,8 @@ flutter:
     - assets/images/Iconly/Bold/Profile.svg
     - assets/images/Iconly/Bold/Send.svg
     - assets/images/Iconly/Bold/Setting.svg
-    - assets/images/Iconly/Bold/Tick Square.svg
+    - assets/images/Iconly/Bold/Tick-Square.svg
+    - assets/images/Iconly/Bold/Notification.svg
     - assets/images/Iconly/Bulk/Category.svg
     - assets/images/Iconly/Bulk/Chat.svg
     - assets/images/Iconly/Bulk/Hide.svg
@@ -49,7 +50,7 @@ flutter:
     - assets/images/Iconly/Bulk/Search.svg
     - assets/images/Iconly/Bulk/Setting.svg
     - assets/images/Iconly/Bulk/Show.svg
-    - assets/images/Iconly/Bulk/Tick Square.Svg
+    - assets/images/Iconly/Bulk/Tick-Square.svg
   fonts:
     - family: Urbanist
       fonts:

@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "F:\\Developing\\SDKs\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "F:\\Developing\\Android\\SDK\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "F:\\Projects\\Flutter\\physio_app\\android\\app\\.cxx\\Debug\\4n1v1x5r\\x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "F:\\Developing\\Android\\SDK\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "F:\\Projects\\Flutter\\physio_app\\android\\app\\.cxx\\Debug\\4n1v1x5r\\x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

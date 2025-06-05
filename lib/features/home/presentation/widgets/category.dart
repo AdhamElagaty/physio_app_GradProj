@@ -15,7 +15,7 @@ class Category extends StatefulWidget {
   final Color color;
   final Color backgroundColor;
   final void Function()? onTap;
-  final String icon;
+  final Widget icon;
 
   @override
   State<Category> createState() => _CategoryState();
@@ -72,7 +72,7 @@ class _CategoryState extends State<Category> {
                         ),
                       ],
                     ),
-                    AppIcon(widget.icon, color: widget.color, size: 46.66.w),
+                    widget.icon,
                   ],
                 ),
                 Text('All your favorite exercises', style: AppTextStyles.body),
