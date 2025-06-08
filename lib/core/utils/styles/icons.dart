@@ -26,6 +26,8 @@ class AppIcons {
   static const String show_bulk = 'assets/images/Iconly/Bulk/Show.svg';
   static const String tick_square_bulk =
       'assets/images/Iconly/Bulk/Tick-Square.svg';
+  static const String arrow_left_bulk =
+      'assets/images/Iconly/Bulk/Arrow-Left-3.svg';
 }
 
 class AppIcon extends StatelessWidget {

@@ -26,14 +26,14 @@ class AppTextStyles {
 
   static TextStyle body = TextStyle(
     color: AppColors.black,
-    fontSize: 20.sp,
+    fontSize: 18.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle text = TextStyle(
     color: AppColors.black,
-    fontSize: 20.sp,
+    fontSize: 18.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
   );
@@ -42,7 +42,7 @@ class AppTextStyles {
     color: AppColors.black30,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 600)],
-    fontSize: 16.sp,
+    fontSize: 18.sp,
   );
 
   static TextStyle bottomText = TextStyle(
@@ -77,14 +77,14 @@ class AppTextStyles_darkMode {
 
   static TextStyle subTitle = TextStyle(
     color: AppColors.grey50,
-    fontSize: 25.sp,
+    fontSize: 23.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle header = TextStyle(
     color: AppColors.grey,
-    fontSize: 25.sp,
+    fontSize: 23.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );

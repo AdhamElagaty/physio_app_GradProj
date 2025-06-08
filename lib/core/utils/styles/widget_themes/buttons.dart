@@ -35,24 +35,40 @@ class AppButtonThemes {
 
   static ElevatedButtonThemeData elevatedButton = ElevatedButtonThemeData(
     style: FilledButton.styleFrom(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
-      fixedSize: Size(420.w, 70.h),
-      textStyle: AppTextStyles.buttonText.copyWith(color: AppColors.white),
-      backgroundColor: appScheme.primary,
-      foregroundColor: appScheme.onPrimary,
-      shadowColor: AppColors.black50,
+      elevation: 0,
+      //iconSize: 30.72.w,
+      padding: EdgeInsets.symmetric(horizontal: 25.w,vertical: 11.h),
+      minimumSize: Size(80.72,52.72),
+      backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         side: BorderSide.none,
-        borderRadius: BorderRadius.circular(25.r),
+        borderRadius: BorderRadius.circular(80.r),
       ),
     ),
   );
   static IconButtonThemeData iconButton = IconButtonThemeData(
     style: FilledButton.styleFrom(
-      iconSize: 30.72.w,
-      padding: EdgeInsets.symmetric(horizontal: 25.w,vertical: 11.h),
-      fixedSize: Size(80.72,52.72),
+      //iconSize: 25.w,
+      minimumSize: Size(51.w,40.h),
+      maximumSize: Size(60.w,40.h),
+      padding: EdgeInsets.symmetric(horizontal: 13.33.w),
+      //fixedSize: Size(80.72,52.72),
       backgroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(
+        side: BorderSide.none,
+        borderRadius: BorderRadius.circular(80.r),
+      ),
+    ),
+  );
+  static IconButtonThemeData filterButton = IconButtonThemeData(
+    style: FilledButton.styleFrom(
+      //iconSize: 25.w,
+      minimumSize: Size(51.w,40.h),
+      maximumSize: Size(200.w,40.h),
+      padding: EdgeInsets.symmetric(horizontal: 13.33.w),
+      //fixedSize: Size(80.72,52.72),
+      backgroundColor: AppColors.teal.withAlpha(39),
+      foregroundColor: AppColors.teal,
       shape: RoundedRectangleBorder(
         side: BorderSide.none,
         borderRadius: BorderRadius.circular(80.r),

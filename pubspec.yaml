@@ -51,6 +51,7 @@ flutter:
     - assets/images/Iconly/Bulk/Setting.svg
     - assets/images/Iconly/Bulk/Show.svg
     - assets/images/Iconly/Bulk/Tick-Square.svg
+    - assets/images/Iconly/Bulk/Arrow-Left-3.svg
   fonts:
     - family: Urbanist
       fonts:

@@ -9,12 +9,12 @@ class Category extends StatefulWidget {
     super.key,
     required this.color,
     this.backgroundColor = Colors.white,
-    this.onTap,
+    required this.onTap,
     required this.icon,
   });
   final Color color;
   final Color backgroundColor;
-  final void Function()? onTap;
+  final void Function() onTap;
   final Widget icon;
 
   @override
@@ -37,8 +37,9 @@ class _CategoryState extends State<Category> {
         splashColor: widget.color,
         borderRadius: BorderRadius.all(Radius.circular(25.r)),
         onTap: () {
-          widget.onTap;
-          setState(() {});
+          setState(() {
+            widget.onTap();
+          });
         },
         child: Container(
           width: 333.w,

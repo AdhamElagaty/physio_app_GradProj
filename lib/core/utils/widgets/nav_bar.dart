@@ -44,7 +44,7 @@ class _NavBarState extends State<NavBar> {
           Container(
             margin: EdgeInsets.only(
               top: 20.h,
-              bottom: 42.h,
+              bottom: 37.h,
             ),
             //constraints: BoxConstraints(minWidth:screenWidth*.188 ),
             decoration: BoxDecoration(

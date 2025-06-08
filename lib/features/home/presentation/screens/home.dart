@@ -5,10 +5,10 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/features/home/presentation/widgets/category.dart';
+import 'package:gradproject/features/search/presentation/screens/search.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
-
   @override
   State<Home> createState() => _HomeState();
 }
@@ -65,9 +65,13 @@ class _HomeState extends State<Home> {
                     )
                   ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: AppIcon(
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Search(autoSearch: true,)));
+                    setState(() {});
+                  },
+                  child: AppIcon(
                     AppIcons.search_bulk,
                     size: 30.72.w,
                   ),
@@ -85,6 +89,10 @@ class _HomeState extends State<Home> {
                     }
                     return Category(
                         color: colors[index],
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Search(selectedCategory: 'favorites',)));
+                        },
                         icon: AppIcon(
                           AppIcons.heart,
                           size: 46.66.w,
