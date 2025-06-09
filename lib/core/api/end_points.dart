@@ -10,5 +10,5 @@ class Endpoints {
   static const String confirmResetPassword =
       '/api/Account/ConfirmResetPasswordCode';
 
-  static const String resetPassword = 'api/Account/ResetPassword';
+  static const String resetPassword = '/api/Account/ResetPassword';
 }
