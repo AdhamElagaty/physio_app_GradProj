@@ -67,8 +67,10 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Search(autoSearch: true,)));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Search(
+                              autoSearch: true,
+                            )));
                     setState(() {});
                   },
                   child: AppIcon(
@@ -90,8 +92,12 @@ class _HomeState extends State<Home> {
                     return Category(
                         color: colors[index],
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Search(selectedCategory: 'favorites',)));
+                          Future.delayed(Duration(milliseconds: 250), () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Search(
+                                      selectedCategory: 'favorites',
+                                    )));
+                          });
                         },
                         icon: AppIcon(
                           AppIcons.heart,

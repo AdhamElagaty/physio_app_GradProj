@@ -6,6 +6,7 @@ import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/core/utils/widgets/tile.dart';
+import 'package:gradproject/features/description/presentation/screens/description.dart';
 
 class Search extends StatefulWidget {
   Search({super.key, this.autoSearch = false, this.selectedCategory});
@@ -27,14 +28,14 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  
   @override
   // ignore: must_call_super
   initState() {
-        widget.selectedCategory != null
+    widget.selectedCategory != null
         ? widget.filters.add(widget.selectedCategory!)
         : {};
   }
+
   Widget build(BuildContext context) {
     List<String> navIcons = [
       AppIcons.home,
@@ -160,7 +161,7 @@ class _SearchState extends State<Search> {
                   children: [
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 0.w, vertical: 15.h),
+                          EdgeInsets.symmetric(horizontal: 0.w, vertical: 20.h),
                       decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(25.r)),
@@ -168,6 +169,16 @@ class _SearchState extends State<Search> {
                         spacing: 12.5.h,
                         children: List.generate(10, (index) {
                           return Tile(
+                            onTap: () {
+                              Future.delayed(Duration(milliseconds: 250), () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Description(
+                                          exerciseName: 'Stretching',
+                                          description:
+                                              'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                                        )));
+                              });
+                            },
                             icon: AppIcon(
                               AppIcons.heart,
                               color: AppColors.teal,

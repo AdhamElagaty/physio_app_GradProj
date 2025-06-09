@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppTextStyles {
   static TextStyle title = TextStyle(
     color: AppColors.black,
-    fontSize: 45.sp,
+    fontSize: 40.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
