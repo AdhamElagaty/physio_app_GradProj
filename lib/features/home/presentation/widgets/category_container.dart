@@ -4,8 +4,8 @@ import '../../../../core/utils/styles/font.dart';
 import '../../../../core/utils/styles/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Category extends StatefulWidget {
-  Category({
+class CategoryContainer extends StatefulWidget {
+  CategoryContainer({
     super.key,
     required this.color,
     this.backgroundColor = Colors.white,
@@ -18,10 +18,10 @@ class Category extends StatefulWidget {
   final Widget icon;
 
   @override
-  State<Category> createState() => _CategoryState();
+  State<CategoryContainer> createState() => _CategoryContainerState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoryContainerState extends State<CategoryContainer> {
   @override
   Widget build(BuildContext context) {
     return Material(

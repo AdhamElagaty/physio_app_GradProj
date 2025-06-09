@@ -4,7 +4,7 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
-import 'package:gradproject/features/home/presentation/widgets/category.dart';
+import 'package:gradproject/features/home/presentation/widgets/category_container.dart';
 import 'package:gradproject/features/search/presentation/screens/search.dart';
 
 class Home extends StatefulWidget {
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                     if (index == colors.length) {
                       index = 0;
                     }
-                    return Category(
+                    return CategoryContainer(
                         color: colors[index],
                         onTap: () {
                           Future.delayed(Duration(milliseconds: 250), () {
