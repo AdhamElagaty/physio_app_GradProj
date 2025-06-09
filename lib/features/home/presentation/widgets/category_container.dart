@@ -5,17 +5,20 @@ import '../../../../core/utils/styles/icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoryContainer extends StatefulWidget {
-  CategoryContainer({
-    super.key,
-    required this.color,
-    this.backgroundColor = Colors.white,
-    required this.onTap,
-    required this.icon,
-  });
+  CategoryContainer(
+      {super.key,
+      required this.color,
+      this.backgroundColor = Colors.white,
+      required this.onTap,
+      required this.icon,
+      required this.title,
+      required this.subtitle});
   final Color color;
   final Color backgroundColor;
   final void Function() onTap;
   final Widget icon;
+  final String title;
+  final String subtitle;
 
   @override
   State<CategoryContainer> createState() => _CategoryContainerState();
@@ -43,7 +46,7 @@ class _CategoryContainerState extends State<CategoryContainer> {
         },
         child: Container(
           width: 333.w,
-          height: 161.h,
+          height: 180.h,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.r)),
@@ -66,7 +69,7 @@ class _CategoryContainerState extends State<CategoryContainer> {
                       children: [
                         SizedBox(height: 15.h),
                         Text(
-                          'Favorites',
+                          widget.title,
                           style: AppTextStyles.header.copyWith(
                             color: widget.color,
                           ),
@@ -76,7 +79,7 @@ class _CategoryContainerState extends State<CategoryContainer> {
                     widget.icon,
                   ],
                 ),
-                Text('All your favorite exercises', style: AppTextStyles.body),
+                Text('${widget.subtitle}', style: AppTextStyles.body),
                 SizedBox(height: 5),
                 AppIcon(AppIcons.arrow_right_square,
                     color: widget.color, size: 35.w),
