@@ -20,6 +20,22 @@ dependencies:
   dio: ^5.8.0+1
   shared_preferences: ^2.5.3
   dartz: ^0.10.1
+  equatable: ^2.0.5
+  foundation: ^0.0.5
+  google_ml_kit: ^0.20.0
+  google_mlkit_commons: ^0.11.0
+  google_mlkit_pose_detection: ^0.14.0
+  image: ^4.5.4
+  onnxruntime: ^1.4.1
+  path: ^1.9.0
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.0+1
+  provider: ^6.1.5
+  sensors_plus: ^6.1.1
+  synchronized: ^3.3.0+3
+  camera: ^0.11.1
+  camera_android_camerax: ^0.6.16
+  collection: ^1.19.0
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +68,9 @@ flutter:
     - assets/images/Iconly/Bulk/Show.svg
     - assets/images/Iconly/Bulk/Tick-Square.svg
     - assets/images/Iconly/Bulk/Arrow-Left-3.svg
+    - assets/models/bicep/
+    - assets/models/glute_bridge/
+    - assets/models/plank/
   fonts:
     - family: Urbanist
       fonts:
