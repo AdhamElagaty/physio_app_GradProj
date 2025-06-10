@@ -4,7 +4,6 @@ import 'package:gradproject/core/common_widgets/excerices.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
-import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/core/utils/widgets/tile.dart';
 import 'package:gradproject/features/description/presentation/screens/description.dart';
@@ -59,7 +58,6 @@ class _SearchState extends State<Search> {
             exercise.subtitle.toLowerCase().contains(searchQuery);
 
         if (_initialCategoryContext != null) {
-          // Case 1: Entered from a specific category (e.g., 'arms')
           if (_activeFilters.contains('favorites') &&
               _activeFilters.contains(_initialCategoryContext!)) {
             return matchesSearchQuery &&
@@ -122,7 +120,6 @@ class _SearchState extends State<Search> {
           }
         }
       } else {
-        // In general search context: normal toggling
         if (_activeFilters.contains(lowerCaseCategory)) {
           if (_activeFilters.length == 1 && lowerCaseCategory != 'favorites') {
             return;
