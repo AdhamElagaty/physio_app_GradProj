@@ -88,7 +88,7 @@ class _OtpScreenState extends State<Otp> {
             ),
           );
         } else {
-          Navigator.pushNamedAndRemoveUntil(context, Routes.test, (r) => false);
+          Navigator.pushNamedAndRemoveUntil(context, Routes.home, (r) => false);
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
