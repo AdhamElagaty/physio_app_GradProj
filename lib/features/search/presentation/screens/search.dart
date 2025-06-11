@@ -31,12 +31,14 @@ class _SearchState extends State<Search> {
       _initialCategoryContext = widget.selectedCategory!.toLowerCase();
 
       _activeFilters.add(_initialCategoryContext!);
-    } else {
-      _activeFilters
-          .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
     }
+    // else {
+    //   _activeFilters
+    //       .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
+    // }
 
     _filterExercises();
+    _initialCategoryContext = null;
     widget.searchController.addListener(_filterExercises);
   }
 
@@ -121,9 +123,9 @@ class _SearchState extends State<Search> {
         }
       } else {
         if (_activeFilters.contains(lowerCaseCategory)) {
-          if (_activeFilters.length == 1 && lowerCaseCategory != 'favorites') {
-            return;
-          }
+          // if (_activeFilters.length == 1 && lowerCaseCategory != 'favorites') {
+          //   return;
+          // }
           _activeFilters.remove(lowerCaseCategory);
         } else {
           _activeFilters.add(lowerCaseCategory);
@@ -146,8 +148,8 @@ class _SearchState extends State<Search> {
 
     List<String> displayCategories = [];
     displayCategories
-          .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
-      displayCategories.add('favorites');
+        .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
+    displayCategories.add('favorites');
     // if (_initialCategoryContext != null) {
     //   displayCategories.add(_initialCategoryContext!);
     //   displayCategories.add('favorites');
@@ -158,6 +160,9 @@ class _SearchState extends State<Search> {
     // }
 
     displayCategories.sort();
+    displayCategories
+        .removeWhere((c) => _activeFilters.contains(c.toLowerCase()));
+    displayCategories.insertAll(0, _activeFilters);
 
     return Scaffold(
       bottomNavigationBar: NavBar(
@@ -228,7 +233,6 @@ class _SearchState extends State<Search> {
                       bool isLockedDisplayCategory = (_initialCategoryContext !=
                               null &&
                           category.toLowerCase() == _initialCategoryContext);
-
                       return ChoiceChip(
                         label: Text(
                           category,
@@ -246,8 +250,7 @@ class _SearchState extends State<Search> {
                         },
                         selectedColor: AppColors.teal.withAlpha(39),
                         backgroundColor: AppColors.white,
-                        
-                        checkmarkColor: AppColors.teal ,
+                        checkmarkColor: AppColors.teal,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.r),
                         ),
