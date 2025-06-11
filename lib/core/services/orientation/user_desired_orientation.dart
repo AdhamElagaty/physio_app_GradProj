@@ -1,0 +1,4 @@
+enum UserDesiredOrientation {
+  vertical,
+  horizontal,
+}

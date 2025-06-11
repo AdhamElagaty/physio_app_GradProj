@@ -16,6 +16,8 @@ class AppColors {
   static const Color lightYellow = Color(0xFFF0C56C);
   static const Color lightPurple = Color(0xFF9E8EED);
   static const Color lightRed = Color(0xFFEB8686);
+  static const Color lightTeal50 = Color(0x7E64CDDB);
+  static const Color green = Color(0xFF4CAF50);
 }
 
 ColorScheme appScheme = ColorScheme(

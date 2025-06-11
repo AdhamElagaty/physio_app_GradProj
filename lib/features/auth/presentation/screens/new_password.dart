@@ -36,14 +36,14 @@ class NewPassword extends StatelessWidget {
             const SnackBar(content: Text('Sending reset email...')),
           );
         } else if (state is ResetPasswordSuccess) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar(); // Hide loading
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Text('Reset email sent! Check your inbox.')),
           );
           Navigator.pushReplacementNamed(context, Routes.login);
         } else if (state is ResetPasswordError) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar(); // Hide loading
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error: ${state.message}')),
           );
