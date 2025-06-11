@@ -46,7 +46,7 @@ class _CategoryContainerState extends State<CategoryContainer> {
         },
         child: Container(
           width: 333.w,
-          height: 180.h,
+          height: 161.h,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.r)),

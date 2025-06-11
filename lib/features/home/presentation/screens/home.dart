@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
       AppIcons.notification,
       AppIcons.setting
     ];
-    int colorIndex=0;
+    int colorIndex = 0;
     return Scaffold(
       bottomNavigationBar: NavBar(
         selectedIndex: 0,
@@ -90,11 +90,13 @@ class Home extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => Search(autoSearch: true),
-                      ),
-                    );
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Search(autoSearch: true),
+                        ),
+                      );
+                    });
                   },
                   child: AppIcon(
                     AppIcons.search_bulk,
@@ -105,7 +107,7 @@ class Home extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 45.h),
+            SizedBox(height: 15.h),
 
             // Exercise Category List
             Expanded(
@@ -113,9 +115,9 @@ class Home extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: categories.map((category) {
-                    if (colorIndex>=colors.length) colorIndex=1;
+                    if (colorIndex >= colors.length) colorIndex = 1;
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 34.h),
+                      padding: EdgeInsets.only(top: 30.h),
                       child: CategoryContainer(
                         color: colors[colorIndex],
                         title: category['title'],
@@ -126,7 +128,7 @@ class Home extends StatelessWidget {
                           color: colors[colorIndex++],
                         ),
                         onTap: () {
-                          Future.delayed(const Duration(milliseconds: 250), () {
+                          Future.delayed(const Duration(milliseconds: 300), () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => Search(
