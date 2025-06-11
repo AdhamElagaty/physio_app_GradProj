@@ -40,7 +40,7 @@ class Login extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Login success!'),
             ));
-            Navigator.pushNamed(context, Routes.test);
+            Navigator.pushNamed(context, Routes.home);
           } else if (state.requestState == RequestState.error) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Login failed: Email or password is incorrect'),
