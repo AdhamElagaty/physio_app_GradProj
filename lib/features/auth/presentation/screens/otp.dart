@@ -145,6 +145,12 @@ class _OtpScreenState extends State<Otp> {
           );
         }
       }
+      if (value.length == controllers.length ||
+          index == controllers.length - 1) {
+        FocusScope.of(context).unfocus();
+
+        _verifyOtp();
+      }
     }
   }
 
@@ -153,66 +159,109 @@ class _OtpScreenState extends State<Otp> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 30.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Top image
-            SizedBox(
-              height: 200.h,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 20.h,
+        children: [
+          Flexible(
+            flex: 300,
+            child: Container(
               width: screenWidth,
+              height: 248.h,
               child: Stack(
                 alignment: Alignment.center,
+                clipBehavior: Clip.hardEdge,
                 children: [
                   Positioned(
-                    bottom: 0,
-                    right: -87.w,
-                    child:
-                        SvgPicture.asset('assets/images/Rounded_Pattern.svg'),
-                  ),
+                      bottom: 0.h,
+                      right: -87.w,
+                      child:
+                          SvgPicture.asset('assets/images/Rounded_Pattern.svg'))
                 ],
               ),
             ),
-
-            // Text
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Check your\nmail', style: AppTextStyles.title),
-                Text('Enter the OTP code', style: AppTextStyles.subTitle),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(
-                    6,
-                    (index) => OtpTextField(
-                      controllers: controllers,
-                      index: index,
-                      isLast: index == 5,
-                      onChanged: _onChangeAction,
-                    ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20.h,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Check your\nmail',
+                        style: AppTextStyles.title,
+                      ),
+                      Text(
+                        'Enter the OTP code',
+                        style: AppTextStyles.subTitle,
+                      )
+                    ]),
+              ),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40.w),
+                  child: Column(
+                    spacing: 20.h,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 0.h,
+                      ),
+                      Row(
+                        spacing: 10.w,
+                        children: [
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 0,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 1,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 2,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 3,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 4,
+                              onChanged: _onChangeAction),
+                          OtpTextField(
+                              controllers: controllers,
+                              index: 5,
+                              isLast: true,
+                              onChanged: _onChangeAction),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-
-            // Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: _resendOtp,
-                  child: const Text('Resend code'),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                        onPressed: _resendOtp, child: Text('Resend code')),
+                    FilledButton(onPressed: _verifyOtp, child: Text('Verify')),
+                  ],
                 ),
-                FilledButton(
-                  onPressed: _verifyOtp,
-                  child: const Text('Verify'),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 25.h,
+          ),
+        ],
       ),
     );
   }
