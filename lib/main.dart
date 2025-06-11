@@ -24,7 +24,7 @@ void main() async {
       providers: [
         BlocProvider(
           create: (context) => CameraCubit(CameraService())..initializeCamera(),
-          lazy: false, // Initialize camera immediately
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => ExerciseSessionCubit(PoseDetectionService()),

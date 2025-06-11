@@ -23,7 +23,7 @@ class Home extends StatelessWidget {
         'title': 'Arms',
         'subtitle': 'Boost your arm strength',
         'color': AppColors.green,
-        'icon': AppIcons.heart,
+        'icon': AppIcons.hide_bulk,
       },
       {
         'title': 'Lower Body',
