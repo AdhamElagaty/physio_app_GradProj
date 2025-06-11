@@ -12,6 +12,12 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Color> colors = [
+      AppColors.red,
+      AppColors.purple,
+      AppColors.yellow,
+      AppColors.magenta
+    ];
     final List<Map<String, dynamic>> categories = [
       {
         'title': 'Favourites',
@@ -46,7 +52,7 @@ class Home extends StatelessWidget {
       AppIcons.notification,
       AppIcons.setting
     ];
-
+    int colorIndex=0;
     return Scaffold(
       bottomNavigationBar: NavBar(
         selectedIndex: 0,
@@ -69,7 +75,7 @@ class Home extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 55.h),
+            SizedBox(height: 90.h),
 
             // Header Row
             Row(
@@ -83,11 +89,6 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.teal.withOpacity(0.1),
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(12),
-                  ),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -98,7 +99,7 @@ class Home extends StatelessWidget {
                   child: AppIcon(
                     AppIcons.search_bulk,
                     size: 30.72.w,
-                    color: AppColors.teal,
+                    color: AppColors.black,
                   ),
                 ),
               ],
@@ -112,16 +113,17 @@ class Home extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: categories.map((category) {
+                    if (colorIndex>=colors.length) colorIndex=1;
                     return Padding(
                       padding: EdgeInsets.only(bottom: 34.h),
                       child: CategoryContainer(
-                        color: category['color'],
+                        color: colors[colorIndex],
                         title: category['title'],
                         subtitle: category['subtitle'],
                         icon: AppIcon(
                           category['icon'],
                           size: 46.66.w,
-                          color: category['color'],
+                          color: colors[colorIndex++],
                         ),
                         onTap: () {
                           Future.delayed(const Duration(milliseconds: 250), () {

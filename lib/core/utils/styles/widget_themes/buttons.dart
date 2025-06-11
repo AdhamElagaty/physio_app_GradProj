@@ -38,7 +38,7 @@ class AppButtonThemes {
       elevation: 0,
       //iconSize: 30.72.w,
       padding: EdgeInsets.symmetric(horizontal: 25.w,vertical: 11.h),
-      minimumSize: Size(80.72,52.72),
+      minimumSize: Size(80.72.w,52.72.h),
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         side: BorderSide.none,

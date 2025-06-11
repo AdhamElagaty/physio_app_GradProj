@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "F:\\Developing\\SDKs\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "F:\\Developing\\Android\\SDK\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "F:\\Projects\\Flutter\\physio_app\\android\\app\\.cxx\\Debug\\1x3k3f56\\armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "F:\\Developing\\Android\\SDK\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "F:\\Projects\\Flutter\\physio_app\\android\\app\\.cxx\\Debug\\1x3k3f56\\armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "F:\\Developing\\Android\\SDK\\ndk\\26.3.11579264\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "F:\\Developing\\Android\\SDK\\ndk\\26.3.11579264\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

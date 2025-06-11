@@ -145,14 +145,17 @@ class _SearchState extends State<Search> {
     ];
 
     List<String> displayCategories = [];
-    if (_initialCategoryContext != null) {
-      displayCategories.add(_initialCategoryContext!);
-      displayCategories.add('favorites');
-    } else {
-      displayCategories
+    displayCategories
           .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
       displayCategories.add('favorites');
-    }
+    // if (_initialCategoryContext != null) {
+    //   displayCategories.add(_initialCategoryContext!);
+    //   displayCategories.add('favorites');
+    // } else {
+    //   displayCategories
+    //       .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
+    //   displayCategories.add('favorites');
+    // }
 
     displayCategories.sort();
 
@@ -179,7 +182,7 @@ class _SearchState extends State<Search> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 0.h),
+            SizedBox(height: 34.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -230,7 +233,7 @@ class _SearchState extends State<Search> {
                         label: Text(
                           category,
                           style: AppTextStyles.secondaryTextButton.copyWith(
-                            color: isActive ? AppColors.white : AppColors.teal,
+                            color: isActive ? AppColors.teal : AppColors.black,
                           ),
                         ),
                         selected: isActive,
@@ -241,10 +244,12 @@ class _SearchState extends State<Search> {
                           }
                           _toggleFilter(category);
                         },
-                        selectedColor: AppColors.teal,
-                        backgroundColor: AppColors.teal.withOpacity(0.1),
+                        selectedColor: AppColors.teal.withAlpha(39),
+                        backgroundColor: AppColors.white,
+                        
+                        checkmarkColor: AppColors.teal ,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
+                          borderRadius: BorderRadius.circular(50.r),
                         ),
                         side: BorderSide.none,
                       );
@@ -302,7 +307,7 @@ class _SearchState extends State<Search> {
                               },
                               icon: AppIcon(
                                 exercise.iconPath,
-                                color: exercise.iconColor,
+                                color: AppColors.teal,
                                 size: 25.w,
                               ),
                               title: exercise.name,

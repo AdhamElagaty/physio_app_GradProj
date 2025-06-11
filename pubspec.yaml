@@ -81,7 +81,7 @@ flutter:
 
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  image_path: "assets/images/PhysioLogo.png"
+  android: true
   ios: true
-  image_path: "assets/images/PhysioLogo (1).png"
   min_sdk_android: 21 
