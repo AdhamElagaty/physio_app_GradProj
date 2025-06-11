@@ -6,6 +6,7 @@ import 'package:gradproject/features/auth/presentation/screens/new_password.dart
 import 'package:gradproject/features/auth/presentation/screens/otp.dart';
 import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 import 'package:gradproject/features/auth/presentation/screens/test.dart';
+import 'package:gradproject/features/home/presentation/screens/home.dart';
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
@@ -16,8 +17,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Signup());
       case Routes.forgotPassword:
         return MaterialPageRoute(builder: (_) => ForgotPassword());
-      case Routes.test:
-        return MaterialPageRoute(builder: (_) => TestScreen());
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => Home());
+
       // case Routes.newPassword:
       //   return MaterialPageRoute(builder: (_) =>  NewPassword(email: '',, token: '',));
 
