@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:gradproject/core/api/api_manger.dart';
+import 'package:gradproject/core/utils/error_message.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
@@ -58,14 +59,20 @@ class Signup extends StatelessWidget {
               ),
             );
           }
-          if (state.requestState == RequestState.error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? '')),
-            );
-          }
           if (state.requestState == RequestState.loading) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Loading...')),
+            );
+          }
+          if (state.requestState == 400) {
+            final message = map400ErrorToUserMessage(state.errorMessage ?? '');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
+            );
+          } else if (state.requestState == RequestState.error) {
+            final message = getFriendly401Message(state.errorMessage ?? '');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
             );
           }
         },
