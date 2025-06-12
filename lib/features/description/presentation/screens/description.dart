@@ -82,7 +82,9 @@ class Description extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 34.h,),
+            SizedBox(
+              height: 34.h,
+            ),
             // Header & Image
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +132,9 @@ class Description extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.h,),
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   // Start Button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
