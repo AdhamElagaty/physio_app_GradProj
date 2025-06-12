@@ -8,7 +8,7 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
-import 'package:gradproject/features/auth/data/data_source/auth_repo_imp.dart';
+import 'package:gradproject/features/auth/data/data_source/auth_remote_ds_imp.dart';
 import 'package:gradproject/features/auth/data/repo_imp/auth_repo_imp.dart';
 import 'package:gradproject/features/auth/domain/use_case/login_use_case.dart';
 import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';

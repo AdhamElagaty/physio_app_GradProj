@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:gradproject/core/api/api_manger.dart';
 import 'package:gradproject/core/api/end_points.dart';
 import 'package:gradproject/core/api/status_code.dart';
@@ -18,17 +19,24 @@ class AuthRemoteDsImp implements AuthRemoteDataSource {
           body: {'emailOrUserName': email, 'password': password});
 
       if (response.statusCode == StatusCodes.success) {
-        final token = Token(
-          value: response.data['token'] ?? '',
-          expiresOn: response.data['expiresOn'] ?? '',
-        );
-        await CacheHelper.saveToken(token);
+        final token = Token.fromJson(response.data['data']['token']);
+        final refreshToken =
+            Token.fromJson(response.data['data']['refreshToken']);
+        await CacheHelper.saveToken('token', token);
+        await CacheHelper.saveToken('refreshToken', refreshToken);
 
-        print(response.data);
+        print('Sign-in successful');
+        print('Token: ${token.value}');
+        print('Refresh Token: ${refreshToken.value}');
         return true;
       }
 
+      print('Sign-in failed with status: ${response.statusCode}');
       return false;
+    } on DioException catch (e) {
+      print('Sign-in error: ${e.response?.statusCode} - ${e.response?.data}');
+      throw FailuerRemoteException(
+          e.response?.data['message'] ?? e.message ?? "Unknown sign-in error");
     } catch (e) {
       throw FailuerRemoteException(e.toString());
     }
