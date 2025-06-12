@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         systemNavigationBarColor: AppColors.grey,
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        statusBarIconBrightness: Brightness.dark, 
         statusBarBrightness: Brightness.light,
       ),
     );
