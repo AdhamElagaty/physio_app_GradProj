@@ -4,150 +4,67 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
+import 'package:gradproject/features/home/presentation/screens/chatbot.dart';
+import 'package:gradproject/features/home/presentation/screens/home_content.dart';
+import 'package:gradproject/features/home/presentation/screens/notification.dart';
+import 'package:gradproject/features/home/presentation/screens/setting.dart';
+import 'package:gradproject/features/home/presentation/screens/tasks.dart';
 import 'package:gradproject/features/home/presentation/widgets/category_container.dart';
 import 'package:gradproject/features/search/presentation/screens/search.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Color> colors = [
-      AppColors.red,
-      AppColors.purple,
-      AppColors.yellow,
-      AppColors.magenta
-    ];
-    final List<Map<String, dynamic>> categories = [
-      {
-        'title': 'Favourites',
-        'subtitle': 'All your favorite exercises',
-        'color': AppColors.red,
-        'icon': AppIcons.heart,
-      },
-      {
-        'title': 'Arms',
-        'subtitle': 'Boost your arm strength',
-        'color': AppColors.green,
-        'icon': AppIcons.hide_bulk,
-      },
-      {
-        'title': 'Lower Body',
-        'subtitle': 'Tone your lower body',
-        'color': AppColors.purple,
-        'icon': AppIcons.heart,
-      },
-      {
-        'title': 'Core Strength',
-        'subtitle': 'Strengthen your core',
-        'color': AppColors.yellow,
-        'icon': AppIcons.heart,
-      },
-    ];
+  State<Home> createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _pages = <Widget>[
+    HomePageContent(),
+    TasksPage(),
+    ChatPage(),
+    NotificationsPage(),
+    SettingsPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final List<String> navIcons = [
       AppIcons.home,
       AppIcons.tick_square,
       AppIcons.chat,
       AppIcons.notification,
-      AppIcons.setting
+      AppIcons.setting,
     ];
-    int colorIndex = 0;
+
     return Scaffold(
+      body: _pages[_selectedIndex],
       bottomNavigationBar: NavBar(
-        selectedIndex: 0,
+        selectedIndex: _selectedIndex,
         color: AppColors.teal,
         navItems: List.generate(navIcons.length, (index) {
+          final iconName = navIcons[index];
           return NavItem(
             icon: AppIcon(
-              navIcons[index].replaceAll('Bold', 'Bulk'),
+              iconName.replaceAll('Bold', 'Bulk'),
             ),
             selectedIcon: AppIcon(
-              navIcons[index],
+              iconName,
               color: AppColors.teal,
               size: 31.68.w,
             ),
+            onTap: () => _onItemTapped(index),
           );
         }),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 35.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 90.h),
-
-            // Header Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Exercises', style: AppTextStyles.title),
-                    Text('Choose category', style: AppTextStyles.subTitle),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Future.delayed(const Duration(milliseconds: 100), () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Search(autoSearch: true),
-                        ),
-                      );
-                    });
-                  },
-                  child: AppIcon(
-                    AppIcons.search_bulk,
-                    size: 30.72.w,
-                    color: AppColors.black,
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 15.h),
-
-            // Exercise Category List
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: categories.map((category) {
-                    if (colorIndex >= colors.length) colorIndex = 1;
-                    return Padding(
-                      padding: EdgeInsets.only(top: 30.h),
-                      child: CategoryContainer(
-                        color: colors[colorIndex],
-                        title: category['title'],
-                        subtitle: category['subtitle'],
-                        icon: AppIcon(
-                          category['icon'],
-                          size: 46.66.w,
-                          color: colors[colorIndex++],
-                        ),
-                        onTap: () {
-                          Future.delayed(const Duration(milliseconds: 300), () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Search(
-                                  selectedCategory: category['title']
-                                      .toString()
-                                      .toLowerCase(),
-                                ),
-                              ),
-                            );
-                          });
-                        },
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
