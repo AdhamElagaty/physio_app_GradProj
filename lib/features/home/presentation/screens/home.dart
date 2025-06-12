@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
-import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/features/home/presentation/screens/chatbot.dart';
@@ -9,8 +8,6 @@ import 'package:gradproject/features/home/presentation/screens/home_content.dart
 import 'package:gradproject/features/home/presentation/screens/notification.dart';
 import 'package:gradproject/features/home/presentation/screens/setting.dart';
 import 'package:gradproject/features/home/presentation/screens/tasks.dart';
-import 'package:gradproject/features/home/presentation/widgets/category_container.dart';
-import 'package:gradproject/features/search/presentation/screens/search.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
