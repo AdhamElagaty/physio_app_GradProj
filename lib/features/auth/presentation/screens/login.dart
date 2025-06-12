@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import "package:flutter_svg/svg.dart";
 import 'package:gradproject/core/api/api_manger.dart';
 import 'package:gradproject/core/utils/config/routes.dart';
+import 'package:gradproject/core/utils/error_message.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
@@ -41,10 +42,12 @@ class Login extends StatelessWidget {
               content: Text('Login success!'),
             ));
             Navigator.pushNamed(context, Routes.home);
-          } else if (state.requestState == RequestState.error) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Login failed: Email or password is incorrect'),
-            ));
+          }
+          if (state.requestState == RequestState.error) {
+            final message = map401ErrorToUserMessage(state.errorMessage ?? '');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
+            );
           }
         },
         builder: (context, state) {
