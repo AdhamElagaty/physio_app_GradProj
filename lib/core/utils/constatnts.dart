@@ -1,3 +1,3 @@
 class AppConstatnts {
-  static const String baseUrl = "https://physio.runasp.net";
+  static const String baseUrl = "https://physio.tryasp.net";
 }
