@@ -16,23 +16,17 @@ class NavItem {
 }
 
 // ignore: must_be_immutable
-class NavBar extends StatefulWidget {
+class NavBar extends StatelessWidget {
   NavBar({
     super.key,
     this.selectedIndex = 0,
     required this.navItems,
     this.color = AppColors.teal,
   });
-  int selectedIndex;
+  final int selectedIndex;
   final Color color;
   final List<NavItem> navItems;
 
-  @override
-  State<NavBar> createState() => _NavBarState();
-}
-
-class _NavBarState extends State<NavBar> {
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,30 +49,31 @@ class _NavBarState extends State<NavBar> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10.w,
-              children: List.generate(widget.navItems.length, (index) {
+              children: List.generate(navItems.length, (index) {
+                final isSelected = index == selectedIndex;
                 return Material(
                   color: Colors.transparent,
                   shape: CircleBorder(),
                   clipBehavior: Clip.hardEdge,
                   child: InkWell(
-                    onTap: () {
-                      selectedIndex = index;
-                      widget.navItems[index].onTap;
-                      setState(() {});
-                    },
+                    onTap: navItems[index].onTap,
+                    // selectedIndex = index;
+                    // widget.navItems[index].onTap;
+                    // setState(() {});
+
                     child: Container(
                       padding: EdgeInsets.all(10.w),
                       width: 51.68.w,
                       height: 51.68.h,
                       decoration: BoxDecoration(
-                        color: index == selectedIndex
-                            ? widget.color.withAlpha(26)
+                        color: isSelected
+                            ? color.withAlpha(26)
                             : Colors.transparent,
                         shape: BoxShape.circle,
                       ),
-                      child: index == selectedIndex
-                          ? widget.navItems[index].selectedIcon
-                          : widget.navItems[index].icon,
+                      child: isSelected
+                          ? navItems[index].selectedIcon
+                          : navItems[index].icon,
                     ),
                   ),
                 );
