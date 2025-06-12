@@ -88,7 +88,8 @@ class _OtpScreenState extends State<Otp> {
             ),
           );
         } else {
-          Navigator.pushNamedAndRemoveUntil(context, Routes.home, (r) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, Routes.login, (r) => false);
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -105,10 +106,7 @@ class _OtpScreenState extends State<Otp> {
 
   Future<void> _resendOtp() async {
     final dio = Dio();
-    final String url = AppConstatnts.baseUrl +
-        (widget.isForReset
-            ? Endpoints.confirmResetPassword
-            : Endpoints.confirmEmail);
+    final String url = AppConstatnts.baseUrl + Endpoints.forgotPassword;
 
     try {
       final response = await dio.post(url, data: {

@@ -64,12 +64,13 @@ class Signup extends StatelessWidget {
               const SnackBar(content: Text('Loading...')),
             );
           }
-          if (state.requestState == 400) {
-            final message = map400ErrorToUserMessage(state.errorMessage ?? '');
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(message)),
-            );
-          } else if (state.requestState == RequestState.error) {
+          // if (state.requestState == 400) {
+          //   final message = map400ErrorToUserMessage(state.errorMessage ?? '');
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(content: Text(message)),
+          //   );
+          //}
+          if (state.requestState == RequestState.error) {
             final message = getFriendly401Message(state.errorMessage ?? '');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(message)),

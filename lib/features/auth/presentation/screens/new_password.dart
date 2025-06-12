@@ -2,20 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradproject/core/api/api_manger.dart';
 import 'package:gradproject/core/utils/config/routes.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
-import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
-import 'package:gradproject/features/auth/data/data_source/reset_password_ds_imp.dart';
-import 'package:gradproject/features/auth/data/repo_imp/reset_password_repo_impl.dart';
-import 'package:gradproject/features/auth/domain/use_case/reset_passord_use_case.dart';
+
 import 'package:gradproject/features/auth/presentation/manager/reset_password/reset_password_cubit.dart';
 import 'package:gradproject/features/auth/presentation/manager/reset_password/reset_password_state.dart';
-import 'package:gradproject/features/auth/presentation/screens/login.dart';
-import 'package:gradproject/features/auth/presentation/screens/otp.dart';
-import 'package:gradproject/features/auth/presentation/screens/signup.dart';
 
 class NewPassword extends StatelessWidget {
   NewPassword({super.key, required this.email, required this.tokn});

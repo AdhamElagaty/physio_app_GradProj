@@ -59,6 +59,8 @@ class AuthRemoteDataSourceImpl implements ResetPaasswordRemoteDataSource {
         },
       );
 
+      print(response.data);
+
       if (response.statusCode == StatusCodes.success) {
         print(response.data);
       }

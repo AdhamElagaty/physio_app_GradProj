@@ -50,7 +50,7 @@ class AuthRemoteDsImp implements AuthRemoteDataSource {
 
       print('Response Data: ${response.data}');
 
-      if (response.statusCode == StatusCodes.success &&
+      if (response.statusCode == StatusCodes.created &&
           response.data != null &&
           response.data is Map<String, dynamic>) {
         return UserModel.fromJson(response.data);

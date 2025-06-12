@@ -8,6 +8,6 @@ class Endpoints {
 
   static const String confirmResetPassword = '/api/user/password/confirm-reset';
 
-  static const String resetPassword = 'api/user/password/reset';
+  static const String resetPassword = '/api/user/password/reset';
   static const String sendMessage = '/api/aibot/message';
 }
