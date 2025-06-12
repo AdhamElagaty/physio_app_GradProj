@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gradproject/core/cahce/share_prefs.dart';
 import 'package:gradproject/core/utils/constatnts.dart';
+import 'package:gradproject/features/auth/data/model/user_model.dart';
 
 class ApiManager {
   late Dio dio;
