@@ -9,5 +9,12 @@ class Endpoints {
   static const String confirmResetPassword = '/api/user/password/confirm-reset';
 
   static const String resetPassword = '/api/user/password/reset';
+
   static const String sendMessage = '/api/aibot/message';
+  static String updateChatTitle(String chatId) =>
+      '/api/aibot/chats/$chatId'; // Function to generate endpoint
+  static String deleteChat(String chatId) =>
+      '/api/aibot/chats/$chatId'; // Function to generate endpoint
+  static String getChats = '/api/aibot/chats';
+  static String getChatMessages(String chatId) => '/api/aibot/chats/$chatId';
 }
