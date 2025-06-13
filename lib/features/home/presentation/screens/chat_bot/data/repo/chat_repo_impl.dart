@@ -61,19 +61,13 @@ class ChatRepository {
         // Data for the PUT request goes into the 'body' map
         'title': newTitle,
       },
-      // You had 'params' here, but putData expects 'body' for the request payload.
-      // If your API specifically requires 'title' as a query parameter for PUT,
-      // you'd need to adjust your ApiManager's putData method or use a different approach.
-      // Based on standard REST practices, PUT data is usually in the body.
     );
   }
 
   Future<void> deleteChat({required String chatId}) async {
     // Corrected call: 'endPoint' is a required named parameter.
     await _apiManager.deleteData(
-      endPoint:
-          Endpoints.deleteChat(chatId), // Pass endpoint using named parameter
-      // If your delete endpoint supports query parameters, you can add 'params' here.
+      endPoint: Endpoints.deleteChat(chatId),
     );
   }
 }
