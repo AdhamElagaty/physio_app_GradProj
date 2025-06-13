@@ -44,15 +44,15 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
       if (state is ChatMessagesLoaded && historyState is ChatHistoryLoaded) {
         final currentData = (state as ChatMessagesLoaded).data;
 
-        if (_chatId == null || currentData.chatTitle == null) return;
+        if (_chatId == null || currentData.title == null) return;
 
         try {
           final updatedChatInHistory =
               historyState.chats.firstWhere((chat) => chat.id == _chatId);
 
-          if (updatedChatInHistory.title != currentData.chatTitle) {
+          if (updatedChatInHistory.title != currentData.title) {
             emit(ChatMessagesLoaded(
-                currentData.copyWith(chatTitle: updatedChatInHistory.title)));
+                currentData.copyWith(title: updatedChatInHistory.title)));
           }
         } catch (e) {
           // Chat not found in history, perhaps it was deleted or a new chat
@@ -107,7 +107,7 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
       emit(ChatMessagesLoaded(ChatMessagesLoadedData(
         messages: newMessages,
         hasNextPage: response.hasNextPage,
-        chatTitle: response.chatTitle,
+        title: response.chatTitle,
       )));
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
@@ -174,7 +174,8 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
 
       for (var msg in optimisticMessages) {
         if (msg.id == userMessageId) {
-          // updatedMessages.add(userMessage.copyWith(isError: false)); // Ensure error is reset
+          updatedMessages.add(
+              userMessage.copyWith(isError: false)); // Ensure error is reset
           userMessageHandled = true;
         } else if (msg.isPending && !pendingAiRemoved) {
           pendingAiRemoved = true; // Skip the pending AI message
@@ -189,7 +190,7 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
       emit(ChatMessagesLoaded(currentState.data.copyWith(
         messages: updatedMessages,
         newChatId: wasNewChat ? _chatId : null,
-        chatTitle: response.chatTitle,
+        title: response.chatTitle,
       )));
 
       _chatHistoryCubit.refreshList();
