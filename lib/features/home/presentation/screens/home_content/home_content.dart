@@ -4,7 +4,7 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/features/home/presentation/widgets/category_container.dart';
-import 'package:gradproject/features/search/presentation/screens/search.dart';
+import 'package:gradproject/features/home/presentation/screens/home_content/search.dart';
 
 class HomePageContent extends StatelessWidget {
   const HomePageContent({super.key});

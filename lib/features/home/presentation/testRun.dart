@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
-import 'package:gradproject/features/description/presentation/screens/description.dart';
+import 'package:gradproject/features/home/presentation/screens/home_content/description.dart';
 import 'package:gradproject/features/home/presentation/screens/home.dart';
-import 'package:gradproject/features/search/presentation/screens/search.dart';
+import 'package:gradproject/features/home/presentation/screens/home_content/search.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         systemNavigationBarColor: AppColors.grey,
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark, 
+        statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
       ),
     );

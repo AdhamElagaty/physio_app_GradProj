@@ -6,7 +6,7 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/core/utils/widgets/tile.dart';
-import 'package:gradproject/features/description/presentation/screens/description.dart';
+import 'package:gradproject/features/home/presentation/screens/home_content/description.dart';
 
 class Search extends StatefulWidget {
   Search({super.key, this.autoSearch = false, this.selectedCategory});
