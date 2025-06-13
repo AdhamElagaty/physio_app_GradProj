@@ -52,6 +52,12 @@ flutter:
   assets:
     - assets/images/Pattern.svg
     - assets/images/Rounded_Pattern.svg
+    - assets/images/Arms.svg
+    - assets/images/Core-Strength.svg
+    - assets/images/Lower-Body.svg
+    - assets/images/Dumbbell-Small-Streamline-Solar-Bold.svg
+    - assets/images/Yoga-Bridge-Pose-2-Streamline-Ultimate-Bold-Free.svg
+    - assets/images/Yoga-Low-Plank-Pose-Streamline-Ultimate-Bold.svg
     - assets/images/Iconly/Bold/Arrow-Right-Square.svg
     - assets/images/Iconly/Bold/Category.svg
     - assets/images/Iconly/Bold/Chat.svg
