@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_model.dart';
-import 'package:intl/intl.dart' as intl;
 
 enum MessageRole { user, model }
 
@@ -28,6 +27,24 @@ class AiChatMessage extends Equatable {
       role:
           (json['roleType'] as int) == 1 ? MessageRole.user : MessageRole.model,
       timestamp: AiChat.parseBackendDate(json['messageTime']),
+    );
+  }
+
+  AiChatMessage copyWith({
+    String? id,
+    String? content,
+    MessageRole? role,
+    DateTime? timestamp,
+    bool? isPending,
+    bool? isError,
+  }) {
+    return AiChatMessage(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      role: role ?? this.role,
+      timestamp: timestamp ?? this.timestamp,
+      isPending: isPending ?? this.isPending,
+      isError: isError ?? this.isError,
     );
   }
 
