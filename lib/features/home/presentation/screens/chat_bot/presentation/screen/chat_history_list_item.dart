@@ -1,12 +1,9 @@
-// lib/chat/ui/chat_history_list_item.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_model.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/screen/chat_screen.dart';
 import 'package:intl/intl.dart' as intl;
-
-// Import ChatScreen
 
 class ChatHistoryListItem extends StatelessWidget {
   final AiChat chat;
@@ -32,9 +29,15 @@ class ChatHistoryListItem extends StatelessWidget {
               final newTitle = controller.text.trim();
               if (newTitle.isNotEmpty && newTitle != currentTitle) {
                 Navigator.of(dialogContext).pop();
-                final success = await context
-                    .read<ChatHistoryCubit>()
-                    .updateChatTitle(chat.id, newTitle);
+
+                final historyCubit = context.read<ChatHistoryCubit>();
+                final success =
+                    await historyCubit.updateChatTitle(chat.id, newTitle);
+
+                if (success) {
+                  await historyCubit.fetchFirstPage(); // ✅ refresh list
+                }
+
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -95,7 +98,8 @@ class ChatHistoryListItem extends StatelessWidget {
           'Updated: ${intl.DateFormat.yMd().add_jm().format(chat.updatedAt.toLocal())}'),
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => ChatScreen(chatId: chat.id)));
+          MaterialPageRoute(builder: (_) => ChatScreen(chatId: chat.id)),
+        );
       },
       trailing: PopupMenuButton(
         icon: const Icon(Icons.more_vert),
@@ -116,9 +120,11 @@ class ChatHistoryListItem extends StatelessWidget {
               ])),
         ],
         onSelected: (value) {
-          if (value == 'rename')
+          if (value == 'rename') {
             _showRenameDialog(context, chat.title);
-          else if (value == 'delete') _showDeleteConfirmation(context);
+          } else if (value == 'delete') {
+            _showDeleteConfirmation(context);
+          }
         },
       ),
     );
