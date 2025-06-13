@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_model.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_state.dart';
@@ -52,13 +51,12 @@ class ChatHistoryCubit extends Cubit<ChatHistoryState> {
   }
 
   Future<void> _fetchChats() async {
-    // if (_authCubit.state is ! AuthLoginSuccess) {
-    //   emit(const ChatHistoryError("Session expired."));
-    //   return;
-    // }
     try {
       final response = await _repository.getChats(
-          pageIndex: _page, titleSearch: _currentSearchTerm);
+        pageIndex: _page,
+        titleSearch: _currentSearchTerm,
+      );
+
       _hasNextPage = response.hasNextPage;
 
       List<AiChat> currentChats = [];
@@ -73,11 +71,9 @@ class ChatHistoryCubit extends Cubit<ChatHistoryState> {
         _hasNextPage = false;
         if (_page == 1) {
           emit(const ChatHistoryLoaded([], false));
-        } else {
-          if (state is ChatHistoryLoaded) {
-            final currentState = state as ChatHistoryLoaded;
-            emit(ChatHistoryLoaded(currentState.chats, false));
-          }
+        } else if (state is ChatHistoryLoaded) {
+          final current = state as ChatHistoryLoaded;
+          emit(ChatHistoryLoaded(current.chats, false));
         }
       } else if (e.response?.statusCode != 401) {
         emit(ChatHistoryError(e.message ?? 'An unknown error occurred'));
@@ -91,10 +87,9 @@ class ChatHistoryCubit extends Cubit<ChatHistoryState> {
     try {
       await _repository.deleteChat(chatId: chatId);
       if (state is ChatHistoryLoaded) {
-        final currentState = state as ChatHistoryLoaded;
-        final updatedChats =
-            currentState.chats.where((chat) => chat.id != chatId).toList();
-        emit(ChatHistoryLoaded(updatedChats, currentState.hasNextPage));
+        final current = state as ChatHistoryLoaded;
+        final updated = current.chats.where((c) => c.id != chatId).toList();
+        emit(ChatHistoryLoaded(updated, current.hasNextPage));
       }
       return true;
     } catch (e) {
@@ -106,15 +101,19 @@ class ChatHistoryCubit extends Cubit<ChatHistoryState> {
   Future<bool> updateChatTitle(String chatId, String newTitle) async {
     try {
       await _repository.updateChatTitle(chatId: chatId, newTitle: newTitle);
+
       if (state is ChatHistoryLoaded) {
-        final currentState = state as ChatHistoryLoaded;
-        final updatedList = List<AiChat>.from(currentState.chats);
+        final current = state as ChatHistoryLoaded;
+        final updatedList = List<AiChat>.from(current.chats);
         final index = updatedList.indexWhere((c) => c.id == chatId);
 
         if (index != -1) {
           final oldChat = updatedList[index];
-          updatedList[index] = oldChat.copyWith(title: newTitle);
-          emit(ChatHistoryLoaded(updatedList, currentState.hasNextPage));
+          updatedList[index] = oldChat.copyWith(
+            title: newTitle,
+            updatedAt: DateTime.now(), // تحديث التاريخ تلقائيًا
+          );
+          emit(ChatHistoryLoaded(updatedList, current.hasNextPage));
         }
       }
       return true;
