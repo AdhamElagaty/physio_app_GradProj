@@ -14,7 +14,7 @@ import 'package:gradproject/features/home/presentation/screens/chat_bot/data/rep
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/auth/data/model/user_model.dart';
 
-String? initialRoute; // Declare a global variable to hold the initial route
+String? initialRoute;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

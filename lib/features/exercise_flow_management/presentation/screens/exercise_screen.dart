@@ -122,7 +122,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
             _buildCameraView(),
             Column(
               children: [
-                // _buildExerciseSelector(), // REMOVED THIS WIDGET CALL
+                // _buildExerciseSelector(),
                 const Spacer(),
                 _buildFeedbackSection(),
                 _buildExerciseControls(),

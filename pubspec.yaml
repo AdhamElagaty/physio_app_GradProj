@@ -81,6 +81,7 @@ flutter:
     - assets/models/bicep/
     - assets/models/glute_bridge/
     - assets/models/plank/
+    - assets/images/
   fonts:
     - family: Urbanist
       fonts:

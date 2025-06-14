@@ -45,68 +45,72 @@ class ChatView extends StatelessWidget {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (notification.metrics.extentAfter < 200) {
-                  context.read<ChatMessagesCubit>().fetchNextPage();
-                }
-                return false;
-              },
-              child: BlocBuilder<ChatMessagesCubit, ChatMessagesState>(
-                builder: (context, state) {
-                  if (state is ChatMessagesLoading &&
-                      state is! ChatMessagesLoaded) {
-                    // Added condition to allow showing current messages while loading next page
-                    return const Center(child: CircularProgressIndicator());
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  if (notification.metrics.extentAfter < 200) {
+                    context.read<ChatMessagesCubit>().fetchNextPage();
                   }
-                  if (state is ChatMessagesError) {
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text('An error occurred:\n${state.message}',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.red)),
-                      ),
-                    );
-                  }
-                  if (state is ChatMessagesLoaded) {
-                    final data = state.data;
-                    if (data.messages.isEmpty && !data.hasNextPage) {
-                      // If no messages and no more to load
-                      return Center(
-                          child: Text("Ask me anything!",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(color: Colors.grey)));
-                    }
-                    return ListView.builder(
-                      reverse: true,
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      itemCount:
-                          data.messages.length + (data.hasNextPage ? 1 : 0),
-                      itemBuilder: (context, index) {
-                        if (data.hasNextPage && index == data.messages.length) {
-                          return const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Center(child: CircularProgressIndicator()),
-                          );
-                        }
-                        return MessageBubble(message: data.messages[index]);
-                      },
-                    );
-                  }
-                  return const SizedBox.shrink();
+                  return false;
                 },
+                child: BlocBuilder<ChatMessagesCubit, ChatMessagesState>(
+                  builder: (context, state) {
+                    if (state is ChatMessagesLoading &&
+                        state is! ChatMessagesLoaded) {
+                      // Added condition to allow showing current messages while loading next page
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is ChatMessagesError) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text('An error occurred:\n${state.message}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.red)),
+                        ),
+                      );
+                    }
+                    if (state is ChatMessagesLoaded) {
+                      final data = state.data;
+                      if (data.messages.isEmpty && !data.hasNextPage) {
+                        // If no messages and no more to load
+                        return Center(
+                            child: Text("Ask me anything!",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(color: Colors.grey)));
+                      }
+                      return ListView.builder(
+                        reverse: true,
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        itemCount:
+                            data.messages.length + (data.hasNextPage ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (data.hasNextPage &&
+                              index == data.messages.length) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          return MessageBubble(message: data.messages[index]);
+                        },
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
               ),
             ),
-          ),
-          if (context.watch<ChatMessagesCubit>().state is! ChatMessagesError)
-            _MessageInput(),
-        ],
+            if (context.watch<ChatMessagesCubit>().state is! ChatMessagesError)
+              _MessageInput(),
+          ],
+        ),
       ),
     );
   }
@@ -128,10 +132,9 @@ class _MessageInput extends StatelessWidget {
 
     return SafeArea(
       child: Material(
-        elevation: 8,
         color: Theme.of(context).colorScheme.surface,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
               Expanded(

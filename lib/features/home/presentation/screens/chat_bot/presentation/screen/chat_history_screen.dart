@@ -1,6 +1,7 @@
 // lib/chat/ui/chat_history_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
@@ -17,10 +18,9 @@ class ChatHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ChatHistoryCubit(context.read<ChatRepository>())
-        ..fetchFirstPage(), // وهنطلب منه يجلب البيانات أول ما يتم إنشاؤه
+      create: (context) =>
+          ChatHistoryCubit(context.read<ChatRepository>())..fetchFirstPage(),
       child: Builder(
-        // استخدم Builder عشان الـ context الجديد يكون عنده الـ ChatHistoryCubit
         builder: (innerContext) {
           final historyCubit = innerContext.read<ChatHistoryCubit>();
 
@@ -35,16 +35,36 @@ class ChatHistoryScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text('AI Chat History'),
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.add_comment_outlined),
-                  tooltip: 'New Chat',
-                  onPressed: () {
-                    Navigator.of(
-                            innerContext) // استخدم innerContext عشان الـ Cubit يكون متاح
-                        .push(MaterialPageRoute(
-                            builder: (_) => const ChatScreen(chatId: null)));
-                  },
-                )
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.grey50,
+                      border: Border.all(color: Colors.grey.shade400),
+                      shape: BoxShape.circle,
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Colors.black.withOpacity(0.2),
+                      //     blurRadius: 6,
+                      //     offset: Offset(0, 3),
+                      //   ),
+                      // ],
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.add_comment_outlined,
+                        size: 32,
+                        color: Colors.blue,
+                      ),
+                      tooltip: 'New Chat',
+                      onPressed: () {
+                        Navigator.of(innerContext).push(MaterialPageRoute(
+                          builder: (_) => const ChatScreen(chatId: null),
+                        ));
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
             body: Column(
