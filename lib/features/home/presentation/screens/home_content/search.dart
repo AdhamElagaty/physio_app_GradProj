@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/common_widgets/excerices.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
@@ -6,7 +7,12 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/core/utils/widgets/tile.dart';
+import 'package:gradproject/features/camera_handling/presentation/cubit/camera_cubit.dart';
+import 'package:gradproject/features/camera_handling/services/camera_service.dart';
+import 'package:gradproject/features/common_exercise/domain/entities/enums/exercise_type.dart';
+import 'package:gradproject/features/exercise_flow_management/presentation/cubit/exercise_session_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/home_content/description.dart';
+import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
 
 class Search extends StatefulWidget {
   Search({super.key, this.autoSearch = false, this.selectedCategory});
@@ -22,23 +28,14 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   List<Exercise> _filteredExercises = [];
   Set<String> _activeFilters = {};
-  String? _initialCategoryContext;
 
   @override
   void initState() {
     super.initState();
     if (widget.selectedCategory != null) {
-      _initialCategoryContext = widget.selectedCategory!.toLowerCase();
-
-      _activeFilters.add(_initialCategoryContext!);
+      _activeFilters.add(widget.selectedCategory!.toLowerCase());
     }
-    // else {
-    //   _activeFilters
-    //       .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
-    // }
-
     _filterExercises();
-    _initialCategoryContext = null;
     widget.searchController.addListener(_filterExercises);
   }
 
@@ -54,54 +51,27 @@ class _SearchState extends State<Search> {
       _filteredExercises = allExercises.where((exercise) {
         final exerciseCategory = exercise.category.toLowerCase();
         final searchQuery = widget.searchController.text.toLowerCase();
-
         bool matchesSearchQuery = searchQuery.isEmpty ||
             exercise.name.toLowerCase().contains(searchQuery) ||
             exercise.subtitle.toLowerCase().contains(searchQuery);
 
-        if (_initialCategoryContext != null) {
-          if (_activeFilters.contains('favorites') &&
-              _activeFilters.contains(_initialCategoryContext!)) {
-            return matchesSearchQuery &&
-                exerciseCategory == _initialCategoryContext &&
-                exercise.isFavorite;
-          } else if (_activeFilters.contains(_initialCategoryContext!)) {
-            return matchesSearchQuery &&
-                exerciseCategory == _initialCategoryContext;
-          }
-
-          return matchesSearchQuery &&
-              exerciseCategory == _initialCategoryContext;
-        } else {
-          if (_activeFilters.isEmpty) {
-            return matchesSearchQuery;
-          }
-
-          bool categoryMatch = false;
-          // Check for regular category matches (e.g., 'arms', 'lower body')
-          if (_activeFilters.contains(exerciseCategory) &&
-              exerciseCategory != 'favorites') {
-            categoryMatch = true;
-          }
-
-          // Check if 'favorites' filter is active AND the exercise is a favorite
-          if (_activeFilters.contains('favorites') && exercise.isFavorite) {
-            bool categoryOrFavoriteMatch = false;
-            for (String filter in _activeFilters) {
-              if (filter == 'favorites') {
-                if (exercise.isFavorite) {
-                  categoryOrFavoriteMatch = true;
-                  break;
-                }
-              } else if (exerciseCategory == filter) {
-                categoryOrFavoriteMatch = true;
-                break;
-              }
-            }
-            return matchesSearchQuery && categoryOrFavoriteMatch;
-          }
-          return matchesSearchQuery && categoryMatch;
+        if (_activeFilters.isEmpty && widget.selectedCategory == null) {
+          return matchesSearchQuery;
         }
+
+        bool categoryMatch = _activeFilters.contains(exerciseCategory);
+
+        if (_activeFilters.contains('favorites') && exercise.isFavorite) {
+          if (_activeFilters.length == 1) {
+            return matchesSearchQuery && exercise.isFavorite;
+          } else if (_activeFilters.contains(exerciseCategory)) {
+            return matchesSearchQuery && exercise.isFavorite && categoryMatch;
+          } else {
+            return matchesSearchQuery && exercise.isFavorite;
+          }
+        }
+
+        return matchesSearchQuery && categoryMatch;
       }).toList();
     });
   }
@@ -110,30 +80,48 @@ class _SearchState extends State<Search> {
     setState(() {
       final lowerCaseCategory = category.toLowerCase();
 
-      if (_initialCategoryContext != null) {
-        if (lowerCaseCategory == _initialCategoryContext) {
+      if (widget.selectedCategory != null &&
+          lowerCaseCategory == widget.selectedCategory!.toLowerCase() &&
+          !_activeFilters.contains(lowerCaseCategory) &&
+          _activeFilters.isNotEmpty) {
+        _activeFilters.add(lowerCaseCategory);
+      } else if (_activeFilters.contains(lowerCaseCategory)) {
+        if (widget.selectedCategory != null &&
+            lowerCaseCategory == widget.selectedCategory!.toLowerCase() &&
+            _activeFilters.length == 1) {
           return;
-        } else if (lowerCaseCategory == 'favorites') {
-          // Toggle 'favorites'
-          if (_activeFilters.contains('favorites')) {
-            _activeFilters.remove('favorites');
-          } else {
-            _activeFilters.add('favorites');
-          }
+        } else {
+          _activeFilters.remove(lowerCaseCategory);
         }
       } else {
-        if (_activeFilters.contains(lowerCaseCategory)) {
-          // if (_activeFilters.length == 1 && lowerCaseCategory != 'favorites') {
-          //   return;
-          // }
-          _activeFilters.remove(lowerCaseCategory);
+        if (widget.selectedCategory != null &&
+            lowerCaseCategory != 'favorites') {
+          _activeFilters.clear();
+          _activeFilters.add(widget.selectedCategory!.toLowerCase());
+          _activeFilters.add(lowerCaseCategory);
         } else {
           _activeFilters.add(lowerCaseCategory);
         }
       }
 
+      if (_activeFilters.isEmpty && widget.selectedCategory != null) {
+        _activeFilters.add(widget.selectedCategory!.toLowerCase());
+      }
       _filterExercises();
     });
+  }
+
+  ExerciseType getExerciseTypeFromName(String name) {
+    switch (name.toLowerCase()) {
+      case 'plank':
+        return ExerciseType.plank;
+      case 'bicep curls':
+        return ExerciseType.bicepCurl;
+      case 'glute bridges':
+        return ExerciseType.gluteBridge;
+      default:
+        throw Exception('Unknown exercise type: $name');
+    }
   }
 
   @override
@@ -146,23 +134,15 @@ class _SearchState extends State<Search> {
       AppIcons.setting
     ];
 
-    List<String> displayCategories = [];
-    displayCategories
-        .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
-    displayCategories.add('favorites');
-    // if (_initialCategoryContext != null) {
-    //   displayCategories.add(_initialCategoryContext!);
-    //   displayCategories.add('favorites');
-    // } else {
-    //   displayCategories
-    //       .addAll(allExercises.map((e) => e.category.toLowerCase()).toSet());
-    //   displayCategories.add('favorites');
-    // }
+    Set<String> allUniqueCategories =
+        allExercises.map((e) => e.category.toLowerCase()).toSet();
+    allUniqueCategories.add('favorites');
+    List<String> displayCategories = allUniqueCategories.toList()..sort();
 
-    displayCategories.sort();
-    displayCategories
-        .removeWhere((c) => _activeFilters.contains(c.toLowerCase()));
-    displayCategories.insertAll(0, _activeFilters);
+    List<String> sortedDisplayCategories = [
+      ..._activeFilters.where(displayCategories.contains),
+      ...displayCategories.where((c) => !_activeFilters.contains(c)),
+    ];
 
     return Scaffold(
       bottomNavigationBar: NavBar(
@@ -170,9 +150,7 @@ class _SearchState extends State<Search> {
         color: AppColors.teal,
         navItems: List.generate(5, (index) {
           return NavItem(
-            icon: AppIcon(
-              navIcons[index].replaceAll('Bold', 'Bulk'),
-            ),
+            icon: AppIcon(navIcons[index].replaceAll('Bold', 'Bulk')),
             selectedIcon: AppIcon(
               navIcons[index],
               color: AppColors.teal,
@@ -184,95 +162,64 @@ class _SearchState extends State<Search> {
       body: Padding(
         padding: EdgeInsets.fromLTRB(22.w, 30.h, 22.w, 0.h),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 34.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: AppIcon(
-                        AppIcons.arrow_left_bulk,
-                        size: 33.33.w,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      'Exercises',
-                      style: AppTextStyles.title,
-                    ),
-                    Text(
-                      'Choose category',
-                      style: AppTextStyles.subTitle,
-                    )
-                  ],
-                ),
-              ],
+            IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: AppIcon(AppIcons.arrow_left_bulk, size: 33.33.w),
             ),
+            SizedBox(height: 10.h),
+            Text('Exercises', style: AppTextStyles.title),
+            Text('Choose category', style: AppTextStyles.subTitle),
             SizedBox(height: 22.h),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SingleChildScrollView(
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    spacing: 14.w,
-                    children: displayCategories.map((category) {
-                      bool isActive =
-                          _activeFilters.contains(category.toLowerCase());
-                      bool isLockedDisplayCategory = (_initialCategoryContext !=
-                              null &&
-                          category.toLowerCase() == _initialCategoryContext);
-                      return ChoiceChip(
-                        label: Text(
-                          category,
-                          style: AppTextStyles.secondaryTextButton.copyWith(
-                            color: isActive ? AppColors.teal : AppColors.black,
-                          ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              physics: BouncingScrollPhysics(),
+              child: Row(
+                children: sortedDisplayCategories.map((category) {
+                  bool isActive = _activeFilters.contains(category);
+                  bool isInitialCategory = widget.selectedCategory != null &&
+                      category == widget.selectedCategory!.toLowerCase();
+
+                  return Padding(
+                    padding: EdgeInsets.only(right: 14.w),
+                    child: ChoiceChip(
+                      label: Text(
+                        category,
+                        style: AppTextStyles.secondaryTextButton.copyWith(
+                          color: isActive ? AppColors.teal : AppColors.black,
                         ),
-                        selected: isActive,
-                        onSelected: (selected) {
-                          if (isLockedDisplayCategory) {
-                            _toggleFilter(category);
-                            return;
-                          }
-                          _toggleFilter(category);
-                        },
-                        selectedColor: AppColors.teal.withAlpha(39),
-                        backgroundColor: AppColors.white,
-                        checkmarkColor: AppColors.teal,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.r),
-                        ),
-                        side: BorderSide.none,
-                      );
-                    }).toList(),
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                SearchBar(
-                  autoFocus: widget.autoSearch,
-                  leading: AppIcon(
-                    AppIcons.search_bulk,
-                    size: 30.72,
-                  ),
-                  hintText: 'Search',
-                  controller: widget.searchController,
-                  onChanged: (query) => _filterExercises(),
-                ),
-              ],
+                      ),
+                      selected: isActive,
+                      onSelected: (_) {
+                        if (isInitialCategory &&
+                            isActive &&
+                            _activeFilters.length == 1) return;
+                        _toggleFilter(category);
+                      },
+                      selectedColor: AppColors.teal.withAlpha(39),
+                      backgroundColor: AppColors.white,
+                      checkmarkColor: AppColors.teal,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.r),
+                      ),
+                      side: BorderSide.none,
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
-            SizedBox(height: 20.h), // Spacing before exercise list
+            SizedBox(height: 10.h),
+            SearchBar(
+              autoFocus: widget.autoSearch,
+              leading: AppIcon(AppIcons.search_bulk, size: 30.72),
+              hintText: 'Search',
+              controller: widget.searchController,
+              onChanged: (_) => _filterExercises(),
+            ),
+            SizedBox(height: 20.h),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.zero,
@@ -285,7 +232,6 @@ class _SearchState extends State<Search> {
                     borderRadius: BorderRadius.circular(25.r),
                   ),
                   child: Column(
-                    spacing: 12.5.h,
                     children: _filteredExercises.isEmpty
                         ? [
                             Center(
@@ -293,26 +239,41 @@ class _SearchState extends State<Search> {
                                 'No exercises found.',
                                 style: AppTextStyles.subTitle,
                               ),
-                            ),
+                            )
                           ]
                         : _filteredExercises.map((exercise) {
                             return Tile(
                               onTap: () {
+                                final exerciseType =
+                                    getExerciseTypeFromName(exercise.name);
                                 Future.delayed(Duration(milliseconds: 250), () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Description(
-                                      exerciseName: exercise.name,
-                                      categoryName: exercise.category,
-                                      description: exercise.description,
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider(
+                                            create: (_) =>
+                                                CameraCubit(CameraService())
+                                                  ..initializeCamera(),
+                                          ),
+                                          BlocProvider(
+                                            create: (_) => ExerciseSessionCubit(
+                                                PoseDetectionService())
+                                              ..selectExercise(exerciseType),
+                                          ),
+                                        ],
+                                        child: Description(
+                                          exerciseName: exercise.name,
+                                          categoryName: exercise.category,
+                                          description: exercise.description,
+                                        ),
+                                      ),
                                     ),
-                                  ));
+                                  );
                                 });
                               },
-                              icon: AppIcon(
-                                exercise.iconPath,
-                                color: AppColors.teal,
-                                size: 25.w,
-                              ),
+                              icon: AppIcon(exercise.iconPath,
+                                  color: AppColors.teal, size: 25.w),
                               title: exercise.name,
                               subTitle: exercise.subtitle,
                             );

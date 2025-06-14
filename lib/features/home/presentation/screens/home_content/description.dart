@@ -6,11 +6,11 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/features/camera_handling/presentation/cubit/camera_cubit.dart';
-import 'package:gradproject/features/camera_handling/services/camera_service.dart';
+import 'package:gradproject/features/camera_handling/presentation/cubit/camera_state.dart';
 import 'package:gradproject/features/exercise_flow_management/presentation/cubit/exercise_session_cubit.dart';
+import 'package:gradproject/features/exercise_flow_management/presentation/cubit/exercise_session_state.dart';
 import 'package:gradproject/features/exercise_flow_management/presentation/screens/exercise_screen.dart';
-import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
-import 'package:gradproject/features/common_exercise/domain/entities/enums/exercise_type.dart'; // <--- Import ExerciseType
+import 'package:gradproject/features/common_exercise/domain/entities/enums/exercise_type.dart';
 
 class Description extends StatelessWidget {
   final String exerciseName;
@@ -24,7 +24,6 @@ class Description extends StatelessWidget {
     required this.description,
   });
 
-  // Helper function to convert String exerciseName to ExerciseType
   ExerciseType _getExerciseTypeFromName(String name) {
     switch (name.toLowerCase()) {
       case 'bicep curls':
@@ -33,17 +32,7 @@ class Description extends StatelessWidget {
         return ExerciseType.gluteBridge;
       case 'plank':
         return ExerciseType.plank;
-      // You must add a case for every exercise name you have in your allExercises list
-      // and map it to its corresponding ExerciseType.
-      // If no match is found, you might want to return a default or throw an error.
-      // For now, let's default to bicepCurl for unknown types to prevent immediate crashes.
-      // case 'push-ups': // Assuming 'push-ups' should map to 'plank' for now, or create new enum
-      //   return ExerciseType.plank;
-      // case 'squats': // Assuming 'squats' should map to 'gluteBridge' for now, or create new enum
-      //   return ExerciseType.gluteBridge;
       default:
-        // Handle cases where an exerciseName doesn't have a direct ExerciseType mapping
-        // You might want to log this or show an error to the user.
         debugPrint('Warning: Unknown exercise name: $name.');
         return ExerciseType.bicepCurl;
     }
@@ -51,7 +40,6 @@ class Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the ExerciseType based on the exerciseName
     final ExerciseType typeToPass = _getExerciseTypeFromName(exerciseName);
 
     List<String> navIcons = [
@@ -82,10 +70,7 @@ class Description extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 34.h,
-            ),
-            // Header & Image
+            SizedBox(height: 34.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -104,10 +89,7 @@ class Description extends StatelessWidget {
             Text(exerciseName, style: AppTextStyles.title),
             if (categoryName != null)
               Text(categoryName!, style: AppTextStyles.subTitle),
-
             SizedBox(height: 22.h),
-
-            // Description Container
             Expanded(
               child: Column(
                 children: [
@@ -132,28 +114,41 @@ class Description extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  // Start Button
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FilledButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ExerciseScreen(
-                                // Pass the converted ExerciseType
-                                selectedExerciseType: typeToPass,
+                  SizedBox(height: 20.h),
+                  // Start Button with state check
+                  BlocBuilder<CameraCubit, CameraState>(
+                    builder: (context, cameraState) {
+                      return BlocBuilder<ExerciseSessionCubit,
+                          ExerciseSessionState>(
+                        builder: (context, modelState) {
+                          bool isCameraReady = cameraState is CameraReady;
+                          bool isModelReady =
+                              modelState is ExerciseSessionReady;
+
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              FilledButton(
+                                onPressed: (isCameraReady && isModelReady)
+                                    ? () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ExerciseScreen(
+                                              selectedExerciseType: typeToPass,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    : null,
+                                child: const Text('Start'),
                               ),
-                            ),
+                            ],
                           );
                         },
-                        child: const Text('Start'),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ],
               ),

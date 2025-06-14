@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/api/api_manger.dart';
 import 'package:gradproject/core/cahce/share_prefs.dart';
 import 'package:gradproject/core/componets/observer.dart';
 import 'package:gradproject/core/utils/config/routes.dart' show Routes;
@@ -12,6 +13,8 @@ import 'package:gradproject/core/utils/styles/theme.dart';
 import 'package:gradproject/features/camera_handling/presentation/cubit/camera_cubit.dart';
 import 'package:gradproject/features/camera_handling/services/camera_service.dart';
 import 'package:gradproject/features/exercise_flow_management/presentation/cubit/exercise_session_cubit.dart';
+import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
+import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
 
 void main() async {
@@ -20,18 +23,7 @@ void main() async {
   await CacheHelper.init();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => CameraCubit(CameraService())..initializeCamera(),
-          lazy: false,
-        ),
-        BlocProvider(
-          create: (context) => ExerciseSessionCubit(PoseDetectionService()),
-        ),
-      ],
-      child: const MyApp(), // Your root app widget
-    ),
+    const MyApp(),
   );
 }
 

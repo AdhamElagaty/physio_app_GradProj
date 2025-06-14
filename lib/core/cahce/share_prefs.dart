@@ -74,6 +74,10 @@ class CacheHelper {
       throw Exception("SharedPreferences not initialized");
     await _preferences!.remove(key);
   }
+
+  static Future<void> logoutUser() async {
+    await _preferences?.clear();
+  }
 }
 // import 'dart:convert';
 // import 'package:gradproject/features/auth/data/model/user_model.dart';
