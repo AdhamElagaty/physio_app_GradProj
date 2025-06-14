@@ -6,49 +6,48 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
-  void _showLogoutModal(BuildContext context) {
-    showModalBottomSheet(
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
       builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Wrap(
-            children: [
-              const Center(
-                child: Text(
-                  "Are you sure you want to logout?",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  // ✅ Remove tokens from cache
-                  await CacheHelper.removeData('token');
-                  await CacheHelper.removeData('refreshToken');
-
-                  // ✅ Navigate to login screen
-                  Navigator.of(context).pop(); // Close the modal
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(Routes.login, (route) => false);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
-                child: const Text("Logout"),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close modal
-                },
-                child: const Text("Cancel"),
-              ),
-            ],
+        return AlertDialog(
+          title: const Text(
+            "Logout Confirmation",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
+          content: const Text(
+            "Are you sure you want to log out?",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: <Widget>[
+            // "Cancel" button
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+
+            FilledButton(
+              onPressed: () async {
+                // ✅ Remove tokens from cache
+                await CacheHelper.removeData('token');
+                await CacheHelper.removeData('refreshToken');
+
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  Routes.login,
+                  (route) => false,
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: const Text("Logout"),
+            ),
+          ],
         );
       },
     );
@@ -63,7 +62,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => _showLogoutModal(context),
+          onPressed: () => _showLogoutDialog(context),
           child: const Text('Logout'),
         ),
       ),
