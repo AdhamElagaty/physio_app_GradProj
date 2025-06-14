@@ -249,24 +249,10 @@ class _SearchState extends State<Search> {
                                 Future.delayed(Duration(milliseconds: 250), () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => MultiBlocProvider(
-                                        providers: [
-                                          BlocProvider(
-                                            create: (_) =>
-                                                CameraCubit(CameraService())
-                                                  ..initializeCamera(),
-                                          ),
-                                          // BlocProvider(
-                                          //   create: (_) => ExerciseSessionCubit(
-                                          //       PoseDetectionService())
-                                          //     ..selectExercise(exerciseType),
-                                          // ),
-                                        ],
-                                        child: Description(
-                                          exerciseName: exercise.name,
-                                          categoryName: exercise.category,
-                                          description: exercise.description,
-                                        ),
+                                      builder: (context) => Description(
+                                        exerciseName: exercise.name,
+                                        categoryName: exercise.category,
+                                        description: exercise.description,
                                       ),
                                     ),
                                   );

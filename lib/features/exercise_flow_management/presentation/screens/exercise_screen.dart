@@ -293,6 +293,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       exerciseCubit.startExercise();
       cameraCubit.startImageStream(_handleImageProcessing);
     }
+    if (!mounted) return;
+    cameraCubit.startImageStream(_handleImageProcessing);
   }
 
   void _handleReset() {

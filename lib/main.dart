@@ -10,14 +10,9 @@ import 'package:gradproject/core/utils/config/routes.dart'; // Make sure Routes 
 import 'package:gradproject/core/utils/config/routes_genartor.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/theme.dart';
-import 'package:gradproject/features/camera_handling/presentation/cubit/camera_cubit.dart';
-import 'package:gradproject/features/camera_handling/services/camera_service.dart';
-import 'package:gradproject/features/exercise_flow_management/presentation/cubit/exercise_session_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
-import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
 import 'package:gradproject/features/auth/data/model/user_model.dart';
-import 'package:path/path.dart'; // Import your Token model
 
 String? initialRoute; // Declare a global variable to hold the initial route
 
