@@ -18,7 +18,7 @@ class RouteGenerator {
       case Routes.forgotPassword:
         return MaterialPageRoute(builder: (_) => ForgotPassword());
       case Routes.home:
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
 
       // case Routes.newPassword:
       //   return MaterialPageRoute(builder: (_) =>  NewPassword(email: '',, token: '',));

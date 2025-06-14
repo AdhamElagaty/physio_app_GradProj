@@ -118,38 +118,30 @@ class Description extends StatelessWidget {
                   // Start Button with state check
                   BlocBuilder<CameraCubit, CameraState>(
                     builder: (context, cameraState) {
-                      return BlocBuilder<ExerciseSessionCubit,
-                          ExerciseSessionState>(
-                        builder: (context, modelState) {
-                          bool isCameraReady = cameraState is CameraReady;
-                          bool isModelReady =
-                              modelState is ExerciseSessionReady;
+                      bool isCameraReady = cameraState is CameraReady;
 
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              FilledButton(
-                                onPressed: (isCameraReady && isModelReady)
-                                    ? () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ExerciseScreen(
-                                              selectedExerciseType: typeToPass,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    : null,
-                                child: const Text('Start'),
-                              ),
-                            ],
-                          );
-                        },
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          FilledButton(
+                            onPressed: (isCameraReady)
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ExerciseScreen(
+                                          selectedExerciseType: typeToPass,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                : null,
+                            child: const Text('Start'),
+                          ),
+                        ],
                       );
                     },
-                  ),
+                  )
                 ],
               ),
             ),

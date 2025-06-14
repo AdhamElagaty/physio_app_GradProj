@@ -17,6 +17,23 @@ import 'package:gradproject/features/home/presentation/screens/setting/setting.d
 import 'package:gradproject/features/home/presentation/screens/tasks/tasks.dart';
 import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
 
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return RepositoryProvider<ChatRepository>(
+      create: (context) => ChatRepository(ApiManager()),
+      child: BlocProvider(
+        create: (context) =>
+            ChatHistoryCubit(context.read<ChatRepository>())..fetchFirstPage(),
+        child:
+            const Home(), // دي مهمة جدًا، خليه يورّث الـ context اللي فيه الـ provider
+      ),
+    );
+  }
+}
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -27,17 +44,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  static List<Widget> _pages = <Widget>[
+  static List<Widget> pages = <Widget>[
     HomePageContent(),
     TasksPage(),
     MultiBlocProvider(
       providers: [
         RepositoryProvider<ChatRepository>(
-            create: (context) => ChatRepository(ApiManager())),
+          create: (context) => ChatRepository(ApiManager()),
+        ),
         BlocProvider(
           create: (context) => ChatHistoryCubit(context.read<ChatRepository>())
             ..fetchFirstPage(),
-        )
+        ),
       ],
       child: ChatHistoryScreen(),
     ),
@@ -62,7 +80,7 @@ class _HomeState extends State<Home> {
     ];
 
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       bottomNavigationBar: NavBar(
         selectedIndex: _selectedIndex,
         color: AppColors.teal,

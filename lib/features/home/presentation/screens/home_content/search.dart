@@ -256,11 +256,11 @@ class _SearchState extends State<Search> {
                                                 CameraCubit(CameraService())
                                                   ..initializeCamera(),
                                           ),
-                                          BlocProvider(
-                                            create: (_) => ExerciseSessionCubit(
-                                                PoseDetectionService())
-                                              ..selectExercise(exerciseType),
-                                          ),
+                                          // BlocProvider(
+                                          //   create: (_) => ExerciseSessionCubit(
+                                          //       PoseDetectionService())
+                                          //     ..selectExercise(exerciseType),
+                                          // ),
                                         ],
                                         child: Description(
                                           exerciseName: exercise.name,
