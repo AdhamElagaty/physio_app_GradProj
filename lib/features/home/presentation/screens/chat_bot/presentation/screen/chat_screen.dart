@@ -1,6 +1,9 @@
 // lib/chat/ui/chat_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/utils/styles/colors.dart';
+import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
@@ -161,9 +164,9 @@ class _MessageInput extends StatelessWidget {
               IconButton.filled(
                 style: IconButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(8),
                 ),
-                icon: const Icon(Icons.send, color: Colors.white),
+                icon: AppIcon(AppIcons.send, color: AppColors.white,size: 40.w,),
                 onPressed: sendMessage,
               ),
             ],

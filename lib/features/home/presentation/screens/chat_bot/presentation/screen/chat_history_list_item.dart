@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/utils/styles/colors.dart';
+import 'package:gradproject/core/utils/styles/font.dart';
+import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_model.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/screen/chat_screen.dart';
@@ -35,7 +39,7 @@ class ChatHistoryListItem extends StatelessWidget {
                     await historyCubit.updateChatTitle(chat.id, newTitle);
 
                 if (success) {
-                  await historyCubit.fetchFirstPage(); // ✅ refresh list
+                  await historyCubit.fetchFirstPage(); //  refresh list
                 }
 
                 if (context.mounted) {
@@ -92,7 +96,7 @@ class ChatHistoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.chat_bubble_outline),
+      leading: AppIcon(AppIcons.chat),
       title: Text(chat.title, maxLines: 1, overflow: TextOverflow.ellipsis),
       subtitle: Text(
           'Updated: ${intl.DateFormat.yMd().add_jm().format(chat.updatedAt.toLocal())}'),
@@ -102,21 +106,30 @@ class ChatHistoryListItem extends StatelessWidget {
         );
       },
       trailing: PopupMenuButton(
+        elevation: 0,
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(5.r),
         icon: const Icon(Icons.more_vert),
         itemBuilder: (_) => [
-          const PopupMenuItem(
+          PopupMenuItem(
               value: 'rename',
               child: Row(children: [
-                Icon(Icons.edit, size: 20),
-                SizedBox(width: 8),
-                Text('Rename')
+                AppIcon(AppIcons.edit, size: 23.w),
+                SizedBox(width: 8.w),
+                Text(
+                  'Rename',
+                  style: AppTextStyles.text,
+                )
               ])),
-          const PopupMenuItem(
+          PopupMenuItem(
               value: 'delete',
               child: Row(children: [
-                Icon(Icons.delete, size: 20, color: Colors.red),
-                SizedBox(width: 8),
-                Text('Delete', style: TextStyle(color: Colors.red))
+                AppIcon(AppIcons.delete, size: 23.w, color: AppColors.red),
+                SizedBox(width: 8.w),
+                Text(
+                  'Delete',
+                  style: AppTextStyles.text.copyWith(color: AppColors.red),
+                )
               ])),
         ],
         onSelected: (value) {

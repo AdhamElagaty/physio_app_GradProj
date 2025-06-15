@@ -24,6 +24,9 @@ class AppIcons {
   static const String search_bulk = 'assets/images/Iconly/Bulk/Search.svg';
   static const String setting_bulk = 'assets/images/Iconly/Bulk/Setting.svg';
   static const String show_bulk = 'assets/images/Iconly/Bulk/Show.svg';
+  static const String add = 'assets/images/Iconly/Bulk/Plus.svg';
+  static const String edit = 'assets/images/Iconly/Bulk/Edit.svg';
+  static const String delete = 'assets/images/Iconly/Bulk/Delete.svg';
   static const String tick_square_bulk =
       'assets/images/Iconly/Bulk/Tick-Square.svg';
   static const String arrow_left_bulk =

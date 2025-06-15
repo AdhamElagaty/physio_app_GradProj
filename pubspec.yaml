@@ -78,6 +78,9 @@ flutter:
     - assets/images/Iconly/Bulk/Show.svg
     - assets/images/Iconly/Bulk/Tick-Square.svg
     - assets/images/Iconly/Bulk/Arrow-Left-3.svg
+    - assets/images/Iconly/Bulk/Plus.svg
+    - assets/images/Iconly/Bulk/Edit.svg
+    - assets/images/Iconly/Bulk/Delete.svg
     - assets/models/bicep/
     - assets/models/glute_bridge/
     - assets/models/plank/
