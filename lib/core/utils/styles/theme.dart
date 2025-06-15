@@ -8,8 +8,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static ThemeData lightMode = ThemeData(
+    useMaterial3: true,
       colorScheme: appScheme,
       scaffoldBackgroundColor: AppColors.grey,
+      pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android: ZoomPageTransitionsBuilder(
+              allowEnterRouteSnapshotting: false,
+            )
+          }),
       appBarTheme: AppBarTheme(
           foregroundColor: AppColors.black,
           centerTitle: false,
@@ -37,8 +44,7 @@ class AppTheme {
       listTileTheme: listTile,
       searchBarTheme: ThemeData.light().searchBarTheme.copyWith(
           elevation: WidgetStatePropertyAll(0),
-          padding: WidgetStatePropertyAll(
-              EdgeInsets.symmetric(horizontal: 25)),
+          padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 25)),
           constraints: BoxConstraints(minHeight: 52.72),
           hintStyle: WidgetStatePropertyAll(AppTextStyles.hint),
           textStyle: WidgetStatePropertyAll(

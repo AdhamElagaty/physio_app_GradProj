@@ -45,8 +45,8 @@ class _CategoryContainerState extends State<CategoryContainer> {
           });
         },
         child: Container(
-          width: 333.w,
-          height: 161.h,
+          // width: 333.w,
+          // height: 161.h,
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.r)),
@@ -57,7 +57,7 @@ class _CategoryContainerState extends State<CategoryContainer> {
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.all(17.w),
+            padding: EdgeInsets.fromLTRB(20.w,30.h,20.w,20.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,8 +79,8 @@ class _CategoryContainerState extends State<CategoryContainer> {
                     widget.icon,
                   ],
                 ),
-                Text(widget.subtitle, style: AppTextStyles.body),
-                SizedBox(height: 5.h),
+                Text(widget.subtitle, style: AppTextStyles.subHeader),
+                SizedBox(height: 10.h),
                 AppIcon(AppIcons.arrow_right_square,
                     color: widget.color, size: 35.w),
               ],

@@ -19,28 +19,28 @@ class HomePageContent extends StatelessWidget {
     ];
     final List<Map<String, dynamic>> categories = [
       {
-        'title': 'Favourites',
+        'title': 'Favorites',
         'subtitle': 'All your favorite exercises',
         'color': AppColors.red,
         'icon': AppIcons.heart,
       },
       {
         'title': 'Arms',
-        'subtitle': 'Boost your arm strength',
-        'color': AppColors.green,
-        'icon': AppIcons.hide_bulk,
+        'subtitle': '${'Handful'}',
+        'color': AppColors.purple,
+        'icon': AppIcons.arms,
       },
       {
         'title': 'Lower Body',
         'subtitle': 'Tone your lower body',
-        'color': AppColors.purple,
-        'icon': AppIcons.heart,
+        'color': AppColors.yellow,
+        'icon': AppIcons.lower_body,
       },
       {
         'title': 'Core Strength',
         'subtitle': 'Strengthen your core',
-        'color': AppColors.yellow,
-        'icon': AppIcons.heart,
+        'color': AppColors.magenta,
+        'icon': AppIcons.core_strength,
       },
     ];
 
@@ -104,7 +104,7 @@ class HomePageContent extends StatelessWidget {
                         color: colors[colorIndex++],
                       ),
                       onTap: () {
-                        Future.delayed(const Duration(milliseconds: 300), () {
+                        Future.delayed(const Duration(milliseconds: 140), () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => Search(

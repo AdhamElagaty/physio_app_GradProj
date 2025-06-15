@@ -133,7 +133,7 @@ class _SearchState extends State<Search> {
       AppIcons.notification,
       AppIcons.setting
     ];
-
+    int index=0;
     Set<String> allUniqueCategories =
         allExercises.map((e) => e.category.toLowerCase()).toSet();
     allUniqueCategories.add('favorites');
@@ -225,8 +225,9 @@ class _SearchState extends State<Search> {
                 padding: EdgeInsets.zero,
                 physics: BouncingScrollPhysics(),
                 child: Container(
+                  clipBehavior: Clip.antiAlias,
                   padding:
-                      EdgeInsets.symmetric(horizontal: 0.w, vertical: 20.h),
+                      EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(25.r),
@@ -244,9 +245,7 @@ class _SearchState extends State<Search> {
                         : _filteredExercises.map((exercise) {
                             return Tile(
                               onTap: () {
-                                final exerciseType =
-                                    getExerciseTypeFromName(exercise.name);
-                                Future.delayed(Duration(milliseconds: 250), () {
+                                Future.delayed(Duration(milliseconds: 150), () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => Description(
@@ -259,9 +258,11 @@ class _SearchState extends State<Search> {
                                 });
                               },
                               icon: AppIcon(exercise.iconPath,
-                                  color: AppColors.teal, size: 25.w),
+                                  color: AppColors.teal, size: 46.w),
                               title: exercise.name,
                               subTitle: exercise.subtitle,
+                              isFirst: index==0,
+                              isEnd: index==_filteredExercises.length-1,
                             );
                           }).toList(),
                   ),

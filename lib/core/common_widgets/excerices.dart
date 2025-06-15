@@ -33,7 +33,7 @@ final List<Exercise> allExercises = [
       description:
           'Bicep curls are a classic strength training exercise that targets the biceps brachii muscle. It involves flexing the elbow to bring the weight towards the shoulder.',
       category: 'arms',
-      iconPath: AppIcons.heart,
+      iconPath: AppIcons.biceps,
       iconColor: AppColors.green,
       isFavorite: true,
       type: ExerciseType.bicepCurl),
@@ -43,7 +43,7 @@ final List<Exercise> allExercises = [
       description:
           'The glute bridge is a simple yet effective exercise for strengthening the glutes and hamstrings. Lie on your back with knees bent, feet flat, and lift your hips off the ground.',
       category: 'lower body',
-      iconPath: AppIcons.heart,
+      iconPath: AppIcons.glute_bridge,
       iconColor: AppColors.purple,
       isFavorite: true,
       type: ExerciseType.gluteBridge),
@@ -71,7 +71,7 @@ final List<Exercise> allExercises = [
       description:
           'The plank is an isometric core strength exercise that involves maintaining a position similar to a push-up for the maximum possible time. It strengthens the abdominals, back, and shoulders.',
       category: 'core strength',
-      iconPath: AppIcons.heart,
+      iconPath: AppIcons.plank,
       iconColor: AppColors.yellow,
       isFavorite: true,
       type: ExerciseType.plank),

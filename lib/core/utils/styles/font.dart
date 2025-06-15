@@ -23,10 +23,16 @@ class AppTextStyles {
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
+  static TextStyle subHeader = TextStyle(
+    color: AppColors.black,
+    fontSize: 18.sp,
+    fontFamily: 'Urbanist',
+    fontVariations: [FontVariation('wght', 400)],
+  );
 
   static TextStyle body = TextStyle(
     color: AppColors.black,
-    fontSize: 18.sp,
+    fontSize: 16.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
