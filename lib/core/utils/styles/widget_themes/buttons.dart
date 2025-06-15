@@ -37,8 +37,8 @@ class AppButtonThemes {
     style: FilledButton.styleFrom(
       elevation: 0,
       //iconSize: 30.72.w,
-      padding: EdgeInsets.symmetric(horizontal: 25.w,vertical: 11.h),
-      minimumSize: Size(80.72.w,52.72.h),
+      padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 11.h),
+      minimumSize: Size(80.72.w, 52.72.h),
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         side: BorderSide.none,
@@ -49,8 +49,8 @@ class AppButtonThemes {
   static IconButtonThemeData iconButton = IconButtonThemeData(
     style: FilledButton.styleFrom(
       //iconSize: 25.w,
-      minimumSize: Size(51.w,40.h),
-      maximumSize: Size(60.w,40.h),
+      minimumSize: Size(51.w, 40.h),
+      maximumSize: Size(60.w, 40.h),
       padding: EdgeInsets.symmetric(horizontal: 13.33.w),
       //fixedSize: Size(80.72,52.72),
       backgroundColor: AppColors.white,
@@ -60,18 +60,36 @@ class AppButtonThemes {
       ),
     ),
   );
-  static IconButtonThemeData filterButton = IconButtonThemeData(
+  static IconButtonThemeData iconButtonSmall = IconButtonThemeData(
     style: FilledButton.styleFrom(
       //iconSize: 25.w,
-      minimumSize: Size(51.w,40.h),
-      maximumSize: Size(200.w,40.h),
-      padding: EdgeInsets.symmetric(horizontal: 13.33.w),
+      minimumSize: Size(32.w, 32.h),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+
+      padding: EdgeInsets.all(0.w),
       //fixedSize: Size(80.72,52.72),
-      backgroundColor: AppColors.teal.withAlpha(39),
+      backgroundColor: AppColors.white,
       foregroundColor: AppColors.teal,
       shape: RoundedRectangleBorder(
         side: BorderSide.none,
         borderRadius: BorderRadius.circular(80.r),
+      ),
+    ),
+  );
+  static IconButtonThemeData filterButton = IconButtonThemeData(
+    style: FilledButton.styleFrom(
+      //iconSize: 25.w,
+      minimumSize: Size(51.w, 40.h),
+      maximumSize: Size(200.w, 40.h),
+      padding: EdgeInsets.symmetric(horizontal: 13.33.w),
+      //fixedSize: Size(80.72,52.72),
+      backgroundColor: AppColors.red.withAlpha(39),
+
+      foregroundColor: AppColors.red,
+
+      shape: RoundedRectangleBorder(
+        side: BorderSide.none,
+        borderRadius: BorderRadius.circular(13.r),
       ),
     ),
   );
