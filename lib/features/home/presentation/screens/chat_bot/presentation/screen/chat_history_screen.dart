@@ -51,6 +51,7 @@ class ChatHistoryScreen extends StatelessWidget {
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('AI Chatbot', style: AppTextStyles.title),
                           Text('Chatbot chats history',
