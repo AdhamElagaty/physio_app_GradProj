@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
+import 'package:gradproject/core/utils/widgets/tile.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_model.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/screen/chat_screen.dart';
@@ -95,11 +96,11 @@ class ChatHistoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: AppIcon(AppIcons.chat),
-      title: Text(chat.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-      subtitle: Text(
-          'Updated: ${intl.DateFormat.yMd().add_jm().format(chat.updatedAt.toLocal())}'),
+    return Tile(
+      icon: AppIcon(AppIcons.chat,size: 40.w,color: AppColors.teal,),
+      title: chat.title,
+      subTitle: 
+          'Updated: ${intl.DateFormat.yMd().add_jm().format(chat.updatedAt.toLocal())}',
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => ChatScreen(chatId: chat.id)),

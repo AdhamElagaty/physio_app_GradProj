@@ -262,7 +262,7 @@ class _SearchState extends State<Search> {
                               title: exercise.name,
                               subTitle: exercise.subtitle,
                               isFirst: index==0,
-                              isEnd: index==_filteredExercises.length-1,
+                              isEnd: index++==_filteredExercises.length-1,
                             );
                           }).toList(),
                   ),

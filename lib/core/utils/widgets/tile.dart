@@ -11,10 +11,12 @@ class Tile extends StatefulWidget {
       this.subTitle = '',
       required this.onTap,
       this.isFirst = false,
-      this.isEnd = false});
+      this.isEnd = false,
+      this.trailing});
   final bool isFirst;
   final bool isEnd;
   final Widget icon;
+  final Widget? trailing;
   final String title;
   final String? subTitle;
   final void Function() onTap;
@@ -65,7 +67,7 @@ class _TileState extends State<Tile> {
                       style: AppTextStyles.body,
                       textWidthBasis: TextWidthBasis.parent,
                       overflow: TextOverflow.ellipsis,
-                      textAlign:TextAlign.start,
+                      textAlign: TextAlign.start,
                       maxLines: 1,
                       textHeightBehavior: TextHeightBehavior(
                           applyHeightToLastDescent: true,
@@ -73,7 +75,12 @@ class _TileState extends State<Tile> {
                     )
                   ],
                 ),
-              )
+              ),
+              if (widget.trailing != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [widget.trailing!],
+                ),
             ],
           ),
         ),
