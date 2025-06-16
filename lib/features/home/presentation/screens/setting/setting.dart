@@ -52,8 +52,8 @@ class SettingsPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.red,
-              ),
+                  backgroundColor: AppColors.red,
+                  foregroundColor: AppColors.white),
               child: const Text("Logout"),
             ),
           ],
@@ -80,7 +80,8 @@ class SettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Settings', style: AppTextStyles.title),
-                  Text('Configure your preferences', style: AppTextStyles.subTitle),
+                  Text('Configure your preferences',
+                      style: AppTextStyles.subTitle),
                 ],
               ),
             ],
