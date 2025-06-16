@@ -1,9 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import "package:flutter_svg/flutter_svg.dart";
-import 'package:dio/dio.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradproject/core/api/api_manger.dart';
 import 'package:gradproject/core/api/end_points.dart';
 import 'package:gradproject/core/utils/config/routes.dart';
@@ -31,235 +30,192 @@ class Otp extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<Otp> {
-  List<TextEditingController> controllers = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
+  // State for OTP controllers and loading status
+  final List<TextEditingController> controllers = List.generate(6, (_) => TextEditingController());
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   Future<void> _verifyOtp() async {
+    if (_isLoading) return;
+
     if (controllers.any((c) => c.text.isEmpty)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter the full OTP.')),
       );
       return;
     }
+    FocusScope.of(context).unfocus();
 
-    final String otp = controllers.map((e) => e.text).join();
-    final dio = Dio();
-
-    final String url = widget.isForReset
-        ? AppConstatnts.baseUrl + Endpoints.confirmResetPassword
-        : AppConstatnts.baseUrl + Endpoints.confirmEmail;
+    setState(() => _isLoading = true);
 
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Verifying OTP...')),
-      );
+      final String otp = controllers.map((e) => e.text).join();
+      final String url = widget.isForReset
+          ? AppConstatnts.baseUrl + Endpoints.confirmResetPassword
+          : AppConstatnts.baseUrl + Endpoints.confirmEmail;
+      
+      final response = await Dio().post(url, data: {'code': otp, 'userEmail': widget.email});
 
-      final response = await dio.post(url, data: {
-        'code': otp,
-        'userEmail': widget.email,
-      });
-
-      ScaffoldMessenger.of(context).clearSnackBars();
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('OTP verified successfully!')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('OTP verified successfully!')));
 
         if (widget.isForReset) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (_) => BlocProvider(
                 create: (context) => ResetPasswordCubit(ResetPasswordUseCase(
-                  AuthRepositoryImpl(
-                    AuthRemoteDataSourceImpl(
-                      ApiManager(),
-                    ),
-                  ),
+                  AuthRepositoryImpl(AuthRemoteDataSourceImpl(ApiManager())),
                 )),
-                child: NewPassword(
-                  email: widget.email,
-                  tokn: response.data['data']['token'],
-                ),
+                child: NewPassword(email: widget.email, tokn: response.data['data']['token']),
               ),
             ),
           );
         } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, Routes.login, (r) => false);
+          Navigator.pushNamedAndRemoveUntil(context, Routes.login, (r) => false);
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid OTP! Please try again.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid OTP. Please try again.')));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error verifying OTP: $e')),
-      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   Future<void> _resendOtp() async {
-    final dio = Dio();
-    final String url = AppConstatnts.baseUrl + Endpoints.forgotPassword;
-
+    if (_isLoading) return;
+    
+    setState(() => _isLoading = true);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Resending OTP...')));
     try {
-      final response = await dio.post(url, data: {
-        'email': widget.email,
-      });
-
+      final String url = AppConstatnts.baseUrl + Endpoints.forgotPassword;
+      final response = await Dio().post(url, data: {'email': widget.email});
+      
+      if (!mounted) return;
+      
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('OTP resent successfully.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('A new OTP has been sent.')));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to resend OTP.')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to resend OTP.')));
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   void _onChangeAction({required String value, required int index}) {
     if (value.isNotEmpty) {
-      for (int i = index, j = 0;
-          i < controllers.length && j < value.length;
-          i++, j++) {
+      for (int i = index, j = 0; i < controllers.length && j < value.length; i++, j++) {
         controllers[i].text = value[j];
         if (i < controllers.length - 1) {
           FocusScope.of(context).nextFocus();
-          controllers[i + 1].selection = TextSelection(
-            baseOffset: 0,
-            extentOffset: controllers[i + 1].text.length,
-          );
+          controllers[i + 1].selection = TextSelection(baseOffset: 0, extentOffset: controllers[i + 1].text.length);
         }
       }
-      if (value.length == controllers.length ||
-          index == controllers.length - 1) {
-        FocusScope.of(context).unfocus();
-
-        _verifyOtp();
+      if (value.length == controllers.length || index == controllers.length - 1) {
+        if (controllers.every((c) => c.text.isNotEmpty)) {
+          _verifyOtp();
+        }
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 20.h,
-        children: [
-          Flexible(
-            flex: 300,
-            child: Container(
-              width: screenWidth,
-              height: 248.h,
-              child: Stack(
-                alignment: Alignment.center,
-                clipBehavior: Clip.hardEdge,
-                children: [
-                  Positioned(
-                      bottom: 0.h,
-                      right: -87.w,
-                      child:
-                          SvgPicture.asset('assets/images/Rounded_Pattern.svg'))
-                ],
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 20.h,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.w),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Check your\nmail',
-                        style: AppTextStyles.title,
-                      ),
-                      Text(
-                        'Enter the OTP code',
-                        style: AppTextStyles.subTitle,
-                      )
-                    ]),
-              ),
-              SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.w),
-                  child: Column(
-                    spacing: 20.h,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 0.h,
-                      ),
-                      Row(
-                        spacing: 10.w,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // CHILD 1: TOP IMAGE
+                    SizedBox(
+                      width: double.infinity,
+                      height: 248.h,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.hardEdge,
                         children: [
-                          OtpTextField(
-                              controllers: controllers,
-                              index: 0,
-                              onChanged: _onChangeAction),
-                          OtpTextField(
-                              controllers: controllers,
-                              index: 1,
-                              onChanged: _onChangeAction),
-                          OtpTextField(
-                              controllers: controllers,
-                              index: 2,
-                              onChanged: _onChangeAction),
-                          OtpTextField(
-                              controllers: controllers,
-                              index: 3,
-                              onChanged: _onChangeAction),
-                          OtpTextField(
-                              controllers: controllers,
-                              index: 4,
-                              onChanged: _onChangeAction),
-                          OtpTextField(
-                              controllers: controllers,
-                              index: 5,
-                              isLast: true,
-                              onChanged: _onChangeAction),
+                          Positioned(
+                            bottom: 0.h,
+                            right: -87.w,
+                            child: SvgPicture.asset('assets/images/Rounded_Pattern.svg'),
+                          )
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                        onPressed: _resendOtp, child: Text('Resend code')),
-                    FilledButton(onPressed: _verifyOtp, child: Text('Verify')),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Check your\nmail', style: AppTextStyles.title),
+                          SizedBox(height: 8.h),
+                          Text('Enter the OTP code sent to\n${widget.email}', style: AppTextStyles.subTitle),
+                          SizedBox(height: 30.h),
+                          Row(
+                            spacing: 10.w,
+                            children: List.generate(6, (index) {
+                              return OtpTextField(
+                                controllers: controllers,
+                                index: index,
+                                isLast: index == 5,
+                                onChanged: _onChangeAction,
+                              );
+                            }),
+                          ),
+                          SizedBox(height: 30.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: _isLoading ? null : _resendOtp,
+                                child: const Text('Resend code'),
+                              ),
+                              FilledButton(
+                                onPressed: _isLoading ? null : _verifyOtp,
+                                child: _isLoading
+                                  ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
+                                  : const Text('Verify'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(),
                   ],
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 25.h,
-          ),
-        ],
+            ),
+          );
+        },
       ),
     );
   }
