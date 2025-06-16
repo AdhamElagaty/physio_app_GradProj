@@ -65,20 +65,25 @@ class ChatHistoryCubit extends Cubit<ChatHistoryState> {
       }
 
       final newChats = [...currentChats, ...response.chats];
+      if (isClosed) return;
       emit(ChatHistoryLoaded(newChats, _hasNextPage));
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
         _hasNextPage = false;
         if (_page == 1) {
+          if (isClosed) return;
           emit(const ChatHistoryLoaded([], false));
         } else if (state is ChatHistoryLoaded) {
           final current = state as ChatHistoryLoaded;
+          if (isClosed) return;
           emit(ChatHistoryLoaded(current.chats, false));
         }
       } else if (e.response?.statusCode != 401) {
+        if (isClosed) return;
         emit(ChatHistoryError(e.message ?? 'An unknown error occurred'));
       }
     } catch (e) {
+      if (isClosed) return;
       emit(ChatHistoryError(e.toString()));
     }
   }

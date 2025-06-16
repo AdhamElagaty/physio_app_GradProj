@@ -1,8 +1,12 @@
 // lib/chat/ui/chat_screen.dart
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
+import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
@@ -34,20 +38,60 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: BlocBuilder<ChatMessagesCubit, ChatMessagesState>(
-          builder: (context, state) {
-            if (state is ChatMessagesLoaded && state.data.title != null) {
-              return Text(state.data.title!);
-            }
-            return Text(initialChatId != null ? 'Loading...' : 'New Chat');
-          },
-        ),
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(22.w, 30.h, 22.w, 0.h),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 34.h),
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: AppIcon(AppIcons.arrow_left_bulk, size: 33.33.w),
+                    ),
+                    SizedBox(height: 10.h),
+                    BlocBuilder<ChatMessagesCubit, ChatMessagesState>(
+                      builder: (context, state) {
+                        if (state is ChatMessagesLoaded &&
+                            state.data.title != null) {
+                          return Text(
+                            state.data.title!,
+                            style: AppTextStyles.title,
+                          );
+                        }
+                        return Text(
+                          initialChatId != null ? 'Loading...' : 'New Chat',
+                          style: AppTextStyles.title,
+                        );
+                      },
+                    ),
+                    Text('Ask about anything', style: AppTextStyles.subTitle),
+                  ],
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(),
+                    Positioned(
+                      top: -150.h,
+                      right: -100.w,
+                      child: Image.asset(
+                        'assets/images/AI_blur_effect.png',
+                        width: 350.w,
+                        height: 350.h,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 22.h),
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: (notification) {
@@ -162,7 +206,11 @@ class _MessageInput extends StatelessWidget {
                   backgroundColor: Theme.of(context).primaryColor,
                   padding: const EdgeInsets.all(8),
                 ),
-                icon: AppIcon(AppIcons.send, color: AppColors.white,size: 40.w,),
+                icon: AppIcon(
+                  AppIcons.send,
+                  color: AppColors.white,
+                  size: 40.w,
+                ),
                 onPressed: sendMessage,
               ),
             ],

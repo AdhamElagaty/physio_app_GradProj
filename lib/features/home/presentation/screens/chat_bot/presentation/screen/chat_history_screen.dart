@@ -38,12 +38,7 @@ class ChatHistoryScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 34.h),
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: AppIcon(AppIcons.arrow_left_bulk, size: 33.33.w),
-                  ),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 90.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -74,10 +69,11 @@ class ChatHistoryScreen extends StatelessWidget {
                   SearchBar(
                     controller: searchController,
                     hintText: 'Search',
-                    leading: AppIcon(AppIcons.search_bulk,size: 30.72.w),
+                    leading: AppIcon(AppIcons.search_bulk, size: 30.72.w),
                     onChanged: historyCubit.onSearchTermChanged,
                   ),
-                  Expanded(
+                  SizedBox(height: 20.h),
+                  Flexible(
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (notification) {
                         if (notification.metrics.pixels >=
@@ -121,38 +117,38 @@ class ChatHistoryScreen extends StatelessWidget {
                             return RefreshIndicator(
                               onRefresh: () async => historyCubit
                                   .fetchFirstPage(searchTerm: searchTerm),
-                              child: ListView.builder(
-                                itemCount: state.chats.length +
-                                    (state.hasNextPage ? 1 : 0),
-                                itemBuilder: (context, index) {
-                                  if (index == state.chats.length &&
-                                      state.hasNextPage) {
-                                    return const Padding(
-                                      padding: EdgeInsets.all(16.0),
-                                      child: Center(
-                                          child: CircularProgressIndicator()),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 0.w, vertical: 0.h),
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(25.r),
+                                ),
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: state.chats.length +
+                                      (state.hasNextPage ? 1 : 0),
+                                  itemBuilder: (context, index) {
+                                    if (index == state.chats.length &&
+                                        state.hasNextPage) {
+                                      return const Padding(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Center(
+                                            child: CircularProgressIndicator()),
+                                      );
+                                    }
+                                    if (index >= state.chats.length) {
+                                      return const SizedBox.shrink();
+                                    }
+                                    return ChatHistoryListItem(
+                                      chat: state.chats[index],
+                                      isFirst: index == 0,
+                                      isEnd: index == state.chats.length - 1,
                                     );
-                                  }
-                                  if (index >= state.chats.length) {
-                                    return const SizedBox.shrink();
-                                  }
-                                  return Container(
-                                    clipBehavior: Clip.antiAlias,
-                                    margin: EdgeInsets.only(bottom: 8.h),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 0.w, vertical: 0.h),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(25.r),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        ChatHistoryListItem(
-                                            chat: state.chats[index]),
-                                      ],
-                                    ),
-                                  );
-                                },
+                                  },
+                                ),
                               ),
                             );
                           }

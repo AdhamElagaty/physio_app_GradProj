@@ -12,7 +12,13 @@ import 'package:intl/intl.dart' as intl;
 
 class ChatHistoryListItem extends StatelessWidget {
   final AiChat chat;
-  const ChatHistoryListItem({super.key, required this.chat});
+  const ChatHistoryListItem(
+      {super.key,
+      required this.chat,
+      this.isFirst = false,
+      this.isEnd = false});
+  final bool isFirst;
+  final bool isEnd;
 
   void _showRenameDialog(BuildContext context, String currentTitle) {
     final controller = TextEditingController(text: currentTitle);
@@ -49,7 +55,7 @@ class ChatHistoryListItem extends StatelessWidget {
                       content: Text(success
                           ? 'Chat renamed successfully.'
                           : 'Failed to rename chat.'),
-                      backgroundColor: success ? Colors.green : Colors.red,
+                      backgroundColor: success ? AppColors.teal : AppColors.red,
                     ),
                   );
                 }
@@ -82,12 +88,12 @@ class ChatHistoryListItem extends StatelessWidget {
                   SnackBar(
                     content: Text(
                         success ? 'Chat deleted.' : 'Failed to delete chat.'),
-                    backgroundColor: success ? Colors.green : Colors.red,
+                    backgroundColor: success ? AppColors.green : AppColors.red,
                   ),
                 );
               }
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            child: const Text('Delete', style: TextStyle(color: AppColors.red)),
           ),
         ],
       ),
@@ -97,14 +103,21 @@ class ChatHistoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tile(
-      icon: AppIcon(AppIcons.chat,size: 40.w,color: AppColors.teal,),
+      icon: Text(
+        ' ' + chat.title[0] + ' ',
+        style: AppTextStyles.header.copyWith(color: AppColors.teal),
+      ),
       title: chat.title,
-      subTitle: 
+      subTitle:
           'Updated: ${intl.DateFormat.yMd().add_jm().format(chat.updatedAt.toLocal())}',
+      isFirst: isFirst,
+      isEnd: isEnd,
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => ChatScreen(chatId: chat.id)),
-        );
+        Future.delayed(Duration(milliseconds: 150), () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => ChatScreen(chatId: chat.id)),
+          );
+        });
       },
       trailing: PopupMenuButton(
         elevation: 0,

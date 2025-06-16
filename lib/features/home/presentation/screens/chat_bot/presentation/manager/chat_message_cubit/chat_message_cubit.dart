@@ -103,27 +103,34 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
 
       final newMessages = [...response.messages, ...currentMessages];
 
-      emit(ChatMessagesLoaded(ChatMessagesLoadedData(
-        messages: newMessages,
-        hasNextPage: response.hasNextPage,
-        title: response.chatTitle,
-      ),
-      ),);
+      emit(
+        ChatMessagesLoaded(
+          ChatMessagesLoadedData(
+            messages: newMessages,
+            hasNextPage: response.hasNextPage,
+            title: response.chatTitle,
+          ),
+        ),
+      );
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
         if (_page == 1) {
+          if (isClosed) return;
           emit(const ChatMessagesError("Chat not found."));
         } else {
           if (state is ChatMessagesLoaded) {
+            if (isClosed) return;
             emit(ChatMessagesLoaded((state as ChatMessagesLoaded)
                 .data
                 .copyWith(hasNextPage: false)));
           }
         }
       } else if (e.response?.statusCode != 401) {
+        if (isClosed) return;
         emit(ChatMessagesError(e.message ?? 'An unknown error occurred'));
       }
     } catch (e) {
+      if (isClosed) return;
       emit(ChatMessagesError(e.toString()));
     }
   }
@@ -171,8 +178,7 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
 
       for (var msg in optimisticMessages) {
         if (msg.id == userMessageId) {
-          updatedMessages.add(
-              userMessage.copyWith(isError: false));
+          updatedMessages.add(userMessage.copyWith(isError: false));
         } else if (msg.isPending && !pendingAiRemoved) {
           pendingAiRemoved = true;
         } else {

@@ -37,8 +37,7 @@ void main() async {
           create: (context) => ChatRepository(ApiManager()),
         ),
         BlocProvider(
-          create: (context) => ChatHistoryCubit(context.read<ChatRepository>())
-            ..fetchFirstPage(),
+          create: (context) => ChatHistoryCubit(context.read<ChatRepository>()),
         ),
       ],
       child: MyApp(),
