@@ -77,7 +77,6 @@ class CacheHelper {
         .setBool('favorite_${exerciseName.toLowerCase()}', isFavorite);
   }
 
-  /// Get favorite status for a specific exercise
   static bool getExerciseFavoriteStatus(String exerciseName) {
     if (_preferences == null) {
       throw Exception("SharedPreferences not initialized");
