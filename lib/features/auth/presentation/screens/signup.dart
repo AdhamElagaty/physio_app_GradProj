@@ -17,21 +17,38 @@ import 'package:gradproject/features/auth/presentation/manager/signup/sign_up_ev
 import 'package:gradproject/features/auth/presentation/manager/signup/sign_up_state.dart';
 import 'package:gradproject/features/auth/presentation/screens/otp.dart';
 
-class Signup extends StatelessWidget {
-  Signup({super.key});
+
+class Signup extends StatefulWidget {
+  const Signup({super.key});
+
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  bool _isPasswordObscured = true;
+  bool _isConfirmPasswordObscured = true;
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    lastNameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
-    bool isPassHidden = false;
-
     return BlocProvider(
       create: (context) => SignupBloc(
         SignUpUseCase(
@@ -48,7 +65,6 @@ class Signup extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Signup Successfully')),
             );
-            print("Email before navigation: ${emailController.text}");
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -58,20 +74,8 @@ class Signup extends StatelessWidget {
                 ),
               ),
             );
-          }
-          if (state.requestState == RequestState.loading) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Loading...')),
-            );
-          }
-          // if (state.requestState == 400) {
-          //   final message = map400ErrorToUserMessage(state.errorMessage ?? '');
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(content: Text(message)),
-          //   );
-          //}
-          if (state.requestState == RequestState.error) {
-            final message = getFriendly401Message(state.errorMessage ?? '');
+          } else if (state.requestState == RequestState.error) {
+            final message = getFriendly401Message(state.errorMessage ?? 'An unknown error occurred');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(message)),
             );
@@ -79,227 +83,220 @@ class Signup extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 20.h,
-              children: [
-                Flexible(
-                  flex: 300,
-                  child: Container(
-                    width: screenWidth,
-                    height: 248.h,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      clipBehavior: Clip.hardEdge,
-                      children: [
-                        Positioned(
-                            bottom: 0.h,
-                            right: -87.w,
-                            child: SvgPicture.asset(
-                                'assets/images/Rounded_Pattern.svg'))
-                      ],
+            body: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
                     ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 20.h,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.w),
+                    child: IntrinsicHeight(
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Welcome',
-                              style: AppTextStyles.title,
-                              textAlign: TextAlign.start,
-                            ),
-                            Text(
-                              'Sign up to continue',
-                              style: AppTextStyles.subTitle,
-                            )
-                          ]),
-                    ),
-                    Form(
-                      key: formKey,
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40.w),
-                          child: Column(
-                            spacing: 20.h,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 0.h,
-                              ),
-                              Row(
-                                spacing: 10.w,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'First name must be not empty';
-                                        }
-                                      },
-                                      controller: firstNameController,
-                                      decoration: InputDecoration(
-                                          hintStyle: AppTextStyles.hint,
-                                          hintText: 'First name'),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Last name must be not empty';
-                                        }
-                                      },
-                                      controller: lastNameController,
-                                      decoration: InputDecoration(
-                                          hintStyle: AppTextStyles.hint,
-                                          hintText: 'Last name'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              TextFormField(
-                                controller: emailController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Email must be not empty';
-                                  }
-                                  if (!RegExp(
-                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                      .hasMatch(value)) {
-                                    return 'Please enter a valid email';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    hintStyle: AppTextStyles.hint,
-                                    hintText: 'Email'),
-                              ),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Password must be not empty';
-                                  }
-                                },
-                                controller: passwordController,
-                                obscureText: isPassHidden,
-                                decoration: InputDecoration(
-                                    hintStyle: AppTextStyles.hint,
-                                    hintText: 'Password',
-                                    suffixIcon: Padding(
-                                      padding: EdgeInsets.only(right: 5.0.w),
-                                      child: IconButton(
-                                        icon: AppIcon(
-                                          isPassHidden
-                                              ? AppIcons.show_bulk
-                                              : AppIcons.hide_bulk,
-                                          size: 30,
-                                          color: AppColors.black50,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                    suffixIconConstraints: BoxConstraints(
-                                        minHeight: 45.h, minWidth: 45.w)),
-                              ),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please confirm your password';
-                                  }
-                                  if (value != passwordController.text) {
-                                    return 'Passwords do not match';
-                                  }
-                                  return null;
-                                },
-                                controller: confirmPasswordController,
-                                obscureText: isPassHidden,
-                                decoration: InputDecoration(
-                                    hintStyle: AppTextStyles.hint,
-                                    hintText: 'Confirm password',
-                                    suffixIcon: Padding(
-                                      padding: EdgeInsets.only(right: 5.0.w),
-                                      child: IconButton(
-                                        icon: AppIcon(
-                                          isPassHidden
-                                              ? AppIcons.show_bulk
-                                              : AppIcons.hide_bulk,
-                                          size: 30,
-                                          color: AppColors.black50,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ),
-                                    suffixIconConstraints: BoxConstraints(
-                                        minHeight: 45.h, minWidth: 45.w)),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0.w),
-                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          SizedBox(),
-                          FilledButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  SignUpEntity entity = SignUpEntity(
-                                      firstName: firstNameController.text,
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      confirmPassword:
-                                          confirmPasswordController.text,
-                                      lastName: lastNameController.text);
-                                  BlocProvider.of<SignupBloc>(context)
-                                      .add(SignupEvent(signUpEntity: entity));
-                                }
-                              },
-                              child: Text('Next')),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 248.h,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              clipBehavior: Clip.hardEdge,
+                              children: [
+                                Positioned(
+                                    bottom: 0.h,
+                                    right: -87.w,
+                                    child: SvgPicture.asset(
+                                        'assets/images/Rounded_Pattern.svg'))
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Crucial for centering
+                              children: [
+                                Text('Welcome', style: AppTextStyles.title),
+                                Text('Sign up to continue', style: AppTextStyles.subTitle),
+                                SizedBox(height: 30.h),
+                                Form(
+                                  key: formKey,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Flexible(
+                                            child: TextFormField(
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'First name must not be empty';
+                                                }
+                                                return null;
+                                              },
+                                              controller: firstNameController,
+                                              decoration: InputDecoration(
+                                                  hintStyle: AppTextStyles.hint,
+                                                  hintText: 'First name'),
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          Flexible(
+                                            child: TextFormField(
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Last name must not be empty';
+                                                }
+                                                return null;
+                                              },
+                                              controller: lastNameController,
+                                              decoration: InputDecoration(
+                                                  hintStyle: AppTextStyles.hint,
+                                                  hintText: 'Last name'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      TextFormField(
+                                        controller: emailController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Email must not be empty';
+                                          }
+                                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                              .hasMatch(value)) {
+                                            return 'Please enter a valid email';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                            hintStyle: AppTextStyles.hint,
+                                            hintText: 'Email'),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Password must not be empty';
+                                          }
+                                          return null;
+                                        },
+                                        controller: passwordController,
+                                        obscureText: _isPasswordObscured,
+                                        decoration: InputDecoration(
+                                            hintStyle: AppTextStyles.hint,
+                                            hintText: 'Password',
+                                            suffixIcon: Padding(
+                                              padding: EdgeInsets.only(right: 5.0.w),
+                                              child: IconButton(
+                                                icon: AppIcon(
+                                                  _isPasswordObscured
+                                                      ? AppIcons.show_bulk
+                                                      : AppIcons.hide_bulk,
+                                                  size: 30,
+                                                  color: AppColors.black50,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isPasswordObscured = !_isPasswordObscured;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            suffixIconConstraints: BoxConstraints(
+                                                minHeight: 45.h, minWidth: 45.w)),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please confirm your password';
+                                          }
+                                          if (value != passwordController.text) {
+                                            return 'Passwords do not match';
+                                          }
+                                          return null;
+                                        },
+                                        controller: confirmPasswordController,
+                                        obscureText: _isConfirmPasswordObscured,
+                                        decoration: InputDecoration(
+                                            hintStyle: AppTextStyles.hint,
+                                            hintText: 'Confirm password',
+                                            suffixIcon: Padding(
+                                              padding: EdgeInsets.only(right: 5.0.w),
+                                              child: IconButton(
+                                                icon: AppIcon(
+                                                  _isConfirmPasswordObscured
+                                                      ? AppIcons.show_bulk
+                                                      : AppIcons.hide_bulk,
+                                                  size: 30,
+                                                  color: AppColors.black50,
+                                                ),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _isConfirmPasswordObscured = !_isConfirmPasswordObscured;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            suffixIconConstraints: BoxConstraints(
+                                                minHeight: 45.h, minWidth: 45.w)),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 30.h),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: FilledButton(
+                                      onPressed: state.requestState == RequestState.loading ? null : () {
+                                        if (formKey.currentState!.validate()) {
+                                          SignUpEntity entity = SignUpEntity(
+                                              firstName: firstNameController.text,
+                                              email: emailController.text,
+                                              password: passwordController.text,
+                                              confirmPassword:
+                                                  confirmPasswordController.text,
+                                              lastName: lastNameController.text);
+                                          BlocProvider.of<SignupBloc>(context)
+                                              .add(SignupEvent(signUpEntity: entity));
+                                        }
+                                      },
+                                      child: state.requestState == RequestState.loading
+                                       ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
+                                       : const Text('Next')),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Already have an account?',
+                                  style: AppTextStyles.bottomText,
+                                ),
+                                TextButton(
+                                    style: AppButtonThemes.altTextButton.style,
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Log in',
+                                      style: AppTextStyles.secondaryTextButton.copyWith(
+                                          color: AppColors.teal, fontSize: 15.sp),
+                                    ))
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Already have an account?',
-                          style: AppTextStyles.bottomText,
-                        ),
-                        TextButton(
-                            style: AppButtonThemes.altTextButton.style,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Log in',
-                              style: AppTextStyles.secondaryTextButton.copyWith(
-                                  color: AppColors.teal, fontSize: 15.sp),
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    )
-                  ],
-                ),
-              ],
+                  ),
+                );
+              },
             ),
           );
         },
