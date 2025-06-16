@@ -5,21 +5,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppTextStyles {
   static TextStyle title = TextStyle(
     color: AppColors.black,
-    fontSize: 40.sp,
+    fontSize: 37.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
 
   static TextStyle subTitle = TextStyle(
     color: AppColors.black50,
-    fontSize: 23.sp,
+    fontSize: 22.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 400)],
   );
 
   static TextStyle header = TextStyle(
     color: AppColors.black,
-    fontSize: 23.sp,
+    fontSize: 22.sp,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
   );
@@ -34,7 +34,7 @@ class AppTextStyles {
     color: AppColors.black,
     fontSize: 16.sp,
     fontFamily: 'Urbanist',
-    fontVariations: [FontVariation('wght', 400)],
+    fontVariations: [FontVariation('wght', 500)],
   );
 
   static TextStyle text = TextStyle(
@@ -76,7 +76,7 @@ class AppTextStyles {
     color: AppColors.grey,
     fontFamily: 'Urbanist',
     fontVariations: [FontVariation('wght', 800)],
-    fontSize: 23.sp,
+    fontSize: 22.sp,
   );
 }
 
