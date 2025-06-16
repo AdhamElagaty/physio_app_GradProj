@@ -100,20 +100,27 @@ class _OtpScreenState extends State<Otp> {
     if (_isLoading) return;
     
     setState(() => _isLoading = true);
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Resending OTP...')));
     try {
-      final String url = AppConstatnts.baseUrl + Endpoints.forgotPassword;
+      // final String url = AppConstatnts.baseUrl + Endpoints.forgotPassword;
+      final String url =  widget.isForReset
+          ? AppConstatnts.baseUrl + Endpoints.requestResetPassword
+          : AppConstatnts.baseUrl + Endpoints.resendEmailConfirmation;
       final response = await Dio().post(url, data: {'email': widget.email});
       
       if (!mounted) return;
       
       if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('A new OTP has been sent.')));
       } else {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to resend OTP.')));
       }
     } catch (e) {
       if (!mounted) return;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
     } finally {
       if (mounted) {
