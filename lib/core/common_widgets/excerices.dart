@@ -11,6 +11,7 @@ class Exercise {
   final String category;
   final String iconPath;
   final Color iconColor;
+
   bool isFavorite;
   final ExerciseType type;
   final String gifPath;
@@ -26,6 +27,35 @@ class Exercise {
     required this.type,
     required this.gifPath,
   });
+
+  // Convert Exercise object to a Map
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'subtitle': subtitle,
+      'description': description,
+      'category': category,
+      'iconPath': iconPath,
+      'iconColor': iconColor.value,
+      'isFavorite': isFavorite,
+      'type': type.index,
+      'gifPath': gifPath,
+    };
+  }
+
+  factory Exercise.fromJson(Map<String, dynamic> json) {
+    return Exercise(
+      name: json['name'],
+      subtitle: json['subtitle'],
+      description: json['description'],
+      category: json['category'],
+      iconPath: json['iconPath'],
+      iconColor: Color(json['iconColor']),
+      isFavorite: json['isFavorite'] ?? false,
+      type: ExerciseType.values[json['type']],
+      gifPath: json['gifPath'],
+    );
+  }
 }
 
 final List<Exercise> allExercises = [
@@ -37,7 +67,7 @@ final List<Exercise> allExercises = [
       category: 'arms',
       iconPath: AppIcons.biceps,
       iconColor: AppColors.green,
-      isFavorite: true,
+      isFavorite: false,
       gifPath: 'assets/gif/bicep_curl_image.gif',
       type: ExerciseType.bicepCurl),
   Exercise(
@@ -48,27 +78,9 @@ final List<Exercise> allExercises = [
       category: 'lower body',
       iconPath: AppIcons.glute_bridge,
       iconColor: AppColors.purple,
-      isFavorite: true,
+      isFavorite: false,
       gifPath: 'assets/gif/glute_bridge_image.gif',
       type: ExerciseType.gluteBridge),
-  // Exercise(
-  //     name: 'Push-ups',
-  //     subtitle: 'Full body classic',
-  //     description:
-  //         'A fundamental bodyweight exercise that works the chest, shoulders, triceps, and core. Start in a plank position and lower your body until your chest nearly touches the floor.',
-  //     category: 'core strength',
-  //     iconPath: AppIcons.heart,
-  //     iconColor: AppColors.yellow,
-  //     isFavorite: true),
-  // Exercise(
-  //   name: 'Squats',
-  //   subtitle: 'Leg and glute power',
-  //   description:
-  //       'A full-body exercise that primarily works the glutes, quadriceps, and hamstrings. Lower your hips as if sitting back into an imaginary chair.',
-  //   category: 'lower body',
-  //   iconPath: AppIcons.heart,
-  //   iconColor: AppColors.purple,
-  // ),
   Exercise(
       name: 'Plank',
       subtitle: 'Core stability',
@@ -77,7 +89,7 @@ final List<Exercise> allExercises = [
       category: 'core strength',
       iconPath: AppIcons.plank,
       iconColor: AppColors.yellow,
-      isFavorite: true,
+      isFavorite: false,
       gifPath: 'assets/gif/plank_image.gif',
       type: ExerciseType.plank),
 ];
