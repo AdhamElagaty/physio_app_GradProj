@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gradproject/core/common_widgets/excerices.dart';
+import 'package:gradproject/core/cahce/share_prefs.dart'; // تأكد أن المسار صحيح لـ CacheHelper
+import 'package:gradproject/core/common_widgets/excerices.dart'; // تأكد أن المسار صحيح
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
-import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/core/utils/widgets/tile.dart';
 import 'package:gradproject/features/common_exercise/domain/entities/enums/exercise_type.dart';
 import 'package:gradproject/features/home/presentation/screens/home_content/description.dart';
@@ -27,11 +27,21 @@ class _SearchState extends State<Search> {
   @override
   void initState() {
     super.initState();
+
+    _loadFavoriteStatuses();
     if (widget.selectedCategory != null) {
       _activeFilters.add(widget.selectedCategory!.toLowerCase());
     }
-    _filterExercises();
     widget.searchController.addListener(_filterExercises);
+
+    _filterExercises();
+  }
+
+  void _loadFavoriteStatuses() {
+    for (var exercise in allExercises) {
+      exercise.isFavorite =
+          CacheHelper.getExerciseFavoriteStatus(exercise.name);
+    }
   }
 
   @override
@@ -46,27 +56,42 @@ class _SearchState extends State<Search> {
       _filteredExercises = allExercises.where((exercise) {
         final exerciseCategory = exercise.category.toLowerCase();
         final searchQuery = widget.searchController.text.toLowerCase();
+
         bool matchesSearchQuery = searchQuery.isEmpty ||
             exercise.name.toLowerCase().contains(searchQuery) ||
             exercise.subtitle.toLowerCase().contains(searchQuery);
 
-        if (_activeFilters.isEmpty && widget.selectedCategory == null) {
-          return matchesSearchQuery;
+        bool isFavoriteFilterActive = _activeFilters.contains('favorites');
+        Set<String> otherActiveFilters =
+            _activeFilters.where((filter) => filter != 'favorites').toSet();
+
+        if (!matchesSearchQuery) {
+          return false;
         }
 
-        bool categoryMatch = _activeFilters.contains(exerciseCategory);
+        if (_activeFilters.isEmpty && widget.selectedCategory == null) {
+          return true;
+        }
 
-        if (_activeFilters.contains('favorites') && exercise.isFavorite) {
-          if (_activeFilters.length == 1) {
-            return matchesSearchQuery && exercise.isFavorite;
-          } else if (_activeFilters.contains(exerciseCategory)) {
-            return matchesSearchQuery && exercise.isFavorite && categoryMatch;
+        if (isFavoriteFilterActive) {
+          if (!exercise.isFavorite) {
+            return false;
+          }
+          if (otherActiveFilters.isNotEmpty) {
+            return otherActiveFilters.contains(exerciseCategory);
           } else {
-            return matchesSearchQuery && exercise.isFavorite;
+            return true;
           }
         }
 
-        return matchesSearchQuery && categoryMatch;
+        if (otherActiveFilters.isNotEmpty) {
+          return otherActiveFilters.contains(exerciseCategory);
+        }
+
+        if (widget.selectedCategory != null && _activeFilters.isEmpty) {
+          return exerciseCategory == widget.selectedCategory!.toLowerCase();
+        }
+        return false;
       }).toList();
     });
   }
@@ -76,24 +101,20 @@ class _SearchState extends State<Search> {
       final lowerCaseCategory = category.toLowerCase();
 
       if (widget.selectedCategory != null &&
-          lowerCaseCategory == widget.selectedCategory!.toLowerCase() &&
-          !_activeFilters.contains(lowerCaseCategory) &&
-          _activeFilters.isNotEmpty) {
-        _activeFilters.add(lowerCaseCategory);
-      } else if (_activeFilters.contains(lowerCaseCategory)) {
-        if (widget.selectedCategory != null &&
-            lowerCaseCategory == widget.selectedCategory!.toLowerCase() &&
-            _activeFilters.length == 1) {
-          return;
+          lowerCaseCategory == widget.selectedCategory!.toLowerCase()) {
+        if (_activeFilters.contains(lowerCaseCategory)) {
+          if (_activeFilters.length == 1 &&
+              _activeFilters.contains(lowerCaseCategory)) {
+            _activeFilters.remove(lowerCaseCategory);
+          } else if (_activeFilters.contains(lowerCaseCategory)) {
+            _activeFilters.remove(lowerCaseCategory);
+          }
         } else {
-          _activeFilters.remove(lowerCaseCategory);
+          _activeFilters.add(lowerCaseCategory);
         }
       } else {
-        if (widget.selectedCategory != null &&
-            lowerCaseCategory != 'favorites') {
-          _activeFilters.clear();
-          _activeFilters.add(widget.selectedCategory!.toLowerCase());
-          _activeFilters.add(lowerCaseCategory);
+        if (_activeFilters.contains(lowerCaseCategory)) {
+          _activeFilters.remove(lowerCaseCategory);
         } else {
           _activeFilters.add(lowerCaseCategory);
         }
@@ -102,6 +123,16 @@ class _SearchState extends State<Search> {
       if (_activeFilters.isEmpty && widget.selectedCategory != null) {
         _activeFilters.add(widget.selectedCategory!.toLowerCase());
       }
+
+      _filterExercises();
+    });
+  }
+
+  void _toggleFavoriteStatus(Exercise exercise) {
+    setState(() {
+      exercise.isFavorite = !exercise.isFavorite;
+      CacheHelper.saveExerciseFavoriteStatus(
+          exercise.name, exercise.isFavorite);
       _filterExercises();
     });
   }
@@ -115,7 +146,7 @@ class _SearchState extends State<Search> {
       case 'glute bridges':
         return ExerciseType.gluteBridge;
       default:
-        throw Exception('Unknown exercise type: $name');
+        return ExerciseType.plank;
     }
   }
 
@@ -128,9 +159,12 @@ class _SearchState extends State<Search> {
     List<String> displayCategories = allUniqueCategories.toList()..sort();
 
     List<String> sortedDisplayCategories = [
-      ..._activeFilters.where(displayCategories.contains),
-      ...displayCategories.where((c) => !_activeFilters.contains(c)),
-    ];
+      ..._activeFilters.where((f) => f == 'favorites'),
+      ..._activeFilters
+          .where((f) => f != 'favorites' && displayCategories.contains(f)),
+      ...displayCategories
+          .where((c) => !_activeFilters.contains(c)), // الفلاتر غير النشطة
+    ].toSet().toList();
 
     return Scaffold(
       body: Padding(
@@ -168,10 +202,17 @@ class _SearchState extends State<Search> {
                       ),
                       selected: isActive,
                       onSelected: (_) {
-                        if (isInitialCategory &&
-                            isActive &&
-                            _activeFilters.length == 1) return;
-                        _toggleFilter(category);
+                        if (isInitialCategory) {
+                          if (isActive && _activeFilters.length == 1) {
+                            _toggleFilter(category);
+                          } else if (!isActive) {
+                            _toggleFilter(category);
+                          } else {
+                            _toggleFilter(category);
+                          }
+                        } else {
+                          _toggleFilter(category);
+                        }
                       },
                       selectedColor: AppColors.teal.withAlpha(39),
                       backgroundColor: AppColors.white,
@@ -237,7 +278,9 @@ class _SearchState extends State<Search> {
                               isFirst: index == 0,
                               isEnd: index++ == _filteredExercises.length - 1,
                               trailing: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  _toggleFavoriteStatus(exercise);
+                                },
                                 icon: exercise.isFavorite
                                     ? AppIcon(
                                         AppIcons.heart,
