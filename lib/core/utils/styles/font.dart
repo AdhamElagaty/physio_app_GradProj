@@ -44,6 +44,13 @@ class AppTextStyles {
     fontVariations: [FontVariation('wght', 600)],
   );
 
+  static TextStyle message = TextStyle(
+    color: AppColors.teal,
+    fontSize: 16.sp,
+    fontFamily: 'Urbanist',
+    fontVariations: [FontVariation('wght', 600)],
+  );
+
   static TextStyle hint = TextStyle(
     color: AppColors.black30,
     fontFamily: 'Urbanist',

@@ -1,6 +1,9 @@
 // lib/chat/ui/message_bubble.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/utils/styles/colors.dart';
+import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_message_model.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -24,16 +27,16 @@ class MessageBubble extends StatelessWidget {
     final textDirection = _getTextDirection(message.content);
 
     final markdownStyleSheet = MarkdownStyleSheet.fromTheme(theme).copyWith(
-      p: theme.textTheme.bodyMedium?.copyWith(
+      p: AppTextStyles.message.copyWith(
         color: isUser
-            ? Colors.white
-            : theme.colorScheme.onSurfaceVariant, // Adjusted for user messages
+            ? AppColors.teal
+            : AppColors.black, // Adjusted for user messages
       ),
       code: theme.textTheme.bodyMedium?.copyWith(
         fontFamily: 'monospace',
         backgroundColor: theme.colorScheme.onSurfaceVariant.withOpacity(0.1),
         color: isUser
-            ? Colors.white
+            ? AppColors.teal
             : theme.colorScheme.onSurfaceVariant, // Adjusted for user messages
       ),
       codeblockDecoration: BoxDecoration(
@@ -41,15 +44,15 @@ class MessageBubble extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: theme.dividerColor),
       ),
-      listBullet: theme.textTheme.bodyMedium?.copyWith(
+      listBullet: AppTextStyles.message.copyWith(
         color: isUser
-            ? Colors.white
+            ? AppColors.teal
             : theme.colorScheme.onSurfaceVariant, // Adjusted for user messages
       ),
       tableBorder: TableBorder.all(color: theme.dividerColor),
       tableHead: theme.textTheme.titleSmall?.copyWith(
         color: isUser
-            ? Colors.white
+            ? AppColors.teal
             : theme.colorScheme.onSurfaceVariant, // Adjusted for user messages
         fontWeight: FontWeight.bold,
       ),
@@ -61,11 +64,15 @@ class MessageBubble extends StatelessWidget {
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
         decoration: BoxDecoration(
-          color: isUser ? theme.primaryColor : theme.colorScheme.surfaceVariant,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            color: isUser ? AppColors.teal.withAlpha(40) : AppColors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: isUser ? Radius.circular(30.r) : Radius.circular(5),
+              topRight: isUser ? Radius.circular(5.r) : Radius.circular(30.r),
+              bottomLeft: Radius.circular(30.r),
+              bottomRight: Radius.circular(30.r),
+            )),
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        padding: EdgeInsets.all(15.w),
         child: Column(
           crossAxisAlignment:
               isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -81,7 +88,7 @@ class MessageBubble extends StatelessWidget {
             else if (isUser)
               Text(
                 message.content,
-                style: const TextStyle(color: Colors.white),
+                style: AppTextStyles.message,
                 textDirection: textDirection,
               )
             else

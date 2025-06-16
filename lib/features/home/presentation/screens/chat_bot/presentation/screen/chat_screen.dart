@@ -129,6 +129,7 @@ class ChatView extends StatelessWidget {
                                     ?.copyWith(color: Colors.grey)));
                       }
                       return ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         reverse: true,
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         itemCount:
@@ -186,13 +187,10 @@ class _MessageInput extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: 'Type a message...',
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide.none),
                     filled: true,
-                    fillColor: Theme.of(context)
-                        .colorScheme
-                        .surfaceVariant
-                        .withOpacity(0.5),
+                    fillColor: AppColors.white,
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
                   ),
@@ -200,18 +198,22 @@ class _MessageInput extends StatelessWidget {
                   textCapitalization: TextCapitalization.sentences,
                 ),
               ),
-              const SizedBox(width: 8),
-              IconButton.filled(
-                style: IconButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding: const EdgeInsets.all(8),
+              SizedBox(width: 8.w),
+              ConstrainedBox(
+                constraints: BoxConstraints.tight(Size(45, 45)),
+                child: IconButton(
+                  style: IconButton.styleFrom(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    backgroundColor: AppColors.teal,
+                  ),
+                  padding: EdgeInsets.zero,
+                  icon: AppIcon(
+                    AppIcons.send,
+                    color: AppColors.white,
+                    size: 30.w,
+                  ),
+                  onPressed: sendMessage,
                 ),
-                icon: AppIcon(
-                  AppIcons.send,
-                  color: AppColors.white,
-                  size: 40.w,
-                ),
-                onPressed: sendMessage,
               ),
             ],
           ),
