@@ -55,7 +55,6 @@ class _DescriptionState extends State<Description> {
   }
 
   String _getImagePathForExercise(String name) {
-    // Find the exercise in your allExercises list and return its gifPath
     try {
       final exercise = allExercises
           .firstWhere((ex) => ex.name.toLowerCase() == name.toLowerCase());
@@ -63,8 +62,8 @@ class _DescriptionState extends State<Description> {
     } catch (e) {
       debugPrint(
           'Error: Exercise not found for name: $name. Using a placeholder.');
-      // Return a default placeholder image or an empty string if you have one
-      return 'assets/placeholder.gif'; // Make sure you have a placeholder image
+
+      return 'assets/placeholder.gif';
     }
   }
 
