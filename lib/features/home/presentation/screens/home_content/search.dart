@@ -128,7 +128,7 @@ class _SearchState extends State<Search> {
       AppIcons.notification,
       AppIcons.setting
     ];
-    int index=0;
+    int index = 0;
     Set<String> allUniqueCategories =
         allExercises.map((e) => e.category.toLowerCase()).toSet();
     allUniqueCategories.add('favorites');
@@ -221,8 +221,7 @@ class _SearchState extends State<Search> {
                 physics: BouncingScrollPhysics(),
                 child: Container(
                   clipBehavior: Clip.antiAlias,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(25.r),
@@ -256,8 +255,22 @@ class _SearchState extends State<Search> {
                                   color: AppColors.teal, size: 46.w),
                               title: exercise.name,
                               subTitle: exercise.subtitle,
-                              isFirst: index==0,
-                              isEnd: index++==_filteredExercises.length-1,
+                              isFirst: index == 0,
+                              isEnd: index++ == _filteredExercises.length - 1,
+                              trailing: IconButton(
+                                onPressed: () {},
+                                icon: exercise.isFavorite
+                                    ? AppIcon(
+                                        AppIcons.heart,
+                                        color: AppColors.red,
+                                        size: 30.w,
+                                      )
+                                    : AppIcon(
+                                        AppIcons.heart_stroke,
+                                        color: AppColors.black50,
+                                        size: 30.w,
+                                      ),
+                              ),
                             );
                           }).toList(),
                   ),

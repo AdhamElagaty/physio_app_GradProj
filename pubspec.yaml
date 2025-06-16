@@ -81,6 +81,7 @@ flutter:
     - assets/images/Iconly/Bulk/Plus.svg
     - assets/images/Iconly/Bulk/Edit.svg
     - assets/images/Iconly/Bulk/Delete.svg
+    - assets/images/Iconly/Stroke/Heart.svg
     - assets/images/AI_blur_effect.svg
     - assets/images/AI_blur_effect.png
     - assets/models/bicep/

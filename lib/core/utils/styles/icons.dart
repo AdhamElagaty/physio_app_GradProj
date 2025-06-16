@@ -31,18 +31,16 @@ class AppIcons {
       'assets/images/Iconly/Bulk/Tick-Square.svg';
   static const String arrow_left_bulk =
       'assets/images/Iconly/Bulk/Arrow-Left-3.svg';
-      static const String arms=
-      'assets/images/Arms.svg';
-      static const String core_strength =
-      'assets/images/Core-Strength.svg';
-      static const String lower_body=
-      'assets/images/Lower-Body.svg';
-      static const String biceps =
+  static const String arms = 'assets/images/Arms.svg';
+  static const String core_strength = 'assets/images/Core-Strength.svg';
+  static const String lower_body = 'assets/images/Lower-Body.svg';
+  static const String biceps =
       'assets/images/Dumbbell-Small-Streamline-Solar-Bold.svg';
-      static const String glute_bridge =
+  static const String glute_bridge =
       'assets/images/Yoga-Bridge-Pose-2-Streamline-Ultimate-Bold-Free.svg';
-      static const String plank =
+  static const String plank =
       'assets/images/Yoga-Low-Plank-Pose-Streamline-Ultimate-Bold.svg';
+  static const String heart_stroke = 'assets/images/Iconly/Stroke/Heart.svg';
 }
 
 class AppIcon extends StatelessWidget {
