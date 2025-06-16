@@ -88,6 +88,7 @@ flutter:
     - assets/models/glute_bridge/
     - assets/models/plank/
     - assets/images/
+    - assets/gif/ 
   fonts:
     - family: Urbanist
       fonts:

@@ -13,6 +13,7 @@ class Exercise {
   final Color iconColor;
   bool isFavorite;
   final ExerciseType type;
+  final String gifPath;
 
   Exercise({
     required this.name,
@@ -23,6 +24,7 @@ class Exercise {
     required this.iconColor,
     this.isFavorite = false,
     required this.type,
+    required this.gifPath,
   });
 }
 
@@ -36,6 +38,7 @@ final List<Exercise> allExercises = [
       iconPath: AppIcons.biceps,
       iconColor: AppColors.green,
       isFavorite: true,
+      gifPath: 'assets/gif/bicep_curl_image.gif',
       type: ExerciseType.bicepCurl),
   Exercise(
       name: 'Glute Bridges',
@@ -46,6 +49,7 @@ final List<Exercise> allExercises = [
       iconPath: AppIcons.glute_bridge,
       iconColor: AppColors.purple,
       isFavorite: true,
+      gifPath: 'assets/gif/glute_bridge_image.gif',
       type: ExerciseType.gluteBridge),
   // Exercise(
   //     name: 'Push-ups',
@@ -74,5 +78,6 @@ final List<Exercise> allExercises = [
       iconPath: AppIcons.plank,
       iconColor: AppColors.yellow,
       isFavorite: true,
+      gifPath: 'assets/gif/plank_image.gif',
       type: ExerciseType.plank),
 ];

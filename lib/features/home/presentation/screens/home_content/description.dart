@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradproject/core/common_widgets/excerices.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
@@ -30,11 +31,13 @@ class Description extends StatefulWidget {
 
 class _DescriptionState extends State<Description> {
   late ExerciseType typeToPass;
+  late String _imagePath;
 
   @override
   void initState() {
     super.initState();
     typeToPass = _getExerciseTypeFromName(widget.exerciseName);
+    _imagePath = _getImagePathForExercise(widget.exerciseName);
   }
 
   ExerciseType _getExerciseTypeFromName(String name) {
@@ -48,6 +51,20 @@ class _DescriptionState extends State<Description> {
       default:
         debugPrint('Warning: Unknown exercise name: $name.');
         return ExerciseType.bicepCurl;
+    }
+  }
+
+  String _getImagePathForExercise(String name) {
+    // Find the exercise in your allExercises list and return its gifPath
+    try {
+      final exercise = allExercises
+          .firstWhere((ex) => ex.name.toLowerCase() == name.toLowerCase());
+      return exercise.gifPath;
+    } catch (e) {
+      debugPrint(
+          'Error: Exercise not found for name: $name. Using a placeholder.');
+      // Return a default placeholder image or an empty string if you have one
+      return 'assets/placeholder.gif'; // Make sure you have a placeholder image
     }
   }
 
@@ -90,9 +107,12 @@ class _DescriptionState extends State<Description> {
                   icon: AppIcon(AppIcons.arrow_left_bulk, size: 33.33.w),
                 ),
                 const Spacer(),
-                Placeholder(
-                  fallbackWidth: 275.w,
-                  fallbackHeight: 250.h,
+                Image.asset(
+                  _imagePath,
+                  width: 275.w,
+                  height: 250.h,
+                  // fallbackWidth: 275.w,
+                  // fallbackHeight: 250.h,
                 ),
               ],
             ),
