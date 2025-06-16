@@ -31,6 +31,7 @@ class AppIcons {
       'assets/images/Iconly/Bulk/Tick-Square.svg';
   static const String arrow_left_bulk =
       'assets/images/Iconly/Bulk/Arrow-Left-3.svg';
+  static const String time_circle = 'assets/images/Iconly/Bulk/Time-Circle.svg';
   static const String arms = 'assets/images/Arms.svg';
   static const String core_strength = 'assets/images/Core-Strength.svg';
   static const String lower_body = 'assets/images/Lower-Body.svg';

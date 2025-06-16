@@ -35,7 +35,9 @@ import 'package:gradproject/features/pose_detection_handling/services/pose_detec
 // }
 
 class Home extends StatefulWidget {
-  Home({super.key,});
+  Home({
+    super.key,
+  });
   @override
   State<Home> createState() => _HomeState();
 }
@@ -45,9 +47,9 @@ class _HomeState extends State<Home> {
 
   late List<Widget> pages = <Widget>[
     HomePageContent(),
-    TasksPage(),
-    ChatHistoryScreen(),
+    // TasksPage(),
     NotificationsPage(),
+    ChatHistoryScreen(),
     SettingsPage(),
   ];
 
@@ -61,9 +63,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final List<String> navIcons = [
       AppIcons.home,
-      AppIcons.tick_square,
+      // AppIcons.tick_square,
+      AppIcons.time_circle,
       AppIcons.chat,
-      AppIcons.notification,
       AppIcons.setting,
     ];
 

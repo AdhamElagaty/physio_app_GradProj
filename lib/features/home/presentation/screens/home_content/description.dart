@@ -69,29 +69,7 @@ class _DescriptionState extends State<Description> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> navIcons = [
-      AppIcons.home,
-      AppIcons.tick_square,
-      AppIcons.chat,
-      AppIcons.notification,
-      AppIcons.setting,
-    ];
-
     return Scaffold(
-      bottomNavigationBar: NavBar(
-        selectedIndex: 0,
-        color: AppColors.teal,
-        navItems: List.generate(5, (index) {
-          return NavItem(
-            icon: AppIcon(navIcons[index].replaceAll('Bold', 'Bulk')),
-            selectedIcon: AppIcon(
-              navIcons[index],
-              color: AppColors.teal,
-              size: 31.68.w,
-            ),
-          );
-        }),
-      ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(22.w, 30.h, 22.w, 0),
         child: Column(
