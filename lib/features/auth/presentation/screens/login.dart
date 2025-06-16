@@ -18,15 +18,13 @@ import 'package:gradproject/features/auth/presentation/manager/login/login_state
 
 class Login extends StatelessWidget {
   Login({super.key});
-  final bool isPassHidden = true;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
-
     return BlocProvider(
       create: (context) => AuthBloc(
         LoginUseCase(
@@ -41,10 +39,10 @@ class Login extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Login success!'),
             ));
-            Navigator.pushNamed(context, Routes.home);
+            Navigator.pushNamedAndRemoveUntil(context, Routes.home, (route) => false);
           }
           if (state.requestState == RequestState.error) {
-            final message = map401ErrorToUserMessage(state.errorMessage ?? '');
+            final message = map401ErrorToUserMessage(state.errorMessage.isEmpty ? state.errorMessage : 'An unknown error occurred.');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(message)),
             );
@@ -52,168 +50,152 @@ class Login extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top image container
-                Flexible(
-                  flex: 300,
-                  child: Container(
-                    width: screenWidth,
-                    height: 248.h,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      clipBehavior: Clip.hardEdge,
-                      children: [
-                        Positioned(
-                          bottom: 0.h,
-                          right: -87.w,
-                          child: SvgPicture.asset(
-                            'assets/images/Rounded_Pattern.svg',
+            body: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: 248.h,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              clipBehavior: Clip.hardEdge,
+                              children: [
+                                Positioned(
+                                  bottom: 0.h,
+                                  right: -87.w,
+                                  child: SvgPicture.asset(
+                                    'assets/images/Rounded_Pattern.svg',
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Crucial for centering
+                              children: [
+                                Text('Hello', style: AppTextStyles.title),
+                                Text('Log in to continue', style: AppTextStyles.subTitle),
+                                SizedBox(height: 30.h),
+                                Form(
+                                  key: formKey,
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        controller: emailController,
+                                        decoration: InputDecoration(
+                                          hintStyle: AppTextStyles.hint,
+                                          hintText: 'Username or Email',
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Email must not be empty';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: 16.h),
+                                      TextFormField(
+                                        obscureText: !state.isPasswordVisible,
+                                        controller: passwordController,
+                                        decoration: InputDecoration(
+                                          hintStyle: AppTextStyles.hint,
+                                          hintText: 'Password',
+                                          suffixIcon: Padding(
+                                            padding: EdgeInsets.only(right: 5.0.w),
+                                            child: IconButton(
+                                              icon: AppIcon(
+                                                state.isPasswordVisible
+                                                    ? AppIcons.hide_bulk
+                                                    : AppIcons.show_bulk,
+                                                size: 30,
+                                                color: AppColors.black50,
+                                              ),
+                                              onPressed: () {
+                                                context.read<AuthBloc>().add(PasswordVisibilityEvent());
+                                              },
+                                            ),
+                                          ),
+                                          suffixIconConstraints: BoxConstraints(
+                                            minHeight: 45.h,
+                                            minWidth: 45.w,
+                                          ),
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Password must not be empty';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: 18.h),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pushNamed(context, Routes.forgotPassword),
+                                      child: const Text('forgot\npassword'),
+                                    ),
+                                    FilledButton(
+                                      onPressed: state.requestState == RequestState.loading ? null : () {
+                                        if (formKey.currentState!.validate()) {
+                                          context.read<AuthBloc>().add(
+                                            LoginEvent(
+                                              emailController.text,
+                                              passwordController.text,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: state.requestState == RequestState.loading
+                                       ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
+                                       : const Text('Log in'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('No account?', style: AppTextStyles.bottomText),
+                                TextButton(
+                                  style: AppButtonThemes.altTextButton.style,
+                                  onPressed: () => Navigator.pushNamed(context, Routes.signup),
+                                  child: Text(
+                                    'Sign up',
+                                    style: AppTextStyles.secondaryTextButton.copyWith(
+                                      color: AppColors.teal,
+                                      fontSize: 15.sp,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-
-                // Form Section
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Hello', style: AppTextStyles.title),
-                          Text('Log in to continue',
-                              style: AppTextStyles.subTitle),
-                        ],
-                      ),
-                    ),
-
-                    // FORM STARTS HERE
-                    Form(
-                      key: formKey,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40.w),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20.h),
-                            TextFormField(
-                              controller: emailController,
-                              decoration: InputDecoration(
-                                hintStyle: AppTextStyles.hint,
-                                hintText: 'Username or Email',
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Email must not be empty';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 16.h),
-                            TextFormField(
-                              obscureText: !state.isPasswordVisible,
-                              controller: passwordController,
-                              decoration: InputDecoration(
-                                hintStyle: AppTextStyles.hint,
-                                hintText: 'Password',
-                                suffixIcon: Padding(
-                                  padding: EdgeInsets.only(right: 5.0.w),
-                                  child: IconButton(
-                                    icon: AppIcon(
-                                      state.isPasswordVisible
-                                          ? AppIcons.show_bulk
-                                          : AppIcons.hide_bulk,
-                                      size: 30,
-                                      color: AppColors.black50,
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<AuthBloc>()
-                                          .add(PasswordVisibilityEvent());
-                                    },
-                                  ),
-                                ),
-                                suffixIconConstraints: BoxConstraints(
-                                  minHeight: 45.h,
-                                  minWidth: 45.w,
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Password must not be empty';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 18.h),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, Routes.forgotPassword);
-                            },
-                            child: Text('forgot\npassword'),
-                          ),
-                          FilledButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                BlocProvider.of<AuthBloc>(context).add(
-                                  LoginEvent(
-                                    emailController.text,
-                                    passwordController.text,
-                                  ),
-                                );
-                              }
-                            },
-                            child: Text('Log in'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                // Bottom Section
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('No account?', style: AppTextStyles.bottomText),
-                        TextButton(
-                          style: AppButtonThemes.altTextButton.style,
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.signup);
-                          },
-                          child: Text(
-                            'Sign up',
-                            style: AppTextStyles.secondaryTextButton.copyWith(
-                              color: AppColors.teal,
-                              fontSize: 15.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                  ],
-                ),
-              ],
+                );
+              },
             ),
           );
         },
