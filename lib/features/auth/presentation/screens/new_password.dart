@@ -6,37 +6,44 @@ import 'package:gradproject/core/utils/config/routes.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
-
 import 'package:gradproject/features/auth/presentation/manager/reset_password/reset_password_cubit.dart';
 import 'package:gradproject/features/auth/presentation/manager/reset_password/reset_password_state.dart';
 
-class NewPassword extends StatelessWidget {
-  NewPassword({super.key, required this.email, required this.tokn});
+class NewPassword extends StatefulWidget {
+  final String email;
+  final String tokn;
 
-  String email, tokn;
+  const NewPassword({super.key, required this.email, required this.tokn});
+
+  @override
+  State<NewPassword> createState() => _NewPasswordState();
+}
+
+class _NewPasswordState extends State<NewPassword> {
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  bool _isPasswordObscured = true;
+  bool _isConfirmPasswordObscured = true;
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var screenWidth = MediaQuery.of(context).size.width;
-
     return BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
       listener: (context, state) {
-        if (state is ResetPasswordLoading) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        if (state is ResetPasswordSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Sending reset email...')),
+            const SnackBar(content: Text('Password has been reset successfully!')),
           );
-        } else if (state is ResetPasswordSuccess) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Reset email sent! Check your inbox.')),
-          );
-          Navigator.pushReplacementNamed(context, Routes.login);
+          Navigator.pushNamedAndRemoveUntil(context, Routes.login, (route) => false);
         } else if (state is ResetPasswordError) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error: ${state.message}')),
           );
@@ -44,143 +51,129 @@ class NewPassword extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 20.h,
-            children: [
-              Flexible(
-                flex: 300,
-                child: Container(
-                  width: screenWidth,
-                  height: 248.h,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    clipBehavior: Clip.hardEdge,
-                    children: [
-                      Positioned(
-                          bottom: 0.h,
-                          right: -87.w,
-                          child: SvgPicture.asset(
-                              'assets/images/Rounded_Pattern.svg'))
-                    ],
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
                   ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 20.h,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40.w),
+                  child: IntrinsicHeight(
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Reset password',
-                            style: AppTextStyles.title,
-                            textAlign: TextAlign.start,
-                          ),
-                          Text(
-                            'Enter your new password',
-                            style: AppTextStyles.subTitle,
-                          )
-                        ]),
-                  ),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.w),
-                      child: Column(
-                        spacing: 20.h,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 0.h,
-                          ),
-                          TextFormField(
-                            obscureText: false,
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                                hintStyle: AppTextStyles.hint,
-                                hintText: 'New password',
-                                suffixIcon: Padding(
-                                  padding: EdgeInsets.only(right: 5.0.w),
-                                  child: IconButton(
-                                    icon: AppIcon(
-                                      AppIcons.show_bulk,
-                                      // : AppIcons.hide_bulk,
-                                      size: 30,
-                                      color: AppColors.black50,
-                                    ),
-                                    onPressed: () {
-                                      // setState(() {
-                                      //   isPassHidden = !isPassHidden;
-                                      // });
-                                    },
-                                  ),
-                                ),
-                                suffixIconConstraints: BoxConstraints(
-                                    minHeight: 45.h, minWidth: 45.w)),
-                          ),
-                          TextFormField(
-                            controller: confirmPasswordController,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                                hintStyle: AppTextStyles.hint,
-                                hintText: 'Confirm password',
-                                suffixIcon: Padding(
-                                  padding: EdgeInsets.only(right: 5.0.w),
-                                  child: IconButton(
-                                    icon: AppIcon(
-                                      AppIcons.show_bulk,
-                                      // AppIcons.hide_bulk,
-                                      size: 30,
-                                      color: AppColors.black50,
-                                    ),
-                                    onPressed: () {
-                                      // setState(() {
-                                      //   isConfirmHidden = !isConfirmHidden;
-                                      // });
-                                    },
-                                  ),
-                                ),
-                                suffixIconConstraints: BoxConstraints(
-                                    minHeight: 45.h, minWidth: 45.w)),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40.0.w),
-                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(),
-                        FilledButton(
-                            onPressed: () {
-                              context.read<ResetPasswordCubit>().resetPassword(
-                                    email: email,
-                                    token: tokn,
-                                    password: passwordController.text,
-                                    confirmPassword:
-                                        confirmPasswordController.text,
-                                  );
-                              // setState(() {
-                              //   Navigator.of(context).push(MaterialPageRoute(
-                              //       builder: (context) => Login()));
-                              // });
-                            },
-                            child: Text('Confirm')),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 248.h,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            clipBehavior: Clip.hardEdge,
+                            children: [
+                              Positioned(
+                                bottom: 0.h,
+                                right: -87.w,
+                                child: SvgPicture.asset('assets/images/Rounded_Pattern.svg'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('Reset password', style: AppTextStyles.title),
+                              Text('Enter your new password', style: AppTextStyles.subTitle),
+                              SizedBox(height: 30.h),
+                              Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: passwordController,
+                                      obscureText: _isPasswordObscured,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'New password cannot be empty';
+                                        }
+                                        if (value.length < 8) {
+                                          return 'Password must be at least 8 characters';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintStyle: AppTextStyles.hint,
+                                        hintText: 'New password',
+                                        suffixIcon: IconButton(
+                                          icon: AppIcon(
+                                            _isPasswordObscured ? AppIcons.show_bulk : AppIcons.hide_bulk,
+                                            size: 30,
+                                            color: AppColors.black50,
+                                          ),
+                                          onPressed: () => setState(() => _isPasswordObscured = !_isPasswordObscured),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    TextFormField(
+                                      controller: confirmPasswordController,
+                                      obscureText: _isConfirmPasswordObscured,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please confirm your password';
+                                        }
+                                        if (value != passwordController.text) {
+                                          return 'Passwords do not match';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintStyle: AppTextStyles.hint,
+                                        hintText: 'Confirm password',
+                                        suffixIcon: IconButton(
+                                          icon: AppIcon(
+                                            _isConfirmPasswordObscured ? AppIcons.show_bulk : AppIcons.hide_bulk,
+                                            size: 30,
+                                            color: AppColors.black50,
+                                          ),
+                                          onPressed: () => setState(() => _isConfirmPasswordObscured = !_isConfirmPasswordObscured),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 30.h),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: FilledButton(
+                                  onPressed: state is ResetPasswordLoading ? null : () {
+                                    if (formKey.currentState!.validate()) {
+                                      context.read<ResetPasswordCubit>().resetPassword(
+                                            email: widget.email,
+                                            token: widget.tokn,
+                                            password: passwordController.text,
+                                            confirmPassword: confirmPasswordController.text,
+                                          );
+                                    }
+                                  },
+                                  child: state is ResetPasswordLoading
+                                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
+                                    : const Text('Confirm'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(),
                       ],
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-            ],
+                ),
+              );
+            },
           ),
         );
       },
