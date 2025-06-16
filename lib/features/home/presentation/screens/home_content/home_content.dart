@@ -26,7 +26,7 @@ class HomePageContent extends StatelessWidget {
       },
       {
         'title': 'Arms',
-        'subtitle': '${'Handful'}',
+        'subtitle': 'Boost your arm strength',
         'color': AppColors.purple,
         'icon': AppIcons.arms,
       },

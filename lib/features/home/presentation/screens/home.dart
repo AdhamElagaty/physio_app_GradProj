@@ -13,7 +13,7 @@ import 'package:gradproject/features/home/presentation/screens/chat_bot/presenta
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/screen/chat_history_screen.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/screen/chat_screen.dart';
 import 'package:gradproject/features/home/presentation/screens/home_content/home_content.dart';
-import 'package:gradproject/features/home/presentation/screens/notification/notification.dart';
+import 'package:gradproject/features/home/presentation/screens/history/history.dart';
 import 'package:gradproject/features/home/presentation/screens/setting/setting.dart';
 import 'package:gradproject/features/home/presentation/screens/tasks/tasks.dart';
 import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
   late List<Widget> pages = <Widget>[
     HomePageContent(),
     // TasksPage(),
-    NotificationsPage(),
+    History(),
     ChatHistoryScreen(),
     SettingsPage(),
   ];
@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
     final List<String> navIcons = [
       AppIcons.home,
       // AppIcons.tick_square,
-      AppIcons.time_circle,
+      AppIcons.history,
       AppIcons.chat,
       AppIcons.setting,
     ];
