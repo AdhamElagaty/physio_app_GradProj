@@ -20,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-
+  final globalApiManager = ApiManager();
   final Token? cachedToken = CacheHelper.getToken('token');
   if (cachedToken != null && cachedToken.value.isNotEmpty) {
     initialRoute = Routes.home;
@@ -34,7 +34,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         RepositoryProvider<ChatRepository>(
-          create: (context) => ChatRepository(ApiManager()),
+          create: (context) => ChatRepository(globalApiManager),
         ),
         BlocProvider(
           create: (context) => ChatHistoryCubit(context.read<ChatRepository>()),

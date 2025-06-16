@@ -30,6 +30,8 @@ class AuthRemoteDsImp implements AuthRemoteDataSource {
         print('Sign-in successful');
         print('Token: ${token.value}');
         print('Refresh Token: ${refreshToken.value}');
+        print("token expiresOn: ${token.expiresOn}");
+        print("parsed: ${DateTime.tryParse(token.expiresOn)}");
         return true;
       }
 
