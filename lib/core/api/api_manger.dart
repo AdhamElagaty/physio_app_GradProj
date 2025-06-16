@@ -4,12 +4,7 @@ import 'package:gradproject/core/cahce/share_prefs.dart';
 import 'package:gradproject/core/utils/constatnts.dart';
 import 'package:gradproject/features/auth/data/model/user_model.dart';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gradproject/core/cahce/share_prefs.dart';
-import 'package:gradproject/core/utils/constatnts.dart';
-import 'package:gradproject/features/auth/data/model/user_model.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -160,10 +155,15 @@ class ApiManager {
 
       if (response.statusCode == 200 && response.data['data'] != null) {
         final newTokenJson = response.data['data']['token'];
+        final newRefreshTokenJson = response.data['data']['refreshToken'];
+
         final newToken = Token.fromJson(newTokenJson);
+        final newRefreshToken = Token.fromJson(newRefreshTokenJson);
 
         await CacheHelper.saveToken('token', newToken);
-        debugPrint("Token refreshed successfully.");
+        await CacheHelper.saveToken('refreshToken', newRefreshToken);
+
+        debugPrint("Token & RefreshToken refreshed successfully.");
         return newToken;
       } else {
         debugPrint("Failed to refresh token: ${response.data}");

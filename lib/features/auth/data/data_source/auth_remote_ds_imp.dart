@@ -20,9 +20,11 @@ class AuthRemoteDsImp implements AuthRemoteDataSource {
 
       if (response.statusCode == StatusCodes.success) {
         final token = Token.fromJson(response.data['data']['token']);
+
         final refreshToken =
             Token.fromJson(response.data['data']['refreshToken']);
         await CacheHelper.saveToken('token', token);
+
         await CacheHelper.saveToken('refreshToken', refreshToken);
 
         print('Sign-in successful');
