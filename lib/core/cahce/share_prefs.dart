@@ -68,6 +68,24 @@ class CacheHelper {
     return Token.fromJson(jsonMap);
   }
 
+  static Future<void> saveExerciseFavoriteStatus(
+      String exerciseName, bool isFavorite) async {
+    if (_preferences == null) {
+      throw Exception("SharedPreferences not initialized");
+    }
+    await _preferences!
+        .setBool('favorite_${exerciseName.toLowerCase()}', isFavorite);
+  }
+
+  /// Get favorite status for a specific exercise
+  static bool getExerciseFavoriteStatus(String exerciseName) {
+    if (_preferences == null) {
+      throw Exception("SharedPreferences not initialized");
+    }
+    return _preferences!.getBool('favorite_${exerciseName.toLowerCase()}') ??
+        false;
+  }
+
   /// Remove data by key
   static Future<void> removeData(String key) async {
     if (_preferences == null)
