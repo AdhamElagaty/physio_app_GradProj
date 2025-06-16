@@ -1,5 +1,4 @@
 import 'package:gradproject/core/utils/date_utils.dart';
-import 'package:intl/intl.dart' as intl;
 
 class AiChat {
   final String id;

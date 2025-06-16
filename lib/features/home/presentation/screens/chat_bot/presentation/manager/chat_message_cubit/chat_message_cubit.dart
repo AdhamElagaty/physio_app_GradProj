@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/models/ai_chat_message_model.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
@@ -108,7 +107,8 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
         messages: newMessages,
         hasNextPage: response.hasNextPage,
         title: response.chatTitle,
-      )));
+      ),
+      ),);
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
         if (_page == 1) {
@@ -166,25 +166,20 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
 
       final optimisticMessages = (state as ChatMessagesLoaded).data.messages;
 
-      // Find and remove the pending AI message and replace the user message (if error was shown)
-      // then insert the actual AI response.
       final List<AiChatMessage> updatedMessages = [];
-      bool userMessageHandled = false;
       bool pendingAiRemoved = false;
 
       for (var msg in optimisticMessages) {
         if (msg.id == userMessageId) {
           updatedMessages.add(
-              userMessage.copyWith(isError: false)); // Ensure error is reset
-          userMessageHandled = true;
+              userMessage.copyWith(isError: false));
         } else if (msg.isPending && !pendingAiRemoved) {
-          pendingAiRemoved = true; // Skip the pending AI message
+          pendingAiRemoved = true;
         } else {
           updatedMessages.add(msg);
         }
       }
 
-      // Add the actual AI message if it wasn't already added (e.g., first message)
       updatedMessages.insert(0, aiMessage);
 
       emit(ChatMessagesLoaded(currentState.data.copyWith(
@@ -227,6 +222,6 @@ class ChatMessagesCubit extends Cubit<ChatMessagesState> {
   void setChatId(String newId) {
     _chatId = newId;
     // Optionally refresh messages if needed after ID is set (e.g., after initial message sent)
-    // fetchFirstPage();
+    fetchFirstPage();
   }
 }

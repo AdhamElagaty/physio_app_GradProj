@@ -4,15 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
-import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_message_cubit/chat_message_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_message_cubit/chat_message_state.dart';
-import 'package:intl/intl.dart' as intl; // For _getTextDirection
-import 'package:flutter_markdown/flutter_markdown.dart'; // For MarkdownBody
-
-import 'message_bubble.dart'; // Import MessageBubble
+import 'message_bubble.dart';
 
 class ChatScreen extends StatelessWidget {
   final String? chatId;

@@ -5,11 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
-import 'package:gradproject/features/auth/presentation/manager/login/login_bloc.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_state.dart';
-import 'package:intl/intl.dart' as intl;
 
 import 'chat_history_list_item.dart';
 import 'chat_screen.dart';
@@ -135,11 +133,12 @@ class ChatHistoryScreen extends StatelessWidget {
                                           child: CircularProgressIndicator()),
                                     );
                                   }
-                                  if (index >= state.chats.length)
+                                  if (index >= state.chats.length) {
                                     return const SizedBox.shrink();
-
+                                  }
                                   return Container(
                                     clipBehavior: Clip.antiAlias,
+                                    margin: EdgeInsets.only(bottom: 8.h),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 0.w, vertical: 0.h),
                                     decoration: BoxDecoration(

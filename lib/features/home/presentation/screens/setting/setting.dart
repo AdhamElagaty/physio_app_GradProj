@@ -7,7 +7,6 @@ import 'package:gradproject/core/utils/styles/colors.dart';
 import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/styles/widget_themes/buttons.dart';
-import 'package:gradproject/features/auth/data/model/user_model.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage(
@@ -20,6 +19,7 @@ class SettingsPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
           title: const Text(
             "Logout Confirmation",
             textAlign: TextAlign.center,
@@ -36,10 +36,10 @@ class SettingsPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text("Cancel"),
+              style: ElevatedButton.styleFrom(),
+              child: Text("Cancel"),
             ),
-
-            FilledButton(
+            TextButton(
               onPressed: () async {
                 //  Remove tokens from cache
                 await CacheHelper.removeData('token');
@@ -65,7 +65,6 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Reset color index for this page's categories
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 22.w),
       child: Column(
@@ -212,7 +211,9 @@ class SettingsPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _showLogoutDialog(context);
+                            },
                             style: AppButtonThemes.filterButton.style,
                             icon: Text(
                               'Logout',

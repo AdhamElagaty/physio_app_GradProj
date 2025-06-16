@@ -111,7 +111,7 @@ class ChatHistoryCubit extends Cubit<ChatHistoryState> {
           final oldChat = updatedList[index];
           updatedList[index] = oldChat.copyWith(
             title: newTitle,
-            updatedAt: DateTime.now(), // تحديث التاريخ تلقائيًا
+            updatedAt: DateTime.now(),
           );
           emit(ChatHistoryLoaded(updatedList, current.hasNextPage));
         }

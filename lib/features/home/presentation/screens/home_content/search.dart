@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradproject/core/common_widgets/excerices.dart';
 import 'package:gradproject/core/utils/styles/colors.dart';
@@ -7,12 +6,8 @@ import 'package:gradproject/core/utils/styles/font.dart';
 import 'package:gradproject/core/utils/styles/icons.dart';
 import 'package:gradproject/core/utils/widgets/nav_bar.dart';
 import 'package:gradproject/core/utils/widgets/tile.dart';
-import 'package:gradproject/features/camera_handling/presentation/cubit/camera_cubit.dart';
-import 'package:gradproject/features/camera_handling/services/camera_service.dart';
 import 'package:gradproject/features/common_exercise/domain/entities/enums/exercise_type.dart';
-import 'package:gradproject/features/exercise_flow_management/presentation/cubit/exercise_session_cubit.dart';
 import 'package:gradproject/features/home/presentation/screens/home_content/description.dart';
-import 'package:gradproject/features/pose_detection_handling/services/pose_detection_service.dart';
 
 class Search extends StatefulWidget {
   Search({super.key, this.autoSearch = false, this.selectedCategory});
