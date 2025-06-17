@@ -89,7 +89,7 @@ class AppButtonThemes {
 
       shape: RoundedRectangleBorder(
         side: BorderSide.none,
-        borderRadius: BorderRadius.circular(13.r),
+        borderRadius: BorderRadius.circular(30.r),
       ),
     ),
   );

@@ -36,13 +36,16 @@ class Login extends StatelessWidget {
       child: BlocConsumer<AuthBloc, AuthLoginState>(
         listener: (context, state) {
           if (state.requestState == RequestState.success) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Login success!'),
-            ));
-            Navigator.pushNamedAndRemoveUntil(context, Routes.home, (route) => false);
+            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            //   content: Text('Login success!'),
+            // ));
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.home, (route) => false);
           }
           if (state.requestState == RequestState.error) {
-            final message = map401ErrorToUserMessage(state.errorMessage.isEmpty ? state.errorMessage : 'An unknown error occurred.');
+            final message = map401ErrorToUserMessage(state.errorMessage.isEmpty
+                ? state.errorMessage
+                : 'An unknown error occurred.');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(message)),
             );
@@ -83,10 +86,12 @@ class Login extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 40.w),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min, // Crucial for centering
+                              mainAxisSize:
+                                  MainAxisSize.min, // Crucial for centering
                               children: [
                                 Text('Hello', style: AppTextStyles.title),
-                                Text('Log in to continue', style: AppTextStyles.subTitle),
+                                Text('Log in to continue',
+                                    style: AppTextStyles.subTitle),
                                 SizedBox(height: 30.h),
                                 Form(
                                   key: formKey,
@@ -113,7 +118,8 @@ class Login extends StatelessWidget {
                                           hintStyle: AppTextStyles.hint,
                                           hintText: 'Password',
                                           suffixIcon: Padding(
-                                            padding: EdgeInsets.only(right: 5.0.w),
+                                            padding:
+                                                EdgeInsets.only(right: 5.0.w),
                                             child: IconButton(
                                               icon: AppIcon(
                                                 state.isPasswordVisible
@@ -123,7 +129,8 @@ class Login extends StatelessWidget {
                                                 color: AppColors.black50,
                                               ),
                                               onPressed: () {
-                                                context.read<AuthBloc>().add(PasswordVisibilityEvent());
+                                                context.read<AuthBloc>().add(
+                                                    PasswordVisibilityEvent());
                                               },
                                             ),
                                           ),
@@ -144,26 +151,38 @@ class Login extends StatelessWidget {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                      onPressed: () => Navigator.pushNamed(context, Routes.forgotPassword),
+                                      onPressed: () => Navigator.pushNamed(
+                                          context, Routes.forgotPassword),
                                       child: const Text('forgot\npassword'),
                                     ),
                                     FilledButton(
-                                      onPressed: state.requestState == RequestState.loading ? null : () {
-                                        if (formKey.currentState!.validate()) {
-                                          context.read<AuthBloc>().add(
-                                            LoginEvent(
-                                              emailController.text,
-                                              passwordController.text,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: state.requestState == RequestState.loading
-                                       ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
-                                       : const Text('Log in'),
+                                      onPressed: state.requestState ==
+                                              RequestState.loading
+                                          ? null
+                                          : () {
+                                              if (formKey.currentState!
+                                                  .validate()) {
+                                                context.read<AuthBloc>().add(
+                                                      LoginEvent(
+                                                        emailController.text,
+                                                        passwordController.text,
+                                                      ),
+                                                    );
+                                              }
+                                            },
+                                      child: state.requestState ==
+                                              RequestState.loading
+                                          ? const SizedBox(
+                                              width: 24,
+                                              height: 24,
+                                              child: CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                  strokeWidth: 2.5))
+                                          : const Text('Log in'),
                                     ),
                                   ],
                                 ),
@@ -175,13 +194,16 @@ class Login extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('No account?', style: AppTextStyles.bottomText),
+                                Text('No account?',
+                                    style: AppTextStyles.bottomText),
                                 TextButton(
                                   style: AppButtonThemes.altTextButton.style,
-                                  onPressed: () => Navigator.pushNamed(context, Routes.signup),
+                                  onPressed: () => Navigator.pushNamed(
+                                      context, Routes.signup),
                                   child: Text(
                                     'Sign up',
-                                    style: AppTextStyles.secondaryTextButton.copyWith(
+                                    style: AppTextStyles.secondaryTextButton
+                                        .copyWith(
                                       color: AppColors.teal,
                                       fontSize: 15.sp,
                                     ),
