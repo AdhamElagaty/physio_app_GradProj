@@ -18,6 +18,7 @@ String? initialRoute;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
   final globalApiManager = ApiManager();
@@ -27,7 +28,7 @@ void main() async {
     debugPrint("Cached token found. Initial route set to Home.");
   } else {
     initialRoute = Routes.login;
-    debugPrint("No cached token found. Initial route set to Login.");
+    debugPrint("No cached token found... Initial route set to Login.");
   }
 
   runApp(
