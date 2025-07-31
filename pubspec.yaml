@@ -1,7 +1,7 @@
 name: gradproject
 description: "A new Flutter project."
 
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -9,98 +9,73 @@ environment:
   sdk: ^3.5.4
 
 dependencies:
+  bloc: ^9.0.0
+  cached_network_image: ^3.4.1
+  camera: ^0.11.1
+  camera_android_camerax: ^0.6.16
+  collection: ^1.19.0
+  connectivity_plus: ^6.1.4
+  cupertino_icons: ^1.0.8
+  dartz: ^0.10.1
+  dio: ^5.8.0+1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  flutter_svg: ^2.1.0
-  flutter_svg_provider: ^1.0.7
-  flutter_screenutil: ^5.9.3
-  bloc: ^9.0.0
   flutter_bloc: ^9.1.1
-  dio: ^5.8.0+1
-  shared_preferences: ^2.5.3
-  dartz: ^0.10.1
-  equatable: ^2.0.5
+  flutter_launcher_icons: ^0.14.3
+  flutter_markdown: ^0.7.7+1
+  flutter_native_splash: ^2.4.4
+  flutter_screenutil: ^5.9.3
+  flutter_secure_storage: ^9.2.4
+  flutter_svg: ^2.1.0
   foundation: ^0.0.5
+  get_it: ^8.0.3
   google_ml_kit: ^0.20.0
   google_mlkit_commons: ^0.11.0
   google_mlkit_pose_detection: ^0.14.0
   image: ^4.5.4
+  intl: ^0.20.2
   onnxruntime: ^1.4.1
   path: ^1.9.0
+  path_parsing: ^1.0.1
   path_provider: ^2.1.5
   permission_handler: ^12.0.0+1
+  pool: ^1.5.1
+  pretty_dio_logger: ^1.4.0
   provider: ^6.1.5
   sensors_plus: ^6.1.1
+  shared_preferences: ^2.5.3
+  skeletonizer: ^2.1.0+1
   synchronized: ^3.3.0+3
-  camera: ^0.11.1
-  camera_android_camerax: ^0.6.16
-  collection: ^1.19.0
-  flutter_launcher_icons: ^0.14.3
-  intl: ^0.20.2
   uuid: ^4.5.1
-  flutter_markdown: ^0.7.7+1
+  webview_flutter: ^4.4.2
 
 dev_dependencies:
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
-
 
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/Pattern.svg
-    - assets/images/Rounded_Pattern.svg
-    - assets/images/Arms.svg
-    - assets/images/Core-Strength.svg
-    - assets/images/Lower-Body.svg
-    - assets/images/Dumbbell-Small-Streamline-Solar-Bold.svg
-    - assets/images/Yoga-Bridge-Pose-2-Streamline-Ultimate-Bold-Free.svg
-    - assets/images/Yoga-Low-Plank-Pose-Streamline-Ultimate-Bold.svg
-    - assets/images/Iconly/Bold/Arrow-Right-Square.svg
-    - assets/images/Iconly/Bold/Category.svg
-    - assets/images/Iconly/Bold/Chat.svg
-    - assets/images/Iconly/Bold/Heart.svg
-    - assets/images/Iconly/Bold/Home.svg
-    - assets/images/Iconly/Bold/Profile.svg
-    - assets/images/Iconly/Bold/Send.svg
-    - assets/images/Iconly/Bold/Setting.svg
-    - assets/images/Iconly/Bold/Tick-Square.svg
-    - assets/images/Iconly/Bold/Notification.svg
-    - assets/images/Iconly/Bulk/Category.svg
-    - assets/images/Iconly/Bulk/Chat.svg
-    - assets/images/Iconly/Bulk/Hide.svg
-    - assets/images/Iconly/Bulk/Home.svg
-    - assets/images/Iconly/Bulk/Notification.svg
-    - assets/images/Iconly/Bulk/Search.svg
-    - assets/images/Iconly/Bulk/Setting.svg
-    - assets/images/Iconly/Bulk/Show.svg
-    - assets/images/Iconly/Bulk/Tick-Square.svg
-    - assets/images/Iconly/Bulk/Arrow-Left-3.svg
-    - assets/images/Iconly/Bulk/Plus.svg
-    - assets/images/Iconly/Bulk/Edit.svg
-    - assets/images/Iconly/Bulk/Delete.svg
-    - assets/images/Iconly/Bulk/Time-Circle.svg
-    - assets/images/Iconly/Bold/Time-Circle.svg
-    - assets/images/Iconly/Stroke/Heart.svg
-    - assets/images/AI_blur_effect.svg
-    - assets/images/AI_blur_effect.png
+    - assets/data/
+    - assets/images/exercise_categories/
+    - assets/images/exercises/
+    - assets/images/icon/bold/
+    - assets/images/icon/bulk/
+    - assets/images/icon/stroke/
+    - assets/images/logo/
+    - assets/images/pattern_and_effect/
     - assets/models/bicep/
     - assets/models/glute_bridge/
     - assets/models/plank/
-    - assets/images/
-    - assets/gif/ 
   fonts:
     - family: Urbanist
       fonts:
         - asset: assets/fonts/Urbanist.ttf
 
-
-
-
 flutter_launcher_icons:
-  image_path: "assets/images/PhysioLogo.png"
+  image_path: "assets/images/logo/physio_logo.png"
   android: true
   ios: true
-  min_sdk_android: 21 
+  min_sdk_android: 21
