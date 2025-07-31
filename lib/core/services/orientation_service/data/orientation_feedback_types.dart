@@ -1,4 +1,4 @@
-import 'package:gradproject/features/common_exercise/domain/entities/enums/feedback_type.dart';
+import '../../../../features/exercise/domain/detection/core/entities/enums/feedback_type.dart';
 
 class OrientationFeedbackTypes {
   final FeedbackType setupHoldOrientation;

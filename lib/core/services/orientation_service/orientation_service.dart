@@ -3,16 +3,16 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:google_mlkit_pose_detection/google_mlkit_pose_detection.dart';
-import 'package:gradproject/core/utils/device_orientation_utils/device_orientation_utils.dart';
-import 'package:gradproject/core/utils/device_orientation_utils/physical_orientation.dart';
-import 'package:gradproject/core/utils/pose_processing_utils.dart';
-import 'package:gradproject/features/common_exercise/domain/entities/feedback_event.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-import 'orientation/user_desired_orientation.dart';
-import 'orientation/orientation_check_result.dart';
-import 'orientation/orientation_thresholds.dart';
-import 'orientation/orientation_feedback_types.dart';
+import '../../../features/exercise/domain/detection/core/entities/feedback_event.dart';
+import '../../utils/device_orientation_utils/device_orientation_utils.dart';
+import '../../utils/device_orientation_utils/physical_orientation.dart';
+import '../../utils/pose_processing_utils.dart';
+import 'data/user_desired_orientation.dart';
+import 'data/orientation_check_result.dart';
+import 'data/orientation_thresholds.dart';
+import 'data/orientation_feedback_types.dart';
 
 class OrientationService {
   StreamSubscription<AccelerometerEvent>? _accelerometerSubscription;
@@ -39,8 +39,9 @@ class OrientationService {
           true; // Mark as initialized to allow flow without accelerometer
       return;
     }
-    if (_isAccelerometerInitialized && _accelerometerSubscription != null)
+    if (_isAccelerometerInitialized && _accelerometerSubscription != null) {
       return;
+    }
     try {
       _accelerometerSubscription = accelerometerEventStream(
         samplingPeriod: SensorInterval.uiInterval,
@@ -121,15 +122,17 @@ class OrientationService {
         if (desiredUserOrientation == UserDesiredOrientation.vertical) {
           worldOrientationConditionMet =
               personAspectRatio < thresholds.portrait;
-          if (!worldOrientationConditionMet)
+          if (!worldOrientationConditionMet) {
             guidanceMessage =
                 "Stand upright, ensuring your body is vertical in the camera when your phone is upright.";
+          }
         } else {
           worldOrientationConditionMet =
               personAspectRatio > thresholds.portrait;
-          if (!worldOrientationConditionMet)
+          if (!worldOrientationConditionMet) {
             guidanceMessage =
                 "Lie down so your body is horizontal in the camera when your phone is upright.";
+          }
         }
         break;
       case PhysicalOrientation.landscapeLeft:
@@ -137,30 +140,34 @@ class OrientationService {
         if (desiredUserOrientation == UserDesiredOrientation.vertical) {
           worldOrientationConditionMet =
               personAspectRatio > thresholds.landscape;
-          if (!worldOrientationConditionMet)
+          if (!worldOrientationConditionMet) {
             guidanceMessage =
                 "Stand upright. With phone sideways, you should appear wider than tall in camera.";
+          }
         } else {
           worldOrientationConditionMet =
               personAspectRatio < thresholds.landscape;
-          if (!worldOrientationConditionMet)
+          if (!worldOrientationConditionMet) {
             guidanceMessage =
                 "Lie down so your body is horizontal in the camera when your phone is sideways.";
+          }
         }
         break;
       case PhysicalOrientation.flatScreenUp:
         if (desiredUserOrientation == UserDesiredOrientation.vertical) {
           worldOrientationConditionMet =
               personAspectRatio < thresholds.flatScreenUp;
-          if (!worldOrientationConditionMet)
+          if (!worldOrientationConditionMet) {
             guidanceMessage =
                 "Stand upright. With phone flat (screen up), you should appear taller than wide.";
+          }
         } else {
           worldOrientationConditionMet =
               personAspectRatio > thresholds.flatScreenUp;
-          if (!worldOrientationConditionMet)
+          if (!worldOrientationConditionMet) {
             guidanceMessage =
                 "Lie down so your body is horizontal in the camera when your phone is flat (screen up).";
+          }
         }
         break;
       case PhysicalOrientation.flatScreenDown:
