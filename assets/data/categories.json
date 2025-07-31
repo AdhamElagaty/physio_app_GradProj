@@ -1,0 +1,20 @@
+[
+  {
+    "Title": "Arm",
+    "SubTitle": "'Handfull'",
+    "IconAsset": "assets/images/exercise_categories/arm_icon.svg",
+    "IconColor": "0xFF806ED4"
+  },
+  {
+    "Title": "Core Strength",
+    "SubTitle": "Build a strong and stable core",
+    "IconAsset": "assets/images/exercise_categories/core_strength_icon.svg",
+    "IconColor": "0xFFEBB952"
+  },
+  {
+    "Title": "Lower Body",
+    "SubTitle": "Strengthen your legs and glutes",
+    "IconAsset": "assets/images/exercise_categories/lower_body_icon.svg",
+    "IconColor": "0xFFCB5D7C"
+  }
+]
