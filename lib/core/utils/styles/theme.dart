@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../styles/widget_themes/buttons.dart';
 import '../styles/widget_themes/input_decoration.dart';
-import '../styles/colors.dart';
+import 'app_colors.dart';
 import '../styles/font.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static ThemeData lightMode = ThemeData(
@@ -61,16 +62,16 @@ class AppTheme {
             systemNavigationBarColor: AppColors.black,
             statusBarColor: AppColors.black)),
     textTheme: TextTheme(
-      bodyLarge: AppTextStyles_darkMode.text,
+      bodyLarge: AppTextStylesDarkMode.text,
     ),
     bottomSheetTheme: ThemeData.dark().bottomSheetTheme.copyWith(
           backgroundColor: AppColors.lightBlack,
         ),
     inputDecorationTheme: AppInputDecorationThemes.dark,
-    filledButtonTheme: AppButtonThemes_dark.filledButton,
-    outlinedButtonTheme: AppButtonThemes_dark.outlinedButton,
-    elevatedButtonTheme: AppButtonThemes_dark.elevatedButton,
-    textButtonTheme: AppButtonThemes_dark.textButton,
+    filledButtonTheme: AppButtonThemesDark.filledButton,
+    outlinedButtonTheme: AppButtonThemesDark.outlinedButton,
+    elevatedButtonTheme: AppButtonThemesDark.elevatedButton,
+    textButtonTheme: AppButtonThemesDark.textButton,
     listTileTheme: listTile,
   );
 

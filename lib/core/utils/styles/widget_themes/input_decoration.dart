@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../colors.dart';
+import '../app_colors.dart';
 import '../font.dart';
 
 class AppInputDecorationThemes {
@@ -31,8 +31,8 @@ class AppInputDecorationThemes {
   static InputDecorationTheme dark = InputDecorationTheme(
     fillColor: AppColors.lightBlack,
     filled: true,
-    labelStyle: AppTextStyles_darkMode.hint.copyWith(color: AppColors.black),
-    hintStyle: AppTextStyles_darkMode.hint.copyWith(color: AppColors.black50),
+    labelStyle: AppTextStylesDarkMode.hint.copyWith(color: AppColors.black),
+    hintStyle: AppTextStylesDarkMode.hint.copyWith(color: AppColors.black50),
     contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 15.w),
     enabledBorder: inputBorder.copyWith(
         borderSide: BorderSide.none, borderRadius: BorderRadius.circular(20.r)),
@@ -45,7 +45,7 @@ class AppInputDecorationThemes {
     focusedErrorBorder: inputBorder.copyWith(
       borderSide: borderSide.copyWith(color: appScheme.onSurface),
     ),
-    errorStyle: AppTextStyles_darkMode.text.copyWith(
+    errorStyle: AppTextStylesDarkMode.text.copyWith(
       color: AppColors.black,
       fontSize: 15.sp,
     ),
