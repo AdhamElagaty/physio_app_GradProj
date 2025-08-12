@@ -1,47 +1,37 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gradproject/core/api/api_manger.dart'; // Make sure this import is correct if you have ApiManager in a different folder
-import 'package:gradproject/core/cahce/share_prefs.dart';
-import 'package:gradproject/core/componets/observer.dart';
-import 'package:gradproject/core/utils/config/routes.dart'; // Make sure Routes is imported
-import 'package:gradproject/core/utils/config/routes_genartor.dart';
-import 'package:gradproject/core/utils/styles/colors.dart';
-import 'package:gradproject/core/utils/styles/theme.dart';
-import 'package:gradproject/features/home/presentation/screens/chat_bot/data/repo/chat_repo_impl.dart';
-import 'package:gradproject/features/home/presentation/screens/chat_bot/presentation/manager/chat_history_cubit.dart/cubit/chat_history_cubit.dart';
-import 'package:gradproject/features/auth/data/model/user_model.dart';
 
-String? initialRoute;
+import 'core/presentation/cubit/app_cubit/app_manager_cubit.dart';
+import 'core/utils/assets_preloader_utils.dart';
+import 'core/utils/config/routes.dart';
+import 'core/utils/config/routes_genartor.dart';
+import 'core/utils/styles/app_colors.dart';
+import 'core/utils/styles/theme.dart';
+import 'injection_container.dart' as di;
+
+final _navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  Bloc.observer = MyBlocObserver();
-  await CacheHelper.init();
-  final globalApiManager = ApiManager();
-  final Token? cachedToken = CacheHelper.getToken('token');
-  if (cachedToken != null && cachedToken.value.isNotEmpty) {
-    initialRoute = Routes.home;
-    debugPrint("Cached token found. Initial route set to Home.");
-  } else {
-    initialRoute = Routes.login;
-    debugPrint("No cached token found... Initial route set to Login.");
-  }
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await di.init();
+
+  final appManagerCubit = di.sl<AppManagerCubit>();
+
+  await Future.wait([
+    AssetPreloaderUtils.precacheAllAssets(),
+    appManagerCubit.init(),
+  ]);
+
+  FlutterNativeSplash.remove();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        RepositoryProvider<ChatRepository>(
-          create: (context) => ChatRepository(globalApiManager),
-        ),
-        BlocProvider(
-          create: (context) => ChatHistoryCubit(context.read<ChatRepository>()),
-        ),
-      ],
-      child: MyApp(),
+    BlocProvider.value(
+      value: appManagerCubit,
+      child: const MyApp(),
     ),
   );
 }
@@ -49,7 +39,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -57,21 +46,58 @@ class MyApp extends StatelessWidget {
         systemNavigationBarColor: AppColors.grey,
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light,
       ),
     );
     return ScreenUtilInit(
-      designSize: Size(393, 873),
+      designSize: const Size(393, 873),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: RouteGenerator.getRoute,
-          theme: AppTheme.lightMode,
-          initialRoute: initialRoute,
-          navigatorKey: navigatorKey,
+        final initialRoute = context.read<AppManagerCubit>().state.authStatus == AuthStatus.authenticated
+            ? Routes.mainScreen
+            : Routes.login;
+        return BlocListener<AppManagerCubit, AppManagerState>(
+          listenWhen: (previous, current) =>
+              previous.authStatus != current.authStatus,
+          listener: (context, state) {
+            if (state.authStatus == AuthStatus.loading) return;
+
+            final routeName = state.authStatus == AuthStatus.authenticated
+                ? Routes.mainScreen
+                : (state.authStatus == AuthStatus.guest
+                    ? Routes.guestHome
+                    : Routes.login);
+
+            if (ModalRoute.of(context)?.settings.name != routeName) {
+              _navigatorKey.currentState
+                  ?.pushNamedAndRemoveUntil(routeName, (route) => false);
+            }
+          },
+          child: BlocBuilder<AppManagerCubit, AppManagerState>(
+            buildWhen: (previous, current) =>
+                previous.themeMode != current.themeMode ||
+                previous.locale != current.locale ||
+                previous.authStatus != current.authStatus,
+            builder: (context, state) {
+              return MaterialApp(
+                navigatorKey: _navigatorKey,
+                debugShowCheckedModeBanner: false,
+                onGenerateRoute: (RouteSettings settings) {
+                  if (settings.name == '/') {
+                    return null;
+                  }
+                  return RouteGenerator.getRoute(settings);
+                },
+                themeMode: state.themeMode,
+                locale: state.locale,
+                theme: AppTheme.lightMode,
+                darkTheme: AppTheme.darkMode,
+                initialRoute: initialRoute,
+              );
+            },
+          ),
         );
       },
     );

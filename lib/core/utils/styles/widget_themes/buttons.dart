@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../colors.dart';
+
+import '../app_colors.dart';
 import '../font.dart';
 
 class AppButtonThemes {
@@ -112,7 +113,7 @@ class AppButtonThemes {
   );
 }
 
-class AppButtonThemes_dark {
+class AppButtonThemesDark {
   static FilledButtonThemeData filledButton = FilledButtonThemeData(
     style: FilledButton.styleFrom(
       padding: EdgeInsets.symmetric(vertical: 8.h),

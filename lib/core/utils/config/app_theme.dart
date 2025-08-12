@@ -7,11 +7,12 @@ class AppTheme {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: Colors.grey[100],
     appBarTheme: AppBarTheme(
-        backgroundColor: Colors.teal[600],
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
-        titleTextStyle: const TextStyle(
-            color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600)),
+      backgroundColor: Colors.teal[600],
+      elevation: 0,
+      iconTheme: const IconThemeData(color: Colors.white),
+      titleTextStyle: const TextStyle(
+          color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+    ),
     // cardTheme: CardTheme(
     //   elevation: 2,
     //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

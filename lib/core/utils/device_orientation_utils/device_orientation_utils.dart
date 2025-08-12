@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:gradproject/core/utils/device_orientation_utils/physical_orientation.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+
+import 'physical_orientation.dart';
 
 class DeviceOrientationUtils {
   static PhysicalOrientation getPhonePhysicalOrientation(
