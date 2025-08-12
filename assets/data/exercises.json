@@ -1,0 +1,35 @@
+[
+  {
+    "Title": "Bicep Curl",
+    "SubTitle": "Classic arm-building exercise",
+    "ModelKey": "bicep_curl",
+    "Description": "A weight training exercise that targets the biceps brachii muscle. Stand or sit holding a dumbbell in each hand with an underhand grip.",
+    "IconAsset": "assets/images/exercises/bicep_curl_icon.svg",
+    "ImageAsset": "assets/images/exercises/bicep_curl_image.gif",
+    "ExerciseType": "RepCount",
+    "CategorTitle": "Arm",
+    "IsActive": "true"
+  },
+  {
+    "Title": "Plank",
+    "SubTitle": "Isometric core strength exercise",
+    "ModelKey": "plank",
+    "Description": "An isometric core strength exercise that involves maintaining a position similar to a push-up for the maximum possible time.",
+    "IconAsset": "assets/images/exercises/plank_icon.svg",
+    "ImageAsset": "assets/images/exercises/plank_image.gif",
+    "ExerciseType": "DurationHoldWithRepCount",
+    "CategorTitle": "Core Strength",
+    "IsActive": "true"
+  },
+  {
+    "Title": "Glute Bridges",
+    "SubTitle": "Strengthens glutes and hamstrings",
+    "ModelKey": "glute_bridges",
+    "Description": "Lie on your back with your knees bent and feet flat on the floor. Lift your hips off the floor until your knees, hips and shoulders form a straight line.",
+    "IconAsset": "assets/images/exercises/glute_bridge_icon.svg",
+    "ImageAsset": "assets/images/exercises/glute_bridge_image.gif",
+    "ExerciseType": "RepCount",
+    "CategorTitle": "Lower Body",
+    "IsActive": "true"
+  }
+]

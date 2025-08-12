@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../styles/colors.dart';
+import 'app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextStyles {
@@ -80,7 +80,7 @@ class AppTextStyles {
   );
 }
 
-class AppTextStyles_darkMode {
+class AppTextStylesDarkMode {
   static TextStyle title = TextStyle(
     color: AppColors.grey,
     fontSize: 45.sp,
